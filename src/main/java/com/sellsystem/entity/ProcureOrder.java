@@ -1,6 +1,8 @@
 package com.sellsystem.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 采购单
@@ -12,7 +14,9 @@ public class ProcureOrder {
     private Supplier supplier;
     //采购员
     private Procurer procurer;
-    //药品编号
+    //药品
+    private List<Drug> drugList = new ArrayList<>();
+   /* //药品编号
     private String drugNo;
     //药品名称
     private String drugName;
@@ -29,7 +33,8 @@ public class ProcureOrder {
     //所有药品总价格
     private Double drugTotalPrice;
     //所属仓库
-    private Warehouse warehouse;
+    private Warehouse warehouse;*/
+
     private Date createTime;
     private String mark;
 
@@ -57,76 +62,12 @@ public class ProcureOrder {
         this.procurer = procurer;
     }
 
-    public String getDrugNo() {
-        return drugNo;
+    public List<Drug> getDrugList() {
+        return drugList;
     }
 
-    public void setDrugNo(String drugNo) {
-        this.drugNo = drugNo;
-    }
-
-    public String getDrugName() {
-        return drugName;
-    }
-
-    public void setDrugName(String drugName) {
-        this.drugName = drugName;
-    }
-
-    public String getDrugOrigin() {
-        return drugOrigin;
-    }
-
-    public void setDrugOrigin(String drugOrigin) {
-        this.drugOrigin = drugOrigin;
-    }
-
-    public String getDrugUnit() {
-        return drugUnit;
-    }
-
-    public void setDrugUnit(String drugUnit) {
-        this.drugUnit = drugUnit;
-    }
-
-    public String getDrugNumber() {
-        return drugNumber;
-    }
-
-    public void setDrugNumber(String drugNumber) {
-        this.drugNumber = drugNumber;
-    }
-
-    public Double getDrugPurchase() {
-        return drugPurchase;
-    }
-
-    public void setDrugPurchase(Double drugPurchase) {
-        this.drugPurchase = drugPurchase;
-    }
-
-    public Double getDrugTotalPurchase() {
-        return drugTotalPurchase;
-    }
-
-    public void setDrugTotalPurchase(Double drugTotalPurchase) {
-        this.drugTotalPurchase = drugTotalPurchase;
-    }
-
-    public Double getDrugTotalPrice() {
-        return drugTotalPrice;
-    }
-
-    public void setDrugTotalPrice(Double drugTotalPrice) {
-        this.drugTotalPrice = drugTotalPrice;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
+    public void setDrugList(List<Drug> drugList) {
+        this.drugList = drugList;
     }
 
     public Date getCreateTime() {
