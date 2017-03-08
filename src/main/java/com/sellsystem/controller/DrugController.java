@@ -22,6 +22,24 @@ public class DrugController {
     @GetMapping("/list")
     public String list(Model model, DrugSearchModel drugSearchModel) {
         model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
-        return "list";
+        return "index";
+    }
+
+    @GetMapping("/li")
+    public String li(Model model, DrugSearchModel drugSearchModel) {
+        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
+        return "drug";
+    }
+
+    @GetMapping("/two")
+    public String two(Model model, DrugSearchModel drugSearchModel) {
+        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
+        return "user";
+    }
+
+    @GetMapping("/three")
+    public String three(Model model, DrugSearchModel drugSearchModel) {
+        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
+        return "procureOrder";
     }
 }

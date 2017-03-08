@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>AdminLTE 2 | Starter</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css"/>
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery 2.2.3 -->
+    <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <style>
+        .nav-tabs>li>a {
+            background: red;
+        }
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+             background: blue;
+        }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>LT</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>LTE</span>
+        </a>
+
+        <!-- 头部 -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">4</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 4 messages</li>
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <!-- User Image -->
+                                                <img src="/dist/img/user2-160x160.jpg" class="img-circle"
+                                                     alt="User Image"/>
+                                            </div>
+                                            <!-- Message title and timestamp -->
+                                            <h4>
+                                                Support Team
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <!-- The message -->
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li>
+                                    <!-- end message -->
+                                </ul>
+                                <!-- /.menu -->
+                            </li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
+                        </ul>
+                    </li>
+                    <!-- /.messages-menu -->
+
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li>
+                                    <!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger">9</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 9 tasks</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li><!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                Design some buttons
+                                                <small class="pull-right">20%</small>
+                                            </h3>
+                                            <!-- The progress bar -->
+                                            <div class="progress xs">
+                                                <!-- Change the css width attribute to simulate progress -->
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">View all tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">Alexander Pierce</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- 左侧边栏-->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                    <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active"><a href="/drug/two"  data-key="1"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                <li><a href="/drug/three" data-key="2"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>Multilevel</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- 内容 -->
+    <!--<div class="content-wrapper">
+        &lt;!&ndash; Content Header (Page header) &ndash;&gt;
+        <section class="content-header">
+            <h1>
+                Page Header
+                <small>Optional description</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                <li class="active">Here</li>
+            </ol>
+        </section>
+
+        &lt;!&ndash; Main content &ndash;&gt;
+        <section class="content">
+
+            &lt;!&ndash; Your Page Content Here &ndash;&gt;
+
+        </section>
+        &lt;!&ndash; /.content &ndash;&gt;
+    </div>-->
+    <div class="content-wrapper">
+        <section class="content iframe" style="padding:0px;position: relative">
+            <ul id="tab-bar" class="nav nav-tabs" role="tablist" style="padding-left:10px;padding-top:5px"></ul>
+
+            <div class="tab-content"></div>
+        </section>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            function logout() {
+                confirm("您确定要退出系统吗？") && (window.location.href = '/logout');
+            }
+
+            var currentLoginUserId = '<shiro:principal property="loginUserId"></shiro:principal>';
+            window.tabTitles = [];
+            var frameUrls = new Array();//用于存放frame url历史的数组
+            var frameUrl = [];//定义frameId，value类型数组对象
+            //向frame数组中添加url
+            function uniqueInsertArray(frameId, frameUrlValue) {
+                var isContaner = false;
+                var frameIdUrl = new Array();
+                var frameIdIndexs = new Array();
+                for (var i = 0; i < frameUrls.length; i++) {
+                    if (frameUrls[i][frameId] != undefined) {
+                        frameIdUrl[frameIdUrl.length] = frameUrls[i];
+                        frameIdIndexs[frameIdIndexs.length] = i;
+                    }
+                }
+                //当 存在frameId时,
+                if (frameIdUrl.length > 0) {
+                    //判断是否未刷新，如果是不添加本次url
+                    if (frameIdUrl[frameIdUrl.length - 1][frameId] == frameUrlValue) {
+                        isContaner = true;
+                    }
+                    //判断是否已经跳转到首页,如果是 删除当前frameId的浏览历史记录
+                    if (frameIdUrl[0][frameId] == frameUrlValue) {
+                        //保留第一条 记录，然后清空其它
+                        for (var i = frameIdIndexs.length - 1; i > 0; i--) {
+                            frameUrls.splice(frameIdIndexs[i], 1);
+                        }
+                    }
+                }
+
+
+                if (!isContaner) {
+                    frameUrl = [];//重新实例化对象
+                    frameUrl[frameId] = frameUrlValue;
+                    frameUrls[frameUrls.length] = frameUrl;
+                }
+            }
+            //获取当前frame的上一页url
+            function getHistoryUrl(frameId) {
+                var frameIdUrl = new Array();
+                for (var i = 0; i < frameUrls.length; i++) {
+                    if (frameUrls[i][frameId] != undefined) {
+                        frameIdUrl[frameIdUrl.length] = frameUrls[i];
+                    }
+                }
+                //如果记录数据大于一条，存在返回值，否则没有返回值，”“字符串
+                if (frameIdUrl.length > 1) {
+                    return frameIdUrl[frameIdUrl.length - 2][frameId];
+                } else {
+                    return "";
+                }
+            }
+            //子窗口调用父窗口
+            function removeHistoryUrl(frameId, frameUrlValue) {
+                var frameUrlTemp;
+                var index = -1;
+                for (var i = 0; i < frameUrls.length; i++) {
+                    if (frameUrls[i][frameId] != undefined && frameUrls[i][frameId] == frameUrlValue) {
+                        frameUrlTemp = frameUrls[i];
+                        index = i;//没有break,是为了确保获取到的是最后一个url的索引
+                    }
+                }
+                if (index > 0) {
+                    frameUrls.splice(index, 1);//删除最后一条数据，只删除一条
+                }
+            }
+
+            var mainHeight;
+            window.addTabs = function (options) {
+                console.log(options);
+                var url = window.location.protocol + '//' + window.location.host;
+                options.url = url + options.url;
+                console.log(options.url);
+                id = "tab_" + $.trim(options.id);
+                $(".active").removeClass("active");
+                var spanTitle = "<span id='span_frame_" + id + "'>&nbsp;&nbsp;" + options.title + "</span>";
+                //如果TAB不存在，创建一个新的TAB
+                if (!$("#" + id)[0]) {
+                    //固定TAB中IFRAME高度
+                    var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
+                    mainHeight = controlSidebar.height() - 40 + "px";
+                    //创建新TAB的title
+                    title = '<li role="presentation" id="tab_' + id + '"><a class="asdfj" href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i>' + spanTitle;
+                    //是否允许关闭
+                    if (options.close) {
+                        title += ' <span class="tab_close" tabclose="' + id + '">&nbsp;×</span></i>';
+                    }
+                    title += '</a></li>';
+                    //是否指定TAB内容
+                    if (options.content) {
+                        content = '<div role="tabpanel" class="tab-pane" id="' + id + '">' + options.content + '</div>';
+                    } else {//没有内容，使用IFRAME打开链接
+                        content = '<div role="tabpanel" class="tab-pane" id="' + id + '"><iframe id="frame_' + id + '" name="frame_' + id + '" src="' + options.url + '" width="100%" height="' + mainHeight +
+                            '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe></div>';
+                    }
+                    //加入TABS
+                    $(".nav-tabs").append(title);
+                    $(".tab-content").append(content);
+
+                    iframe = $("#frame_" + id).get(0);
+                    if (iframe.attachEvent) {
+                        iframe.attachEvent("onload", function () {
+                            var thisId = this.id;
+                            $("#span_" + thisId).html("&nbsp;&nbsp;" + document.getElementById(thisId).contentWindow.document.title);
+                            if (document.getElementById(thisId).contentWindow.currentFrame == undefined) {
+                                document.getElementById(thisId).contentWindow.currentFrame = this;
+                                var url = "";
+                                if (window.frames[this.id].contentWindow != undefined) {
+                                    url = window.frames[this.id].contentWindow.location.href
+                                }
+                                else if (window.frames[this.id].location.href != undefined) {
+                                    url = window.frames[this.id].location.href;
+                                }
+                                uniqueInsertArray(this.id, url);//把当前url添加到数组当中
+                                //把当前子页面返回需要的url 赋值给子页面
+                                document.getElementById(thisId).contentWindow.currentFrameHistoryUrl = getHistoryUrl(this.id);
+                                //把当前frameId 赋值给子页面
+                                document.getElementById(thisId).contentWindow.currentFrameId = this.id;
+                            }
+                        });
+                    } else {
+                        iframe.onload = function () {
+                            var thisId = this.id;
+                            $("#span_" + thisId).html("&nbsp;&nbsp;" + document.getElementById(thisId).contentWindow.document.title);
+                            if (document.getElementById(thisId).contentWindow.currentFrame == undefined) {
+                                document.getElementById(thisId).contentWindow.currentFrame = this;
+                                var url = "";
+                                if (window.frames[this.id].contentWindow != undefined) {
+                                    url = window.frames[this.id].contentWindow.location.href
+                                }
+                                else if (window.frames[this.id].location.href != undefined) {
+                                    url = window.frames[this.id].location.href;
+                                }
+                                if (url.lastIndexOf('.pdf')==url.length-4){
+                                    $("#span_" + thisId).html("&nbsp;&nbsp; 服务报告" );
+                                }
+
+                                uniqueInsertArray(this.id, url);//把当前url添加到数组当中
+                                //把当前子页面返回需要的url 赋值给子页面
+                                document.getElementById(thisId).contentWindow.currentFrameHistoryUrl = getHistoryUrl(this.id);
+                                //把当前frameId 赋值给子页面
+                                document.getElementById(thisId).contentWindow.currentFrameId = this.id;
+                            }
+                        }
+                        ;
+                    }
+                }
+                else {
+                    //再次打开tab刷新iframe
+                    $("#" + id).find("iframe").attr("src", options.url);
+                }
+
+                //激活TAB
+                $("#tab_" + id).addClass('active');
+                $("#" + id).addClass("active");
+
+            }
+            ;
+            var closeTab = function (id) {
+                //如果关闭的是当前激活的TAB，激活他的前一个TAB
+                if ($("li.active").attr('id') == "tab_" + id) {
+                    $("#tab_" + id).prev().addClass('active');
+                    $("#" + id).prev().addClass('active');
+                }
+                //关闭TAB
+                $("#tab_" + id).remove();
+                $("#" + id).remove();
+
+                var index = -1;
+                for (var i = 0; i < frameUrls.length; i++) {
+                    if (frameUrls[i]["frameId"] != undefined) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index > -1) {
+                    frameUrls.splice(index, 1);//删除最后一条数据，只删除一条
+                }
+            };
+
+            //首页
+            function addDashboard() {
+                addTabs({id: "Dashboard", title: "正在加载", close: false, url: "/drug/li"});
+            }
+
+            function addUserCenter(){
+                addTabs({id: "userCenter", title: "正在加载", close: true, url: "/security/user/view/" + currentLoginUserId});
+            }
+
+            function resizeFrame(){
+                setTimeout(function () {
+                    var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
+                    var tabPanels = $(".tab-pane iframe");
+                    tabPanels.height($(window).height() - 55 - $("#tab-bar").height());
+                    $.resizeWaiter = false;
+                }, 20);
+            }
+
+            $(function () {
+                addDashboard();
+                resizeFrame();
+                $(".nav-tabs").on("click", "[tabclose]", function (e) {
+                    id = $(this).attr("tabclose");
+                    closeTab(id);
+                });
+
+
+                $.resizeWaiter = false;
+                $(window).resize(function () {
+                    if (!$.resizeWaiter) {
+                        $.resizeWaiter = true;
+                        resizeFrame();
+                    }
+                });
+
+
+                $(".sidebar-menu a, .quick-menu a").click(function () {
+                    var a = $(this);
+                    if (a.attr("href") != "#") {
+                        addTabs({
+                            id: $(this).attr("data-key"),
+                            title: "正在加载",
+                            close: true,
+                            url: $(this).attr("href")
+                        });
+                        resizeFrame();
+                        return false;
+                    }
+                });
+
+                $(".setting a").click(function () {
+                    var a = $(this);
+                    if (a.attr("href") != "#") {
+                        addTabs({id: $(this).text(), title: "正在加载", close: true, url: $(this).attr("href")});
+                        //点击设置菜单，打开tab后隐藏下拉菜单
+                        resizeFrame();
+                        $(".setting").dropdown("toggle");
+                        return false;
+                    }
+                });
+
+                //websocket
+                //connect();
+            });
+
+            function connect() {
+                var url = 'ws://' + window.location.host + "/websocket";
+                var ws = new WebSocket(url);
+
+                ws.onopen = function () {
+                    console.log('Info: connection opened.');
+                    ws.send("");
+                };
+                ws.onmessage = function (event) {
+                    //console.log('Received: ' + event.data);
+                    $("#messagetip").remove(".label");
+                    $("#messagetip").append("<span class=\"label label-danger\">" + event.data + "</span>")
+                };
+                ws.onclose = function (event) {
+                    console.log('Info: connection closed.');
+                    console.log(event);
+                };
+            }
+            /*]]>*/
+        </script>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- 右侧边栏 -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane active" id="control-sidebar-home-tab">
+                <h3 class="control-sidebar-heading">Recent Activity</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="javascript:;">
+                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                                <p>Will be 23 on April 24th</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+                <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="javascript:;">
+                            <h4 class="control-sidebar-subheading">
+                                Custom Template Design
+                                <span class="pull-right-container">
+                  <span class="label label-danger pull-right">70%</span>
+                </span>
+                            </h4>
+
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.control-sidebar-menu -->
+
+            </div>
+            <!-- /.tab-pane -->
+            <!-- Stats tab content -->
+            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+            <!-- /.tab-pane -->
+            <!-- Settings tab content -->
+            <div class="tab-pane" id="control-sidebar-settings-tab">
+                <form method="post">
+                    <h3 class="control-sidebar-heading">General Settings</h3>
+
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Report panel usage
+                            <input type="checkbox" class="pull-right" checked="checked"/>
+                        </label>
+
+                        <p>
+                            Some information about this general settings option
+                        </p>
+                    </div>
+                    <!-- /.form-group -->
+                </form>
+            </div>
+            <!-- /.tab-pane -->
+        </div>
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- Bootstrap 3.3.6 -->
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/app.min.js"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
+</body>
+</html>
