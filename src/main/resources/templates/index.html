@@ -305,7 +305,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 confirm("您确定要退出系统吗？") && (window.location.href = '/logout');
             }
 
-            var currentLoginUserId = '<shiro:principal property="loginUserId"></shiro:principal>';
             window.tabTitles = [];
             var frameUrls = new Array();//用于存放frame url历史的数组
             var frameUrl = [];//定义frameId，value类型数组对象
@@ -488,10 +487,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             //首页
             function addDashboard() {
                 addTabs({id: "Dashboard", title: "正在加载", close: false, url: "/drug/li"});
-            }
-
-            function addUserCenter(){
-                addTabs({id: "userCenter", title: "正在加载", close: true, url: "/security/user/view/" + currentLoginUserId});
             }
 
             function resizeFrame(){
