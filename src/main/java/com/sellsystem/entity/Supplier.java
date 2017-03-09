@@ -14,7 +14,7 @@ public class Supplier {
     //创建时间
     private Date createTIme;
     //备注
-    private String mark;
+    private String remark;
 
     public String getId() {
         return id;
@@ -40,11 +40,11 @@ public class Supplier {
         this.createTIme = createTIme;
     }
 
-    public String getMark() {
-        return mark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

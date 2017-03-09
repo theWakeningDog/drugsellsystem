@@ -10,7 +10,7 @@ public class Warehouse {
     private String id;
     private String name;
     private Date createTime;
-    private String mark;
+    private String remark;
 
     public String getId() {
         return id;
@@ -36,11 +36,11 @@ public class Warehouse {
         this.createTime = createTime;
     }
 
-    public String getMark() {
-        return mark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

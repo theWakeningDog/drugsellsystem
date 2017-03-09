@@ -36,7 +36,7 @@ public class ProcureOrder {
     private Warehouse warehouse;*/
 
     private Date createTime;
-    private String mark;
+    private String remark;
 
     public String getId() {
         return id;
@@ -78,11 +78,11 @@ public class ProcureOrder {
         this.createTime = createTime;
     }
 
-    public String getMark() {
-        return mark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

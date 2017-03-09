@@ -13,7 +13,7 @@ public class Procurer {
     private String tel;
     private String email;
     private Date CreateTIme;
-    private String mark;
+    private String remark;
 
     public String getId() {
         return id;
@@ -63,11 +63,11 @@ public class Procurer {
         CreateTIme = createTIme;
     }
 
-    public String getMark() {
-        return mark;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
