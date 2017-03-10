@@ -27,7 +27,7 @@ public class DrugController {
 
     @GetMapping("/li")
     public String li(Model model, DrugSearchModel drugSearchModel) {
-        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
+        model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
         return "drug";
     }
 

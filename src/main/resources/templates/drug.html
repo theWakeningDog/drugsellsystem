@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>药品列表</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
-开始我的编程
+    <table>
+        <th>药品编号</th>
+        <th>药品名称</th>
+        <tr th:each="drug : ${drugList}">
+            <td th:text="${drug.no}">z101</td>
+            <td th:text="${drug.name}">党参</td>
+        </tr>
+    </table>
 </body>
 </html>
