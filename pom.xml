@@ -75,6 +75,13 @@
 			<version>RELEASE</version>
 		</dependency>
 
+		<!--thyme模板设置，可以使用不闭合的标签-->
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+		<dependency>
+			<groupId>net.sourceforge.nekohtml</groupId>
+			<artifactId>nekohtml</artifactId>
+			<version>1.9.22</version>
+		</dependency>
 	</dependencies>
 
 	<build>

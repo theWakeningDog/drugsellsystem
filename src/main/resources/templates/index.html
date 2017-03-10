@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 <head>
     <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>AdminLTE 2 | Starter</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
@@ -34,10 +34,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <style>
         .nav-tabs>li>a {
-            background: red;
+            background: #ccc;
+            color: #fff;
         }
         .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-             background: blue;
+             background: #3c8dbc;
+            color: #fff;
         }
     </style>
 </head>
@@ -250,8 +252,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="sidebar-menu">
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="/drug/li"  data-key="1"><i class="fa fa-link"></i> <span>Link</span></a></li>
-                <li><a href="/drug/three" data-key="2"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <li class="active"><a href="/drug/li"  data-key="1"><i class="fa fa-link"></i> <span>首页</span></a></li>
+                <li><a href="/drug" data-key="2"><i class="fa fa-link"></i> <span>药品</span></a></li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-link"></i>
@@ -295,9 +297,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>-->
     <div class="content-wrapper">
         <section class="content iframe" style="padding:0px;position: relative">
-            <ul id="tab-bar" class="nav nav-tabs" role="tablist" style="padding-left:10px;padding-top:5px"></ul>
+            <ul id="tab-bar" class="nav nav-tabs tab-show" role="tablist" style="padding-left:10px;padding-top:5px"></ul>
 
-            <div class="tab-content"></div>
+            <div id="tab-content" class="tab-content"></div>
         </section>
         <script type="text/javascript">
             /*<![CDATA[*/
@@ -333,7 +335,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                     }
                 }
-
 
                 if (!isContaner) {
                     frameUrl = [];//重新实例化对象
@@ -380,13 +381,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 id = "tab_" + $.trim(options.id);
                 $(".active").removeClass("active");
                 var spanTitle = "<span id='span_frame_" + id + "'>&nbsp;&nbsp;" + options.title + "</span>";
+                console.log($("#" + id)[0]);
                 //如果TAB不存在，创建一个新的TAB
                 if (!$("#" + id)[0]) {
                     //固定TAB中IFRAME高度
                     var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
                     mainHeight = controlSidebar.height() - 40 + "px";
                     //创建新TAB的title
-                    title = '<li role="presentation" id="tab_' + id + '"><a class="asdfj" href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i>' + spanTitle;
+                    title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i>' + spanTitle;
                     //是否允许关闭
                     if (options.close) {
                         title += ' <span class="tab_close" tabclose="' + id + '">&nbsp;×</span></i>';
@@ -400,8 +402,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe></div>';
                     }
                     //加入TABS
-                    $(".nav-tabs").append(title);
-                    $(".tab-content").append(content);
+                    $(".tab-show").append(title);
+                    $("#tab-content").append(content);
 
                     iframe = $("#frame_" + id).get(0);
                     if (iframe.attachEvent) {
@@ -450,8 +452,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         }
                         ;
                     }
-                }
-                else {
+                } else {
                     //再次打开tab刷新iframe
                     $("#" + id).find("iframe").attr("src", options.url);
                 }
@@ -471,7 +472,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 //关闭TAB
                 $("#tab_" + id).remove();
                 $("#" + id).remove();
-
                 var index = -1;
                 for (var i = 0; i < frameUrls.length; i++) {
                     if (frameUrls[i]["frameId"] != undefined) {
@@ -501,7 +501,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $(function () {
                 addDashboard();
                 resizeFrame();
-                $(".nav-tabs").on("click", "[tabclose]", function (e) {
+                //用class尽量不要名字相同
+                $(".tab-show").on("click", "[tabclose]", function (e) {
                     id = $(this).attr("tabclose");
                     closeTab(id);
                 });
@@ -569,25 +570,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-wrapper -->
 
     <!-- Main Footer -->
-    <footer class="main-footer">
-        <!-- To the right -->
+    <!--<footer class="main-footer">
+        &lt;!&ndash; To the right &ndash;&gt;
         <div class="pull-right hidden-xs">
             Anything you want
         </div>
-        <!-- Default to the left -->
+        &lt;!&ndash; Default to the left &ndash;&gt;
         <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
-    </footer>
+    </footer>-->
 
     <!-- 右侧边栏 -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
+    <!--<aside class="control-sidebar control-sidebar-dark">
+        &lt;!&ndash; Create the tabs &ndash;&gt;
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
             <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
             <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
         </ul>
-        <!-- Tab panes -->
+        &lt;!&ndash; Tab panes &ndash;&gt;
         <div class="tab-content">
-            <!-- Home tab content -->
+            &lt;!&ndash; Home tab content &ndash;&gt;
             <div class="tab-pane active" id="control-sidebar-home-tab">
                 <h3 class="control-sidebar-heading">Recent Activity</h3>
                 <ul class="control-sidebar-menu">
@@ -603,7 +604,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                 </ul>
-                <!-- /.control-sidebar-menu -->
+                &lt;!&ndash; /.control-sidebar-menu &ndash;&gt;
 
                 <h3 class="control-sidebar-heading">Tasks Progress</h3>
                 <ul class="control-sidebar-menu">
@@ -622,14 +623,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                 </ul>
-                <!-- /.control-sidebar-menu -->
+                &lt;!&ndash; /.control-sidebar-menu &ndash;&gt;
 
             </div>
-            <!-- /.tab-pane -->
-            <!-- Stats tab content -->
+            &lt;!&ndash; /.tab-pane &ndash;&gt;
+            &lt;!&ndash; Stats tab content &ndash;&gt;
             <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-            <!-- /.tab-pane -->
-            <!-- Settings tab content -->
+            &lt;!&ndash; /.tab-pane &ndash;&gt;
+            &lt;!&ndash; Settings tab content &ndash;&gt;
             <div class="tab-pane" id="control-sidebar-settings-tab">
                 <form method="post">
                     <h3 class="control-sidebar-heading">General Settings</h3>
@@ -644,12 +645,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             Some information about this general settings option
                         </p>
                     </div>
-                    <!-- /.form-group -->
+                    &lt;!&ndash; /.form-group &ndash;&gt;
                 </form>
             </div>
-            <!-- /.tab-pane -->
+            &lt;!&ndash; /.tab-pane &ndash;&gt;
         </div>
-    </aside>
+    </aside>-->
     <!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
