@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -19,16 +20,28 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
-    @GetMapping("/list")
+    /**
+     * 列表
+     * @param model
+     * @param drugSearchModel
+     * @return
+     */
+    @GetMapping("")
     public String list(Model model, DrugSearchModel drugSearchModel) {
-        model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
-        return "index";
+        model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
+        return "drug/drugList";
     }
 
-    @GetMapping("/li")
-    public String li(Model model, DrugSearchModel drugSearchModel) {
-        model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
-        return "drug";
+    /**
+     * 详情
+     * @param model
+     * @param drugId
+     * @return
+     */
+    @GetMapping("/view")
+    public String view(Model model, String drugId) {
+        model.addAttribute("drug", drugService.getDrug(drugId).getData());
+        return "drug/view";
     }
 
     @GetMapping("/two")

@@ -9,6 +9,7 @@ import java.util.Date;
 public class Drug {
     private String id;
     private String no;
+    private String name;
     //产地
     private String origin;
     //单位
@@ -43,6 +44,14 @@ public class Drug {
 
     public void setNo(String no) {
         this.no = no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getOrigin() {

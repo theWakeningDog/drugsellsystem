@@ -22,13 +22,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                              Object handler) throws Exception {
         System.out.println("-------------------preHandle");
         // 验证用户是否登陆
-        Object username = request.getSession().getAttribute("username");
+        /*Object username = request.getSession().getAttribute("username");
         Object pwd = request.getSession().getAttribute("pwd");
-        //System.out.println(obj);
         if (username == null || !(username instanceof String) || pwd == null || !(pwd instanceof String)) {
             response.sendRedirect(request.getContextPath() + "/admin/console/index");
-            return false;
-        }
+            //return false;
+        }*/
         return true;
     }
 

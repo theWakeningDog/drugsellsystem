@@ -22,11 +22,25 @@ public class DrugService {
     @Autowired
     private DrugDao drugDao;
 
+    /**
+     * 药品列表
+     * @param drugSearchModel
+     * @return
+     */
     public MsgModel<PageInfo<Drug>> getList(DrugSearchModel drugSearchModel) {
         LinkedHashMap<String, Boolean> orderBy = drugSearchModel.getOrderBy();
         PageHelper.startPage(drugSearchModel.getPageNumber(), drugSearchModel.getPageSize(), Sortable.getOrderByString(orderBy));
         List<Drug> drugList = drugDao.getList();
         PageInfo<Drug> drugPageInfo = new PageInfo<>(drugList);
         return  new MsgModel<>("", drugPageInfo);
+    }
+
+    /**
+     * 详情
+     * @param drugId
+     * @return
+     */
+    public MsgModel<Drug> getDrug(String drugId) {
+        return new MsgModel<>("", drugDao.getDrug(drugId));
     }
 }

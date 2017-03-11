@@ -9,6 +9,7 @@ import java.util.Date;
 public class Sort {
     private String id;
     private String name;
+    private String pid;
     private Date createTime;
     private String remark;
 
@@ -26,6 +27,14 @@ public class Sort {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public Date getCreateTime() {

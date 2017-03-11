@@ -1,0 +1,30 @@
+package com.sellsystem.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * Created by zhangwei on 2017/3/11.
+ */
+@Controller
+@RequestMapping("/login")
+public class LoginController {
+
+    /**
+     * 登陆
+     * @return
+     */
+    @RequestMapping("")
+    public String index() {
+        return "index";
+    }
+
+    /**
+     * 首页
+     * @return
+     */
+    @RequestMapping("/home")
+    public String home() {
+        return "home";
+    }
+}

@@ -9,5 +9,16 @@ import java.util.List;
  */
 public interface DrugDao {
 
+    /**
+     * 别表
+     * @return
+     */
     List<Drug> getList();
+
+    /**
+     * 详情
+     * @param drugId
+     * @return
+     */
+    Drug getDrug(String drugId);
 }

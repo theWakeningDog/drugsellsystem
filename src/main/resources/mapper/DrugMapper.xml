@@ -3,7 +3,57 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.DrugDao">
-    <select id="getList" resultType="drug">
-        select * from drug;
+    <resultMap id="drugResult" type="drug">
+        <id property="id" column="id"/>
+        <result property="no" column="no"/>
+        <result property="name" column="name"/>
+        <result property="origin" column="origin"/>
+        <result property="unit" column="unit"/>
+        <result property="number" column="number"/>
+        <result property="purchase" column="purchase"/>
+        <result property="retail" column="retail"/>
+        <result property="period" column="period"/>
+        <result property="commonName" column="commonName"/>
+        <result property="createTime" column="createTime"/>
+        <result property="remark" column="remark"/>
+        <association property="sort" column="sortId" resultMap="sortResult"/>
+        <association property="warehouse" column="warehouseId" resultMap="warehouseResult"/>
+    </resultMap>
+
+    <resultMap id="sortResult" type="sort">
+        <id property="id" column="sortid"/>
+        <result property="name" column="sortName"/>
+        <result property="createTime" column="sortCreateTime"/>
+        <result property="remark" column="sortRemark"/>
+    </resultMap>
+
+    <resultMap id="warehouseResult" type="warehouse">
+        <id property="id" column="warehouseid"/>
+        <result property="name" column="warehouseName"/>
+        <result property="createTime" column="warehouseCreateTime"/>
+        <result property="remark" column="warehouseRemark"/>
+    </resultMap>
+
+    <select id="getList" resultMap="drugResult">
+        SELECT
+            drug.*,
+            sort.id sortid, sort.name sortName, sort.createTime sortCreateTime,
+            wh.id warehouseid, wh.name warehouseName, wh.createTime warehouseCreateTime
+        FROM
+            drug drug
+        LEFT JOIN sort sort ON drug.sortId = sort.id
+        LEFT JOIN warehouse wh ON drug.warehouseId = wh.id
+    </select>
+
+    <select id="getDrug" parameterType="java.lang.String" resultType="drug">
+        SELECT
+            drug.*,
+            sort.id sortid, sort.name sortName, sort.createTime sortCreateTime,
+            wh.id warehouseid, wh.name warehouseName, wh.createTime warehouseCreateTime
+        FROM
+            drug drug
+        LEFT JOIN sort sort ON drug.sortId = sort.id
+        LEFT JOIN warehouse wh ON drug.warehouseId = wh.id
+        WHERE drug.id = #{drugId}
     </select>
 </mapper>
