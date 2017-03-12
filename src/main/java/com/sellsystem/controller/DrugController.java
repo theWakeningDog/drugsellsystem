@@ -53,12 +53,12 @@ public class DrugController {
     @GetMapping("/create")
     public String create(Drug drug) {
         drugService.create(drug);
-        return "user";
+        return "/drug/edit";
     }
 
     @GetMapping("/update")
-    public String three(Model model, Drug drug) {
-        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
-        return "procureOrder";
+    public String three(Drug drug) {
+        drugService.update(drug);
+        return "/drug/edit";
     }
 }

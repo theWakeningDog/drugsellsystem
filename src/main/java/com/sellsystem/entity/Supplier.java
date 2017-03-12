@@ -12,7 +12,7 @@ public class Supplier {
 
     private String name;
     //创建时间
-    private Date createTIme;
+    private Date createTime;
     //备注
     private String remark;
 
@@ -32,12 +32,12 @@ public class Supplier {
         this.name = name;
     }
 
-    public Date getCreateTIme() {
-        return createTIme;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateTIme(Date createTIme) {
-        this.createTIme = createTIme;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getRemark() {

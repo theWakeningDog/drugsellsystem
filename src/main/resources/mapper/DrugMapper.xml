@@ -71,4 +71,24 @@
         insert into drug values (#{drug.id}, #{drug.no}, #{drug.name}, #{drug.origin}, #{drug.unit}, #{drug.number},
         #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.commonName}, #{drug.createTime}, #{drug.remark});
     </insert>
+    
+    <update id="update">
+        update drug
+        <set>
+            <if test="no != null">no = #{drug.no}</if>
+            <if test="name != null">name = #{drug.name}</if>
+            <if test="origin != null">origin = #{drug.origin}</if>
+            <if test="unit != null">unit = #{drug.unit}</if>
+            <if test="number != null">number = #{drug.number}</if>
+            <if test="purchase != null">purchase = #{drug.purchase}</if>
+            <if test="retail != null">retail = #{drug.retail}</if>
+            <if test="period != null">period = #{drug.period}</if>
+            <if test="commonName != null">commonName = #{drug.commonName}</if>
+            <if test="createTime != null">createTime = #{drug.createTime}</if>
+            <if test="remark != null">remark = #{drug.remark}</if>
+            <if test="period != null">period = #{drug.period}</if>
+            <if test="drug.sort != null and drug.sort.id != null">sortId = #{drug.sort.id}</if>
+            <if test="drug.warehouse != null and drug.warehouse.id != null">warehouseId = #{drug.warehouse.id}</if>
+        </set>
+    </update>
 </mapper>

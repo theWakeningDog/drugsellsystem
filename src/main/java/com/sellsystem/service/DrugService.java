@@ -63,4 +63,16 @@ public class DrugService {
         }
         return msgModel;
     }
+
+    public MsgModel update(Drug drug) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            drugDao.update(drug);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setMessage("修改失败");
+        }
+        return msgModel;
+    }
 }

@@ -29,4 +29,11 @@ public interface DrugDao {
      * @return
      */
     int create(Drug drug);
+
+    /**
+     * 修改
+     * @param drug
+     * @return
+     */
+    int update(Drug drug);
 }

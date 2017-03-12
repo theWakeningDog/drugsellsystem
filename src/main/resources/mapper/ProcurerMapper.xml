@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.ProcurerDao">
+    <resultMap id="SupplierResult" type="Procurer">
+        <id property="id" column="procurerId"/>
+        <result property="name" column="procurerName"/>
+        <result property="age" column="procurerAge"/>
+        <result property="tel" column="procurerTel"/>
+        <result property="email" column="procurerEmail"/>
+        <result property="createTime" column="procurerCreateTime"/>
+        <result property="remark" column="procurerRemark"/>
+    </resultMap>
+</mapper>

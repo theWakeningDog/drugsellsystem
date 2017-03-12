@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.SupplierDao">
+    <resultMap id="SupplierResult" type="Supplier">
+        <id property="id" column="supplierId"/>
+        <result property="name" column="supplierName"/>
+        <result property="createTime" column="supplierCreateTime"/>
+        <result property="remark" column="supplierRemark"/>
+    </resultMap>
+</mapper>
