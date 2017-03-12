@@ -1,5 +1,6 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,19 @@ public class DrugController {
         return "drug/view";
     }
 
-    @GetMapping("/two")
-    public String two(Model model, DrugSearchModel drugSearchModel) {
-        //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
+    /**
+     * 新增
+     * @param drug
+     * @return
+     */
+    @GetMapping("/create")
+    public String create(Drug drug) {
+        drugService.create(drug);
         return "user";
     }
 
-    @GetMapping("/three")
-    public String three(Model model, DrugSearchModel drugSearchModel) {
+    @GetMapping("/update")
+    public String three(Model model, Drug drug) {
         //model.addAttribute("drugList", drugService.getList(drugSearchModel).getData());
         return "procureOrder";
     }

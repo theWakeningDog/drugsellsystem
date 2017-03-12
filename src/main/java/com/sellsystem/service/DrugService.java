@@ -10,6 +10,7 @@ import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DrugService {
     public MsgModel<PageInfo<Drug>> getList(DrugSearchModel drugSearchModel) {
         LinkedHashMap<String, Boolean> orderBy = drugSearchModel.getOrderBy();
         PageHelper.startPage(drugSearchModel.getPageNumber(), drugSearchModel.getPageSize(), Sortable.getOrderByString(orderBy));
-        List<Drug> drugList = drugDao.getList();
+        List<Drug> drugList = drugDao.getList(drugSearchModel);
         PageInfo<Drug> drugPageInfo = new PageInfo<>(drugList);
         return  new MsgModel<>("", drugPageInfo);
     }
@@ -42,5 +43,24 @@ public class DrugService {
      */
     public MsgModel<Drug> getDrug(String drugId) {
         return new MsgModel<>("", drugDao.getDrug(drugId));
+    }
+
+    /**
+     * 新增
+     * @param drug
+     * @return
+     */
+    public MsgModel<String> create(Drug drug) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            drug.setCreateTime(new Date());
+            drugDao.create(drug);
+            msgModel.setData(drug.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setMessage("新增失败");
+        }
+        return msgModel;
     }
 }

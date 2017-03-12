@@ -1,6 +1,7 @@
 package com.sellsystem.dao;
 
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface DrugDao {
      * 别表
      * @return
      */
-    List<Drug> getList();
+    List<Drug> getList(DrugSearchModel drugSearchModel);
 
     /**
      * 详情
@@ -21,4 +22,11 @@ public interface DrugDao {
      * @return
      */
     Drug getDrug(String drugId);
+
+    /**
+     * 新增
+     * @param drug
+     * @return
+     */
+    int create(Drug drug);
 }

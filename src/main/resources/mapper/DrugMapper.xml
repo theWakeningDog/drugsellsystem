@@ -43,6 +43,13 @@
             drug drug
         LEFT JOIN sort sort ON drug.sortId = sort.id
         LEFT JOIN warehouse wh ON drug.warehouseId = wh.id
+        <where>
+            <if test="name != null">drug.name LIKE concat('%', #{drugSearchModel.name}, '%')</if>
+            <if test="sortId != null">drug.sortId = #{drugSearchModel.sortId}</if>
+            <if test="commonName != null">drug.commonName LIKE concat('', #{drugSearchModel.commonName}, '%')</if>
+            <if test="periodStart != null">drug.period > #{drugSearchModel.periodStart}</if>
+            <if test="periodEnd != null">#{drugSearchModel.periodEnd} > drug.period</if>
+        </where>
     </select>
 
     <select id="getDrug" parameterType="java.lang.String" resultType="drug">
@@ -56,4 +63,12 @@
         LEFT JOIN warehouse wh ON drug.warehouseId = wh.id
         WHERE drug.id = #{drugId}
     </select>
+
+    <insert id="create">
+        <selectKey keyProperty="drug.id" resultType="java.lang.String" order="BEFORE">
+            select uuid() from dual;
+        </selectKey>
+        insert into drug values (#{drug.id}, #{drug.no}, #{drug.name}, #{drug.origin}, #{drug.unit}, #{drug.number},
+        #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.commonName}, #{drug.createTime}, #{drug.remark});
+    </insert>
 </mapper>
