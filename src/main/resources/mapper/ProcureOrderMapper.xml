@@ -3,11 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.ProcureOrderDao">
-    <resultMap id="ProcureOrderResult" type="ProcureOrder">
-        <id property="id" column="procureOrderId"/>
-        <result property=""
-    </resultMap>
-    <select id="getList" resultMap="ProcureOrderResult">
-        select * from procureorder order by createTime desc
-    </select>
+    <!--<resultMap id="procureOrderResult" type="ProcureOrder">-->
+        <!--<id property="id" column="procureOrderId"/>-->
+    <!--</resultMap>-->
+    <!--<select id="getList" resultMap="ProcureOrderResult">-->
+        <!--select * from procureorder order by createTime desc-->
+    <!--</select>-->
 </mapper>

@@ -13,7 +13,7 @@ public class ProcureOrder {
     //供应商
     private Supplier supplier;
     //采购员
-    private Procurer procurer;
+    //private Procurer procurer;
     //药品
     private List<Drug> drugList = new ArrayList<>();
    /* //药品编号
@@ -54,13 +54,13 @@ public class ProcureOrder {
         this.supplier = supplier;
     }
 
-    public Procurer getProcurer() {
+    /*public Procurer getProcurer() {
         return procurer;
     }
 
     public void setProcurer(Procurer procurer) {
         this.procurer = procurer;
-    }
+    }*/
 
     public List<Drug> getDrugList() {
         return drugList;

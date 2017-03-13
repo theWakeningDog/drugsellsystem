@@ -1,6 +1,7 @@
 package com.sellsystem.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 仓库
@@ -11,6 +12,7 @@ public class Warehouse {
     private String name;
     private Date createTime;
     private String remark;
+    private List<Drug> drugList;
 
     public String getId() {
         return id;
@@ -42,5 +44,13 @@ public class Warehouse {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<Drug> getDrugList() {
+        return drugList;
+    }
+
+    public void setDrugList(List<Drug> drugList) {
+        this.drugList = drugList;
     }
 }

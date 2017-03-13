@@ -3,7 +3,7 @@ package com.sellsystem.entity;
 import java.util.Date;
 
 /**
- * 采购员
+ * 采购员[删除]
  * Created by zhangwei on 2017/3/4/004.
  */
 public class Procurer {

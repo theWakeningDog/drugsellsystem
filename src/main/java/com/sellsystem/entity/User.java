@@ -6,7 +6,7 @@ import java.util.Date;
  * 登录用户
  * Created by zhangwei on 2017/3/4/004.
  */
-public class LoginUser {
+public class User {
     private String id;
     private String name;
     private String password;

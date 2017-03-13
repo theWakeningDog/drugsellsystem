@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.ProcurerDao">
-    <resultMap id="SupplierResult" type="Procurer">
+    <resultMap id="procurerResult" type="Procurer">
         <id property="id" column="procurerId"/>
         <result property="name" column="procurerName"/>
         <result property="age" column="procurerAge"/>
