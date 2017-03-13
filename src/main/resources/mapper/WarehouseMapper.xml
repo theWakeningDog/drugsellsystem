@@ -16,9 +16,31 @@
     </resultMap>
 
     <select id="getList" resultMap="warehouseResult">
-        select
-        <include refid="warehouseSQL"/>
-        from warehouse
-        order by warehouseCreateTime
+        SELECT
+        <include refid="warehouseSQL"/>,
+        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+        FROM warehouse warehouse
+        LEFT JOIN drug drug ON warehouse.id = drug.warehouse
     </select>
+
+    <insert id="create">
+        <selectKey keyProperty="warehouse.id" resultType="java.lang.String" order="BEFORE">
+            SELECT uuid() FROM dual
+        </selectKey>
+        insert into warehouse values
+        (#{warehouse.id}, #{warehouse.name}, #{warehouse.createTime}, #{warehouse.remark});
+    </insert>
+
+    <update id="update">
+        update warehouse
+        <set>
+            <if test="warehouse.name != null">name = #{warehouse.name}</if>
+            <if test="warehouse.remark != null">remark = #{warehouse.remark}</if>
+        </set>
+        where id = #{warehouse.id}
+    </update>
+
+    <delete id="delete">
+        delete from warehouse where id = #{warehouse.id}
+    </delete>
 </mapper>

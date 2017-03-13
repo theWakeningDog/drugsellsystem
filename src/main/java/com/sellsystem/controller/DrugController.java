@@ -6,9 +6,7 @@ import com.sellsystem.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 药品
@@ -50,15 +48,17 @@ public class DrugController {
      * @param drug
      * @return
      */
-    @GetMapping("/create")
+    @PostMapping("/create")
     public String create(Drug drug) {
         drugService.create(drug);
         return "/drug/edit";
     }
 
-    @GetMapping("/update")
+    @PutMapping("/update")
     public String three(Drug drug) {
         drugService.update(drug);
         return "/drug/edit";
     }
+
+
 }

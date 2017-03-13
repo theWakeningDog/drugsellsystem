@@ -16,4 +16,32 @@ public interface WarehouseDao {
      * @return
      */
     List<Warehouse> getList(WarehouseSearchModel warehouseSearchModel);
+
+    /**
+     * 详情
+     * @param warehouseId
+     * @return
+     */
+    Warehouse getWarehouse(String warehouseId);
+
+    /**
+     * 新增
+     * @param warehouse
+     * @return
+     */
+    int create(Warehouse warehouse);
+
+    /**
+     * 修改
+     * @param warehouse
+     * @return
+     */
+    int update(Warehouse warehouse);
+
+    /**
+     * 删除
+     * @param warehouseId
+     * @return
+     */
+    int delete(String warehouseId);
 }
