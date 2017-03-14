@@ -3,33 +3,151 @@
 <head>
     <meta charset="UTF-8"/>
     <title>药品列表</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/dist/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/dist/css/ionicons.min.css">
+    <!-- fullCalendar 2.2.5-->
+    <link rel="stylesheet" href="/plugins/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="/plugins/fullcalendar/fullcalendar.print.css" media="print">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <!--<link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">-->
+    <!--&lt;!&ndash; iCheck &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="../../plugins/iCheck/flat/blue.css">-->
+    <!--<link rel="stylesheet" href="/bootstrap/css/bootstrap.css"/>-->
+    <!--<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">-->
+    <!--<link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css">-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>-->
     <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
 </head>
-<body>
-    <table class="table table-striped table-bordered table-hover">
-        <th>药品编号</th>
-        <th>药品名称</th>
-        <th>药品通用名</th>
-        <th>药品单位</th>
-        <th>药品数量</th>
-        <th>零售价(元)</th>
-        <th>药品类别</th>
-        <th>药品产地</th>
-        <th>所属仓库</th>
-        <tr th:each="drug : ${drugList}">
-            <td><a th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a></td>
-            <td th:text="${drug.name}">复方丹参片</td>
-            <td th:text="${drug.commonName}">复方丹参片</td>
-            <td th:text="${drug.unit}">瓶</td>
-            <td th:text="${drug.number}">100</td>
-            <td th:text="${drug.retail}">120</td>
-            <td><a th:href="@{/sort/view(sortId=${drug.sort.id})}" th:text="${drug.sort.name}">中药</a></td>
-            <td th:text="${drug.origin}">广州白云山制药</td>
-            <td><a th:href="@{/warehouse/view(warehouseId=${drug.warehouse.id})}" th:text="${drug.warehouse.name}">常温库</a></td>
-        </tr>
-    </table>
-    <a href="http://www.baidu.com">张伟</a>
+<body style="background: #ecf0f5;">
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Folders</h3>
+
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
+                            <span class="label label-primary pull-right">12</span></a></li>
+                        <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                        <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
+                        <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-trash-o"></i> Trash</a></li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Inbox</h3>
+
+                    <div class="box-tools pull-right">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="mailbox-controls">
+                        <!-- Check all button -->
+                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-check-square-o"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                        </div>
+                        <!-- /.btn-group -->
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <div class="pull-right">
+                            1-50/200
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                            <!-- /.btn-group -->
+                        </div>
+                        <!-- /.pull-right -->
+                    </div>
+                    <div class="table-responsive mailbox-messages">
+                        <table class="table table-striped table-bordered table-hover">
+                            <th>药品编号</th>
+                            <th>药品名称</th>
+                            <th>药品通用名</th>
+                            <th>药品单位</th>
+                            <th>药品数量</th>
+                            <th>零售价(元)</th>
+                            <th>药品类别</th>
+                            <th>药品产地</th>
+                            <th>所属仓库</th>
+                            <tr th:each="drug : ${drugList}">
+                                <td><a th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a></td>
+                                <td th:text="${drug.name}">复方丹参片</td>
+                                <td th:text="${drug.commonName}">复方丹参片</td>
+                                <td th:text="${drug.unit}">瓶</td>
+                                <td th:text="${drug.number}">100</td>
+                                <td th:text="${drug.retail}">120</td>
+                                <td><a th:href="@{/sort/view(sortId=${drug.sort.id})}" th:text="${drug.sort.name}">中药</a></td>
+                                <td th:text="${drug.origin}">广州白云山制药</td>
+                                <td><a th:href="@{/warehouse/view(warehouseId=${drug.warehouse.id})}" th:text="${drug.warehouse.name}">常温库</a></td>
+                            </tr>
+                        </table>
+                        <!-- /.table -->
+                    </div>
+                    <!-- /.mail-box-messages -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer no-padding">
+                    <div class="mailbox-controls">
+                        <!-- Check all button -->
+                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                        </div>
+                        <!-- /.btn-group -->
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <div class="pull-right">
+                            1-50/200
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                            <!-- /.btn-group -->
+                        </div>
+                        <!-- /.pull-right -->
+                    </div>
+                </div>
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
 </body>
 </html>
