@@ -8,14 +8,10 @@
     <link rel="stylesheet" href="/dist/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="/dist/css/ionicons.min.css">
-    <!-- fullCalendar 2.2.5-->
-    <link rel="stylesheet" href="/plugins/fullcalendar/fullcalendar.min.css">
-    <link rel="stylesheet" href="/plugins/fullcalendar/fullcalendar.print.css" media="print">
+    <!-- icheck -->
+    <link rel="stylesheet" href="/plugins/iCheck/flat/blue.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-    <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
-    <script src="/bootstrap/js/bootstrap.js"></script>
-    <script src="/dist/js/app.js"></script>
 </head>
 <body style="background: #ecf0f5;">
 <div class="row">
@@ -92,6 +88,7 @@
                     </div>
                     <div class="table-responsive mailbox-messages">
                         <table class="table table-striped table-bordered table-hover">
+                            <th></th>
                             <th>药品编号</th>
                             <th>药品名称</th>
                             <th>药品通用名</th>
@@ -102,6 +99,7 @@
                             <th>药品产地</th>
                             <th>所属仓库</th>
                             <tr th:each="drug : ${drugList}">
+                                <td><input type="checkbox"></td>
                                 <td><a th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a></td>
                                 <td th:text="${drug.name}">复方丹参片</td>
                                 <td th:text="${drug.commonName}">复方丹参片</td>
@@ -146,5 +144,34 @@
         </div>
     </section>
 </div>
+<script src="/plugins/jQuery/jquery-3.1.1.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="/dist/js/app.js"></script>
+<script src="/plugins/iCheck/icheck.js"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
+    });
+    /*]]>*/
+</script>
 </body>
 </html>

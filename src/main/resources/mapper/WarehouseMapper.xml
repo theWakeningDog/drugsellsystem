@@ -13,15 +13,17 @@
         <result property="name" column="warehouseName"/>
         <result property="createTime" column="warehouseCreateTime"/>
         <result property="remark" column="warehouseRemark"/>
-        <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
+        <result property="drugNum" column="drugNum"/>
     </resultMap>
+    <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+    <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
 
     <select id="getList" resultMap="warehouseResult">
         SELECT
-        <include refid="warehouseSQL"/>,
-        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+            <include refid="warehouseSQL"/>, COUNT(drug.id) drugNum
         FROM warehouse warehouse
         LEFT JOIN drug drug ON warehouse.id = drug.warehouse
+        GROUP BY warehouse.id
     </select>
 
     <insert id="create">

@@ -39,12 +39,7 @@ public class DrugController {
         WarehouseSearchModel warehouseSearchModel = new WarehouseSearchModel();
         warehouseSearchModel.setPageSize(0);
         List<Warehouse> warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
-        List<Warehouse> warehouses = new ArrayList<>();
-        for (Warehouse warehouse : warehouseList) {
-            warehouse.setDrugNum(warehouse.getDrugList().size());
-            warehouses.add(warehouse);
-        }
-        model.addAttribute("warehouseList", warehouses);
+        model.addAttribute("warehouseList", warehouseList);
         return "drug/drugList";
     }
 
