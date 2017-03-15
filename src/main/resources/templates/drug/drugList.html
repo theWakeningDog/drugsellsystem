@@ -13,22 +13,13 @@
     <link rel="stylesheet" href="/plugins/fullcalendar/fullcalendar.print.css" media="print">
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <!--<link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">-->
-    <!--&lt;!&ndash; iCheck &ndash;&gt;-->
-    <!--<link rel="stylesheet" href="../../plugins/iCheck/flat/blue.css">-->
-    <!--<link rel="stylesheet" href="/bootstrap/css/bootstrap.css"/>-->
-    <!--<link rel="stylesheet" href="/dist/css/AdminLTE.min.css">-->
-    <!--<link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css">-->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>-->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>-->
     <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
+    <script src="/dist/js/app.js"></script>
 </head>
 <body style="background: #ecf0f5;">
-<section class="content">
-    <div class="row">
+<div class="row">
+    <section class="content">
         <div class="col-md-3">
             <div class="box box-solid">
                 <div class="box-header with-border">
@@ -41,13 +32,21 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                            <span class="label label-primary pull-right">12</span></a></li>
-                        <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
-                        <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
-                        <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
+                        <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a></li>
+
+                        <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                        <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
+                        <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                         </li>
-                        <li><a href="#"><i class="fa fa-trash-o"></i> Trash</a></li>
+                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
+                    </ul>
+                    <ul class="nav nav-pills nav-stacked" th:each="warehouse : ${warehouseList}">
+                        <li class="active">
+                            <a href="javascript:">
+                                <i class="fa fa-inbox"></i> <span th:text="${warehouse.name}">Inbox</span>
+                                <span class="label label-primary pull-right" th:text="${warehouse.drugNum}">12</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.box-body -->
@@ -145,9 +144,7 @@
             </div>
             <!-- /. box -->
         </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-</section>
+    </section>
+</div>
 </body>
 </html>

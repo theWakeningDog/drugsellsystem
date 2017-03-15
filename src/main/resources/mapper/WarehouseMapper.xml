@@ -13,6 +13,7 @@
         <result property="name" column="warehouseName"/>
         <result property="createTime" column="warehouseCreateTime"/>
         <result property="remark" column="warehouseRemark"/>
+        <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
     </resultMap>
 
     <select id="getList" resultMap="warehouseResult">

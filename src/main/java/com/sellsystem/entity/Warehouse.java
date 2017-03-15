@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,9 @@ public class Warehouse {
     private String name;
     private Date createTime;
     private String remark;
-    private List<Drug> drugList;
+    //药材数量
+    private int drugNum;
+    private List<Drug> drugList = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -44,6 +47,14 @@ public class Warehouse {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getDrugNum() {
+        return drugNum;
+    }
+
+    public void setDrugNum(int drugNum) {
+        this.drugNum = drugNum;
     }
 
     public List<Drug> getDrugList() {
