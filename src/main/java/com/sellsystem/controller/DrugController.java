@@ -1,7 +1,6 @@
 package com.sellsystem.controller;
 
 import com.sellsystem.entity.Drug;
-import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.service.DrugService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class DrugController {
         model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
         WarehouseSearchModel warehouseSearchModel = new WarehouseSearchModel();
         warehouseSearchModel.setPageSize(0);
-        List<Warehouse> warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
+        List warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
         model.addAttribute("warehouseList", warehouseList);
         return "drug/drugList";
     }

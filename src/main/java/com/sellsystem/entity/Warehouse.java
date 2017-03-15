@@ -13,8 +13,6 @@ public class Warehouse {
     private String name;
     private Date createTime;
     private String remark;
-    //药材数量
-    private int drugNum;
     private List<Drug> drugList = new ArrayList<>();
 
     public String getId() {
@@ -47,14 +45,6 @@ public class Warehouse {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getDrugNum() {
-        return drugNum;
-    }
-
-    public void setDrugNum(int drugNum) {
-        this.drugNum = drugNum;
     }
 
     public List<Drug> getDrugList() {

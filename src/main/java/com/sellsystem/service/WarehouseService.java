@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangwei on 2017/3/13.
@@ -30,8 +31,8 @@ public class WarehouseService {
     public MsgModel<PageInfo<Warehouse>> getList(WarehouseSearchModel warehouseSearchModel) {
         String orderBy = Sortable.getOrderByString(warehouseSearchModel.getOrderBy());
         PageHelper.startPage(warehouseSearchModel.getPageNumber(), warehouseSearchModel.getPageSize(), orderBy);
-        List<Warehouse> warehouseList = warehouseDao.getList(warehouseSearchModel);
-        PageInfo<Warehouse> warehousePageInfo = new PageInfo<>(warehouseList);
+        List<Map<?, ?>> warehouseList = warehouseDao.getList(warehouseSearchModel);
+        PageInfo warehousePageInfo = new PageInfo<>(warehouseList);
         return new MsgModel<>(warehousePageInfo);
     }
 

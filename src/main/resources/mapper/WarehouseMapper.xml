@@ -18,9 +18,9 @@
     <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
     <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
 
-    <select id="getList" resultMap="warehouseResult">
+    <select id="getList" resultType="java.util.Map">
         SELECT
-            <include refid="warehouseSQL"/>, COUNT(drug.id) drugNum
+            warehouse.id, warehouse.name, warehouse.createTime, warehouse.remark, COUNT(drug.id) drugNum
         FROM warehouse warehouse
         LEFT JOIN drug drug ON warehouse.id = drug.warehouse
         GROUP BY warehouse.id
