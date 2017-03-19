@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.TaskDao">
+    <sql id="taskSQL">
+        task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer,
+        task.type taskType, task.level taskLevel, task.executor taskExecutor, task.createUser taskCreateUser
+        task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
+        task.startTime taskCreateTime, task.endTime taskEndTime
+    </sql>
+
+    <resultMap id="taskResult" type="Task">
+        <id property="id" column="taskId"/>
+        <result property="name" column="taskName"/>
+        <result property="type" column="taskType"/>
+        <result property="level" column="taskLevel"/>
+        <result property="attachment" column="taskAttachment"/>
+        <result property="description" column="taskDescription"/>
+        <result property="createTime" column="taskCreateTime"/>
+        <result property="startTime" column="taskStartTime"/>
+        <result property="endTime" column="taskEndTime"/>
+        <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>
+        <association property="customer" column="taskCustomer" resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
+        <association property="executor" column="taskExecutor" resultMap=""/>
+        <association property="createUser" column="taskCreateUser" resultMap=""/>
+
+    </resultMap>
+</mapper>

@@ -14,6 +14,7 @@ public class MsgModel<T> {
     private T data;
 
     public MsgModel(T data) {
+        this.status = SUCCESS;
         this.data = data;
     }
 

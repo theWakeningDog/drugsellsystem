@@ -30,24 +30,46 @@ public class WarehouseController {
         return "/kucun/warehouse";
     }
 
+    /**
+     * 详情
+     * @param model
+     * @param warehouseId
+     * @return
+     */
     @GetMapping("/warehouse")
     public String warehouse(Model model, String warehouseId) {
         model.addAttribute("warehouse", warehouseService.getWarehouse(warehouseId));
         return "";
     }
 
+    /**
+     * 新增
+     * @param warehouse
+     * @return
+     */
     @PostMapping("/create")
     public String create(Warehouse warehouse) {
         warehouseService.create(warehouse);
         return "";
     }
 
+    /**
+     * 修改
+     * @param warehouse
+     * @return
+     */
     @PutMapping("/update")
     public String update(Warehouse warehouse) {
         warehouseService.update(warehouse);
         return "";
     }
 
+    /**
+     * 删除
+     * @param model
+     * @param warehouseId
+     * @return
+     */
     @DeleteMapping("/delete")
     public String delete(Model model, String warehouseId) {
         model.addAttribute("deleteWarehouse", warehouseService.delete(warehouseId));
