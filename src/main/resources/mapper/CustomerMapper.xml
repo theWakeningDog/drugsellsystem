@@ -19,7 +19,7 @@
         <result property="isDelete" column="customerIsDelete"/>
         <result property="createTime" column="customerCreateTime"/>
         <result property="remark" column="customerRemark"/>
-        <association property="serviceManager" column="customerServiceManager" resultMap=""/>
-        <association property="createUser" column="customerCreateUser" resultMap=""/>
+        <association property="serviceManager" column="customerServiceManager" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
 </mapper>

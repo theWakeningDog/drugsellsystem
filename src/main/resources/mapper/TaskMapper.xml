@@ -22,8 +22,12 @@
         <result property="endTime" column="taskEndTime"/>
         <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>
         <association property="customer" column="taskCustomer" resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
-        <association property="executor" column="taskExecutor" resultMap=""/>
-        <association property="createUser" column="taskCreateUser" resultMap=""/>
-
+        <association property="executor" column="taskExecutor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <!--加上select属性试试-->
+        <association property="createUser" column="taskCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
+
+    <select id="getList" resultMap="taskResult">
+        select * from ;
+    </select>
 </mapper>
