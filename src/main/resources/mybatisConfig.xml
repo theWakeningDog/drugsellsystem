@@ -10,10 +10,11 @@
         <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
 
-    <!--<typeHandlers>
-        <typeHandler handler="cn.publink.servicemobile.core.mybatis.JsonTypeHandler" javaType="java.util.ArrayList" />
-        <typeHandler handler="cn.publink.servicemobile.core.mybatis.JsonTypeHandler" javaType="java.util.LinkedHashMap" />
-    </typeHandlers>-->
+    <!--配置typeHandler，存储与获取json数据类型-->
+    <typeHandlers>
+        <typeHandler handler="com.sellsystem.util.JsonTypeHandler" javaType="java.util.ArrayList" />
+        <typeHandler handler="com.sellsystem.util.JsonTypeHandler" javaType="java.util.LinkedHashMap" />
+    </typeHandlers>
     <!-- plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下: properties?, settings?, typeAliases?,
         typeHandlers?, objectFactory?,objectWrapperFactory?, plugins?, environments?,
         databaseIdProvider?, mappers? -->
