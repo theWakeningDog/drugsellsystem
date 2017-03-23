@@ -5,6 +5,9 @@ import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.util.MsgModel;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by zhangwei on 2017/3/18.
  */
@@ -14,7 +17,7 @@ public interface WarehouseService {
      * @param warehouseSearchModel
      * @return
      */
-    public MsgModel<PageInfo<Warehouse>> getList(WarehouseSearchModel warehouseSearchModel);
+    public MsgModel<PageInfo<Map<?, ?>>> getList(WarehouseSearchModel warehouseSearchModel);
 
     /**
      * 详情

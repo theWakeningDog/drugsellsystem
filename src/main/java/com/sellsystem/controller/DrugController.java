@@ -1,6 +1,7 @@
 package com.sellsystem.controller;
 
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.service.DrugService;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 药品
@@ -36,8 +40,16 @@ public class DrugController {
         model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
         WarehouseSearchModel warehouseSearchModel = new WarehouseSearchModel();
         warehouseSearchModel.setPageSize(0);
-        List warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
+        List<Map<?, ?>> warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
+        //列表
         model.addAttribute("warehouseList", warehouseList);
+
+        int drugAllNum = 0;
+        for (Map<?, ?> warehouseMap : warehouseList) {
+            drugAllNum += Integer.parseInt(warehouseMap.get("drugNum").toString());
+        }
+        //总数量
+        model.addAttribute("drugAllNum", drugAllNum);
         return "drug/drugList";
     }
 

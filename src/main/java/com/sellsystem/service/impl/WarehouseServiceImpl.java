@@ -1,5 +1,6 @@
 package com.sellsystem.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.dao.WarehouseDao;
@@ -30,7 +31,7 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @param warehouseSearchModel
      * @return
      */
-    public MsgModel<PageInfo<Warehouse>> getList(WarehouseSearchModel warehouseSearchModel) {
+    public MsgModel<PageInfo<Map<?, ?>>> getList(WarehouseSearchModel warehouseSearchModel) {
         String orderBy = Sortable.getOrderByString(warehouseSearchModel.getOrderBy());
         PageHelper.startPage(warehouseSearchModel.getPageNumber(), warehouseSearchModel.getPageSize(), orderBy);
         List<Map<?, ?>> warehouseList = warehouseDao.getList(warehouseSearchModel);
