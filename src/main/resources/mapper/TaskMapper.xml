@@ -5,15 +5,14 @@
 <mapper namespace="com.sellsystem.dao.TaskDao">
     <sql id="taskSQL">
         task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer,
-        task.type taskType, task.level taskLevel, task.executor taskExecutor, task.createUser taskCreateUser
+        task.level taskLevel, task.executor taskExecutor, task.createUser taskCreateUser,
         task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
-        task.startTime taskCreateTime, task.endTime taskEndTime
+        task.startTime taskStartTime, task.endTime taskEndTime
     </sql>
 
     <resultMap id="taskResult" type="Task">
         <id property="id" column="taskId"/>
         <result property="name" column="taskName"/>
-        <result property="type" column="taskType"/>
         <result property="level" column="taskLevel"/>
         <result property="attachment" column="taskAttachment"/>
         <result property="description" column="taskDescription"/>
@@ -23,19 +22,19 @@
         <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>
         <association property="customer" column="taskCustomer" resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
         <association property="executor" column="taskExecutor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
-        <association property="createUser" column="taskCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <association property="createUser" column="taskCreateUser" resultMap="com.sellsystem.dao.UserDao.createUserResult"/>
     </resultMap>
 
     <select id="getList" resultMap="taskResult">
         SELECT
-            <include refid="taskSQL"/>
-            <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>
+            <include refid="taskSQL"/>,
+            <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
             <include refid="com.sellsystem.dao.UserDao.userSQL"/>
         FROM
             task task
         LEFT JOIN supplier supplier ON task.supplier = supplier.id
         LEFT JOIN customer customer ON task.customer = customer.id
         LEFT JOIN `user` `user` ON task.executor = `user`.id
-        AND task.createUser = `user`.id
+        AND task.createUser = `user`.id ORDER BY taskCreateTime DESC
     </select>
 </mapper>

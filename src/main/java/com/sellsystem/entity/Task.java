@@ -14,8 +14,7 @@ public class Task {
     private Supplier supplier;
     //客户
     private Customer customer;
-    //任务类型
-    private String type;
+    //任务级别
     private String level;
     //处理人
     private User executor;
@@ -58,14 +57,6 @@ public class Task {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getLevel() {

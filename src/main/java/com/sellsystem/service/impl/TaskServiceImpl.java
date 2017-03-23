@@ -26,9 +26,6 @@ public class TaskServiceImpl implements TaskService {
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
         String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
-        if (StringUtils.isEmpty(orderBy)) {
-            orderBy = "createTime desc";
-        }
         PageHelper.startPage(taskSearchModel.getPageNumber(), taskSearchModel.getPageSize(), orderBy);
         List<Task> taskList = taskDao.getList(taskSearchModel);
         PageInfo<Task> taskPageInfo = new PageInfo<>(taskList);

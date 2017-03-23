@@ -1,6 +1,7 @@
 package com.sellsystem.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -24,7 +25,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/home")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("login", "login in  project");
         return "home";
     }
 }
