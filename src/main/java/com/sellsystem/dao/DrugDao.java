@@ -2,6 +2,7 @@ package com.sellsystem.dao;
 
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface DrugDao {
      * 别表
      * @return
      */
-    List<Drug> getList(DrugSearchModel drugSearchModel);
+    List<Drug> getList(@Param("drugSearchModel") DrugSearchModel drugSearchModel);
 
     /**
      * 详情

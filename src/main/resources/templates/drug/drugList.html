@@ -28,7 +28,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="javascript:"><i class="fa fa-filter"></i> 全部 <span class="label label-warning pull-right" th:text="${warehouseList.size}">65</span></a></li>
+                        <li><a href="javascript:" onclick="chooseWarehouse(this)"><i class="fa fa-filter"></i> 全部 <span class="label label-danger pull-right" th:text="${drugAllNum}">65</span></a></li>
 
                         <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
                         <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
@@ -36,11 +36,12 @@
                         </li>
                         <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
                     </ul>
-                    <ul class="nav nav-pills nav-stacked" th:each="warehouse, stat : ${warehouseList}">
-                        <li class="active">
-                            <a href="javascript:">
-                                <i class="fa fa-inbox"></i> <span th:text="${warehouse.name}">Inbox</span>
-                                <span class="label label-primary pull-right" th:text="${warehouse.drugNum}">12</span>
+                    <ul class="nav nav-pills nav-stacked" th:each="warehouse,stat : ${warehouseList}">
+                        <li>
+                            <!--th:attr这样可以自定义属性，下面两个都可以取到warehouseId-->
+                            <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}" onclick="chooseWarehouse(this)">
+                                    <i class="fa fa-inbox"></i> <span th:text="${warehouse.name}">Inbox</span>
+                                    <span th:class="${stat.odd} ? 'label label-success pull-right' : 'label label-primary pull-right'" th:text="${warehouse.drugNum}">12</span>
                             </a>
                         </li>
                     </ul>
@@ -67,8 +68,7 @@
                 <div class="box-body no-padding">
                     <div class="mailbox-controls">
                         <!-- Check all button -->
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-check-square-o"></i>
-                        </button>
+                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-check-square-o"></i></button>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                             <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
@@ -89,7 +89,7 @@
                     <div class="table-responsive mailbox-messages">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
-                                <th></th>
+                                <th><input type="checkbox" disabled></th>
                                 <th>药品编号</th>
                                 <th>药品名称</th>
                                 <th>药品通用名</th>
@@ -154,6 +154,15 @@
 <script src="/plugins/iCheck/icheck.js"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
+    //点击仓库
+    function chooseWarehouse(ele) {
+        //对于th：attr、th：value可以这么取值
+        console.log($(ele).attr("warehouseId"));
+        console.log($(ele).attr("value"));
+        var warehouseId = $(ele).attr("warehouseId") || "";
+        window.location.href="/drug?warehouseId=" + warehouseId
+    }
+
     $(function () {
         $('.mailbox-messages input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue',

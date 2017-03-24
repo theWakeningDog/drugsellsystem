@@ -9,6 +9,7 @@ import com.sellsystem.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -37,13 +38,17 @@ public class DrugController {
      */
     @GetMapping("")
     public String list(Model model, DrugSearchModel drugSearchModel) {
+        if (StringUtils.isEmpty(drugSearchModel.getWarehouseId())) {
+            drugSearchModel.setWarehouseId(null);
+        }
         model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
+
+        //获取仓库
         WarehouseSearchModel warehouseSearchModel = new WarehouseSearchModel();
         warehouseSearchModel.setPageSize(0);
         List<Map<?, ?>> warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
         //列表
         model.addAttribute("warehouseList", warehouseList);
-
         int drugAllNum = 0;
         for (Map<?, ?> warehouseMap : warehouseList) {
             drugAllNum += Integer.parseInt(warehouseMap.get("drugNum").toString());

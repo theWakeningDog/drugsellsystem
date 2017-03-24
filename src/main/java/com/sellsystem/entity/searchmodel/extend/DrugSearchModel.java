@@ -8,6 +8,9 @@ import com.sellsystem.entity.searchmodel.PageSearchModel;
  */
 public class DrugSearchModel extends PageSearchModel {
     private String name;
+    //仓库名
+    private String warehouseId;
+    //类别名
     private String sortId;
     //通用名
     private String commonName;
@@ -21,6 +24,14 @@ public class DrugSearchModel extends PageSearchModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(String warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public String getSortId() {
