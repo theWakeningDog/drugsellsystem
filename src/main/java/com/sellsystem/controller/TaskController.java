@@ -1,7 +1,7 @@
 package com.sellsystem.controller;
 
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

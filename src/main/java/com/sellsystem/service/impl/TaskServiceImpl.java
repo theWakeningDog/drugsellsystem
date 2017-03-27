@@ -5,12 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.sellsystem.dao.TaskDao;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.Sortable;
-import com.sellsystem.entity.searchmodel.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;

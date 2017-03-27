@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="/dist/css/ionicons.min.css">
     <!-- icheck -->
     <link rel="stylesheet" href="/plugins/iCheck/flat/blue.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
 </head>
@@ -17,29 +21,31 @@
 <div class="row">
     <section class="content">
         <div class="col-md-3">
-            <div class="box box-solid">
+            <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">所属仓库</h3>
-
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a href="javascript:" onclick="chooseWarehouse(this)"><i class="fa fa-filter"></i> 全部 <span class="label label-danger pull-right" th:text="${drugAllNum}">65</span></a></li>
-
+                        <li id="all-drug">
+                            <a href="javascript:" onclick='chooseWarehouse(this)'>
+                                <i class="fa fa-filter"></i> 全部
+                                <span class="label label-danger pull-right" th:text="${drugAllNum}">65</span>
+                            </a>
+                        </li>
                         <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
                         <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                         <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                         </li>
                         <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
                     </ul>
-                    <ul class="nav nav-pills nav-stacked" th:each="warehouse,stat : ${warehouseList}">
+                    <ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
                         <li>
                             <!--th:attr这样可以自定义属性，下面两个都可以取到warehouseId-->
-                            <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}" onclick="chooseWarehouse(this)">
+                            <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}" onclick='chooseWarehouse(this)'>
                                     <i class="fa fa-inbox"></i> <span th:text="${warehouse.name}">Inbox</span>
                                     <span th:class="${stat.odd} ? 'label label-success pull-right' : 'label label-primary pull-right'" th:text="${warehouse.drugNum}">12</span>
                             </a>
@@ -52,18 +58,35 @@
         </div>
         <!-- /.col -->
         <div class="col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Inbox</h3>
+            <form action="/drug">
+                <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
+                    <div class="box-header">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input class="form-control keyword-search criteria" name="name" th:value="${drugSearchModel.name}" placeholder="请输入药品名称">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary">搜索</button>
+                                    <button type="button" class="btn btn-link <!--btn-box-tool-->" data-widget="collapse">高级搜索&nbsp;&nbsp;<i th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
 
+                    </div>
+                </div>
+            </form>
+            <div class="box box-success">
+                <!--<div class="box-header with-border">
                     <div class="box-tools pull-right">
                         <div class="has-feedback">
-                            <input type="text" class="form-control input-sm" placeholder="Search Mail">
+                            <input type="text" class="form-control" placeholder="Search Mail">
                             <span class="glyphicon glyphicon-search form-control-feedback"></span>
                         </div>
                     </div>
-                    <!-- /.box-tools -->
-                </div>
+                    &lt;!&ndash; /.box-tools &ndash;&gt;
+                </div>-->
                 <!-- /.box-header -->
                 <div class="box-body no-padding">
                     <div class="mailbox-controls">
@@ -76,18 +99,18 @@
                         </div>
                         <!-- /.btn-group -->
                         <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                        <div class="pull-right">
+                        <!--<div class="pull-right">
                             1-50/200
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
                                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
                             </div>
-                            <!-- /.btn-group -->
-                        </div>
+                            &lt;!&ndash; /.btn-group &ndash;&gt;
+                        </div>-->
                         <!-- /.pull-right -->
                     </div>
-                    <div class="table-responsive mailbox-messages">
-                        <table class="table table-striped table-bordered table-hover">
+                    <div class="<!--table-responsive--> mailbox-messages">
+                        <table id="drug-table" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <th><input type="checkbox" disabled></th>
                                 <th>药品编号</th>
@@ -120,9 +143,9 @@
                     <!-- /.mail-box-messages -->
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer no-padding">
+                <!--<div class="box-footer no-padding">
                     <div class="mailbox-controls">
-                        <!-- Check all button -->
+                        &lt;!&ndash; Check all button &ndash;&gt;
                         <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
                         </button>
                         <div class="btn-group">
@@ -130,7 +153,7 @@
                             <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
                             <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
                         </div>
-                        <!-- /.btn-group -->
+                        &lt;!&ndash; /.btn-group &ndash;&gt;
                         <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                         <div class="pull-right">
                             1-50/200
@@ -138,11 +161,11 @@
                                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
                                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
                             </div>
-                            <!-- /.btn-group -->
+                            &lt;!&ndash; /.btn-group &ndash;&gt;
                         </div>
-                        <!-- /.pull-right -->
+                        &lt;!&ndash; /.pull-right &ndash;&gt;
                     </div>
-                </div>
+                </div>-->
             </div>
             <!-- /. box -->
         </div>
@@ -150,10 +173,15 @@
 </div>
 <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
 <script src="/bootstrap/js/bootstrap.js"></script>
+<!-- DataTables -->
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="/dist/js/app.js"></script>
 <script src="/plugins/iCheck/icheck.js"></script>
-<script type="text/javascript">
-    /*<![CDATA[*/
+<!-- date-range-picker -->
+<script src="/plugins/moment/moment.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" th:inline="text">
     //点击仓库
     function chooseWarehouse(ele) {
         //对于th：attr、th：value可以这么取值
@@ -162,13 +190,31 @@
         var warehouseId = $(ele).attr("warehouseId") || "";
         window.location.href="/drug?warehouseId=" + warehouseId
     }
-
     $(function () {
+        //点击仓库处于active状态
+        var $childA = $(".ul-active");
+        for (var i = 0; i < $childA.length; i++) {
+            var child = $childA[i];
+            //这是一个dom
+            console.log(child);
+            //需要用$(child)，把child转换为jQuery对象，才可以用jQuery的操作
+            console.log($(child).find("a").attr("warehouseId"));
+            console.log('${drugSearchModel.warehouseId}');
+            if ('[[${drugSearchModel.warehouseId}]]' == $(child).find("a").attr("warehouseId")) {
+                $(child).find("li").attr("class", "active");
+                break;
+            } else if ('[[${drugSearchModel.warehouseId}]]' == "null") {
+                $("#all-drug").attr("class", "active");
+                break;
+            }
+        }
+
+
+        //iCheck的点击事件
         $('.mailbox-messages input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue',
             radioClass: 'iradio_flat-blue'
         });
-
         //Enable check and uncheck all functionality
         $(".checkbox-toggle").click(function () {
             var clicks = $(this).data('clicks');
@@ -183,8 +229,41 @@
             }
             $(this).data("clicks", !clicks);
         });
+
+        $("#drug-table").dataTable({
+            renderer: "bootstrap",
+            paging: true, //是否显示分页
+            info: true, //是否显示表格左下角的信息
+            lengthChange: false, //是否允许用户改变表格每页显示的记录数
+            ordering: true, //是否允许Datatables开启排序
+            scrollX: true, //设置水平滚动
+            scrollY: false,
+            iDisplayLength : 10,
+            searching: false, //是否允许Datatables开启本地搜索
+            stateSave: false, //保存状态 - 在页面重新加载的时候恢复状态（页码等内容），慎用
+            autoWidth: false, //控制Datatables是否自适应宽度
+            deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
+            order: [], //设置第几列可以排序，是空的，可以去掉默认的排序（默认：第一列升序）
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0, 4 ] }],
+            "sPaginationType" : "full_numbers",
+            "oLanguage" : {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "抱歉， 没有找到",
+                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty": "没有数据",
+                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                "sZeroRecords": "没有检索到数据",
+                "sSearch": "名称:",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "前一页",
+                    "sNext": "后一页",
+                    "sLast": "尾页"
+                }
+            }
+        });
+
     });
-    /*]]>*/
 </script>
 </body>
 </html>

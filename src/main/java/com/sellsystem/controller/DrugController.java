@@ -43,17 +43,20 @@ public class DrugController {
         }
         model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
 
-        //获取仓库
+        //搜索条件
+        model.addAttribute("drugSearchModel", drugSearchModel);
+
+        //仓库列表
         WarehouseSearchModel warehouseSearchModel = new WarehouseSearchModel();
         warehouseSearchModel.setPageSize(0);
         List<Map<?, ?>> warehouseList = warehouseService.getList(warehouseSearchModel).getData().getList();
-        //列表
         model.addAttribute("warehouseList", warehouseList);
+
+        //仓库中药品总数量
         int drugAllNum = 0;
         for (Map<?, ?> warehouseMap : warehouseList) {
             drugAllNum += Integer.parseInt(warehouseMap.get("drugNum").toString());
         }
-        //总数量
         model.addAttribute("drugAllNum", drugAllNum);
         return "drug/drugList";
     }

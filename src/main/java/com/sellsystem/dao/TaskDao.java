@@ -1,7 +1,7 @@
 package com.sellsystem.dao;
 
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.sellsystem.service;
 
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.util.MsgModel;
 
 import java.util.List;
