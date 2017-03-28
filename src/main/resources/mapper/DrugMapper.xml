@@ -37,11 +37,11 @@
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
         <where>
             <if test="drugSearchModel.name != null">drug.name LIKE concat('%', #{drugSearchModel.name}, '%')</if>
-            <if test="drugSearchModel.warehouseId != null">drug.warehouse = #{drugSearchModel.warehouseId}</if>
-            <if test="drugSearchModel.sortId != null">drug.sort = #{drugSearchModel.sortId}</if>
-            <if test="drugSearchModel.commonName != null">drug.commonName LIKE concat('', #{drugSearchModel.commonName}, '%')</if>
-            <if test="drugSearchModel.periodStart != null">drug.period > #{drugSearchModel.periodStart}</if>
-            <if test="drugSearchModel.periodEnd != null">#{drugSearchModel.periodEnd} > drug.period</if>
+            <if test="drugSearchModel.warehouseId != null">AND drug.warehouse = #{drugSearchModel.warehouseId}</if>
+            <if test="drugSearchModel.sortId != null">AND drug.sort = #{drugSearchModel.sortId}</if>
+            <if test="drugSearchModel.commonName != null">AND drug.commonName LIKE concat('%', #{drugSearchModel.commonName}, '%')</if>
+            <if test="drugSearchModel.periodStart != null">AND drug.period > #{drugSearchModel.periodStart}</if>
+            <if test="drugSearchModel.periodEnd != null">AND #{drugSearchModel.periodEnd} > drug.period</if>
         </where>
     </select>
 

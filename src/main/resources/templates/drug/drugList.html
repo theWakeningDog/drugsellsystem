@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8"/>
     <title>药品列表</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css" th:href="@{/dist/css/font-awesome.min.css}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/dist/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
     <!-- icheck -->
-    <link rel="stylesheet" href="/plugins/iCheck/flat/blue.css">
+    <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css" th:href="@{/plugins/iCheck/flat/blue.css}">
     <!-- daterange picker -->
-    <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
     <!-- DataTables -->
-    <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css" th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
 </head>
 <body style="background: #ecf0f5;">
 <div class="row">
@@ -59,21 +59,37 @@
         <!-- /.col -->
         <div class="col-md-9">
             <form action="/drug">
+                <input type="hidden" id="searchClosed" name="searchClosed" value="${drugSearchModel.searchClosed}">
                 <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
-                    <div class="box-header">
+                    <div class="box-header with-border">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <input class="form-control keyword-search criteria" name="name" th:value="${drugSearchModel.name}" placeholder="请输入药品名称">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary">搜索</button>
-                                    <button type="button" class="btn btn-link <!--btn-box-tool-->" data-widget="collapse">高级搜索&nbsp;&nbsp;<i th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                    <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->" data-widget="collapse">高级搜索&nbsp;&nbsp;<i th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="box-body">
-
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px;">通用名：</span>
+                                </span>
+                                <input type="text" class="form-control criteria" id="commonName" name="commonName" th:value="${drugSearchModel.commonName}" placeholder="请输入药品通用名" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
+                                </span>
+                                <input type="text" class="form-control pull-right" id="period" name="period" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -171,16 +187,16 @@
         </div>
     </section>
 </div>
-<script src="/plugins/jQuery/jquery-3.1.1.js"></script>
-<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
 <!-- DataTables -->
-<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script src="/dist/js/app.js"></script>
-<script src="/plugins/iCheck/icheck.js"></script>
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js" th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js" th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<script src="../../static/dist/js/app.js" th:src="@{/dist/js/app.js}"></script>
+<script src="../../static/plugins/iCheck/icheck.js" th:src="@{/plugins/iCheck/icheck.js}"></script>
 <!-- date-range-picker -->
-<script src="/plugins/moment/moment.js"></script>
-<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
+<script src="../../static/plugins/daterangepicker/daterangepicker.js" th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
 <script type="text/javascript" th:inline="text">
     //点击仓库
     function chooseWarehouse(ele) {
@@ -190,6 +206,7 @@
         var warehouseId = $(ele).attr("warehouseId") || "";
         window.location.href="/drug?warehouseId=" + warehouseId
     }
+
     $(function () {
         //点击仓库处于active状态
         var $childA = $(".ul-active");
@@ -208,7 +225,6 @@
                 break;
             }
         }
-
 
         //iCheck的点击事件
         $('.mailbox-messages input[type="checkbox"]').iCheck({
@@ -263,6 +279,33 @@
             }
         });
 
+        //控制高级搜索框是否展开
+        $("#btn-advance").click(function () {
+            if ($(this).children("i").attr("class") == "fa fa-plus") {
+                $("#searchClosed").val(false);
+            } else {
+                $("#searchClosed").val(true);
+            }
+        });
+        //日期控件
+//        $("#period").daterangepicker({
+//            timePicker: true,
+//            timePickerIncrement: 30,
+//            format: 'MM/DD/YYYY h:mm A'
+//        });
+        $('#period').daterangepicker({
+            format: 'YYYY/MM/DD',
+            locale: {
+                applyLabel: '确定',
+                cancelLabel: '取消',
+                fromLabel: '开始',
+                toLabel: '结束',
+                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+            }
+        }, function(start, end, label) {//格式化日期显示框
+            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
+        });
     });
 </script>
 </body>
