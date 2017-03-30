@@ -82,12 +82,26 @@
                                 <input type="text" class="form-control criteria" id="commonName" name="commonName" th:value="${drugSearchModel.commonName}" placeholder="请输入药品通用名" maxlength="10">
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 form-group">
+                        <!--<div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
                                 </span>
                                 <input type="text" class="form-control pull-right" id="period" name="period" readonly>
+                            </div>
+                        </div>-->
+                        <!-- Date and time range -->
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
+                                </span>
+                                <button type="button" class="btn btn-default" id="daterange-btn">
+                                    <span>
+                                      <i class="fa fa-calendar"></i> Date range picker
+                                    </span>
+                                    <i class="fa fa-caret-down"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -208,6 +222,9 @@
     }
 
     $(function () {
+        //js内联 动态显示/*[[${drugSearchModel.warehouseId}]]*/  静态显示  仓库ID
+        var whId = /*[[${drugSearchModel.warehouseId}]]*/ '仓库ID';
+        console.log(whId);
         //点击仓库处于active状态
         var $childA = $(".ul-active");
         for (var i = 0; i < $childA.length; i++) {
@@ -287,25 +304,39 @@
                 $("#searchClosed").val(true);
             }
         });
-        //日期控件
-//        $("#period").daterangepicker({
-//            timePicker: true,
-//            timePickerIncrement: 30,
-//            format: 'MM/DD/YYYY h:mm A'
-//        });
-        $('#period').daterangepicker({
-            format: 'YYYY/MM/DD',
-            locale: {
-                applyLabel: '确定',
-                cancelLabel: '取消',
-                fromLabel: '开始',
-                toLabel: '结束',
-                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
-                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+
+        $('#daterange-btn').daterangepicker({
+            ranges: {
+                '今天': [moment(), moment()],
+                //'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '最近7天': [moment().subtract(6, 'days'), moment()],
+                '最近30天': [moment().subtract(29, 'days'), moment()],
+                //'本月': [moment().startOf('month'), moment().endOf('month')],
+                //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                '最近3个月': [moment().subtract(3, 'month').startOf('month'), moment()]
+            },
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment()
+        },
+            function (start, end) {
+                //$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             }
-        }, function(start, end, label) {//格式化日期显示框
-            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
-        });
+        );
+        //日期控件
+//        $('#period').daterangepicker({
+//            format: 'YYYY/MM/DD',
+//            locale: {
+//                applyLabel: '确定',
+//                cancelLabel: '取消',
+//                fromLabel: '开始',
+//                toLabel: '结束',
+//                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+//                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+//            }
+//        }, function(start, end, label) {//格式化日期显示框
+//            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
+//        });
     });
 </script>
 </body>
