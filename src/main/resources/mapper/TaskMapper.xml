@@ -29,12 +29,14 @@
         SELECT
             <include refid="taskSQL"/>,
             <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
-            <include refid="com.sellsystem.dao.UserDao.userSQL"/>
+            <include refid="com.sellsystem.dao.UserDao.userSQL"/>,
+            <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>
         FROM
             task task
         LEFT JOIN supplier supplier ON task.supplier = supplier.id
         LEFT JOIN customer customer ON task.customer = customer.id
         LEFT JOIN `user` `user` ON task.executor = `user`.id
-        AND task.createUser = `user`.id ORDER BY taskCreateTime DESC
+        LEFT JOIN `user` createUser ON task.createUser = createUser.id
+        ORDER BY taskCreateTime DESC
     </select>
 </mapper>

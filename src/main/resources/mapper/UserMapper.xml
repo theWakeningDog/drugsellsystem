@@ -3,16 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.UserDao">
-    <!--一个类中有两个User，只要定义两个resultMap就行，别的不用变，sql语句左连接一个User表就行，可以查看TaskMapper.xml的getList-->
+    <sql id="createUserSQL">
+        createUser.id createUserId, createUser.name createUserName, createUser.password createUserPassword,
+        createUser.age createUserAge, createUser.tel createUserTel, createUser.email createUserEmail,
+        createUser.createTime createUserCreateTime, createUser.remark createUserRemark
+    </sql>
     <resultMap id="createUserResult" type="User">
-        <id property="id" column="userId"/>
-        <result property="name" column="userName"/>
-        <result property="password" column="userPassword"/>
-        <result property="age" column="userAge"/>
-        <result property="tel" column="userTel"/>
-        <result property="email" column="userEmail"/>
-        <result property="createTime" column="userCreateTime"/>
-        <result property="remark" column="userRemark"/>
+        <id property="id" column="createUserId"/>
+        <result property="name" column="createUserName"/>
+        <result property="password" column="createUserPassword"/>
+        <result property="age" column="createUserAge"/>
+        <result property="tel" column="createUserTel"/>
+        <result property="email" column="createUserEmail"/>
+        <result property="createTime" column="createUserCreateTime"/>
+        <result property="remark" column="createUserRemark"/>
     </resultMap>
 
     <sql id="userSQL">
