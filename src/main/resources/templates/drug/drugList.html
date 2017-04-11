@@ -69,8 +69,8 @@
                 <input type="hidden" id="searchClosed" name="searchClosed" value="${drugSearchModel.searchClosed}">
                 <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
                     <div class="box-header with-border">
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-7">
                             <div class="input-group">
                                 <input class="form-control keyword-search criteria" name="name"
                                        th:value="${drugSearchModel.name}" placeholder="请输入药品名称">
@@ -152,12 +152,12 @@
                             <th><input type="checkbox" disabled></th>
                             <th>药品编号</th>
                             <th>药品名称</th>
-                            <th>药品通用名</th>
+                            <!--<th>药品通用名</th>-->
                             <th>药品单位</th>
                             <th>药品数量</th>
                             <th>零售价(元)</th>
                             <th>药品类别</th>
-                            <th>药品产地</th>
+                            <!--<th>药品产地</th>-->
                             <!--<th>所属仓库</th>-->
                             </thead>
                             <tbody>
@@ -165,13 +165,14 @@
                                 <td><input type="checkbox"></td>
                                 <td><a th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a></td>
                                 <td th:text="${drug.name}">复方丹参片</td>
-                                <td th:text="${drug.commonName}">复方丹参片</td>
+                                <!--<td th:text="${drug.commonName}">复方丹参片</td>-->
                                 <td th:text="${drug.unit}">瓶</td>
                                 <td th:text="${drug.number}">100</td>
                                 <td th:text="${drug.retail}">120</td>
+                                <!--/sort/view?sortId=-->
                                 <td><a th:href="@{/sort/view(sortId=${drug.sort.id})}"
                                        th:text="${drug.sort.name}">中药</a></td>
-                                <td th:text="${drug.origin}">广州白云山制药</td>
+                                <!--<td th:text="${drug.origin}">广州白云山制药</td>-->
                                 <!--<td><a th:href="@{/warehouse/view(warehouseId=${drug.warehouse.id})}" th:text="${drug.warehouse.name}">常温库</a></td>-->
                             </tr>
                             </tbody>
@@ -288,7 +289,7 @@
             autoWidth: false, //控制Datatables是否自适应宽度
             deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
             order: [], //设置第几列可以排序，是空的，可以去掉默认的排序（默认：第一列升序）
-            "aoColumnDefs": [{"bSortable": false, "aTargets": [0, 4]}],
+            "aoColumnDefs": [{"bSortable": false, "aTargets": [0, 3]}],
             "sPaginationType": "full_numbers",
             "oLanguage": {
                 "sLengthMenu": "每页显示 _MENU_ 条记录",
