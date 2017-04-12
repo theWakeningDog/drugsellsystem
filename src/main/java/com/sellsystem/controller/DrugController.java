@@ -34,10 +34,17 @@ public class DrugController {
      * 列表
      * @param model
      * @param drugSearchModel
+     * @param periodTime:有效期
      * @return
      */
     @GetMapping("")
-    public String list(Model model, DrugSearchModel drugSearchModel) {
+    public String list(Model model, DrugSearchModel drugSearchModel, String periodTime) {
+        if (!StringUtils.isEmpty(periodTime)) {
+            String[] period = periodTime.split(" - ");
+            drugSearchModel.setPeriodStart(period[0].trim());
+            drugSearchModel.setPeriodEnd(period[1].trim());
+            model.addAttribute("periodTime", periodTime);
+        }
         if (StringUtils.isEmpty(drugSearchModel.getWarehouseId())) {
             drugSearchModel.setWarehouseId(null);
         }
