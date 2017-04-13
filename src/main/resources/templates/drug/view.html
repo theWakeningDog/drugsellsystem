@@ -21,18 +21,27 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
 </head>
-<body>
+<body style="background: #ecf0f5">
+<div class="row">
 <section class="content">
-    <div class="row">
-        <div class="box box-primary">
+    <div class="col-md-12">
+        <div class="box box-default">
             <div class="box-header with-border">
                 <div class="btn-group">
+                    <a href="javascript:backOperate()" class="btn btn-default">返回</a>
                     <button class="btn btn-primary">编辑</button>
                     <button class="btn btn-danger">删除</button>
                 </div>
             </div>
         </div>
+        <div class="box box-info">
+            <div class="box-header with-border">
+
+            </div>
+        </div>
     </div>
 </section>
+</div>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
 </body>
 </html>
