@@ -8,5 +8,6 @@
         <result property="name" column="supplierName"/>
         <result property="createTime" column="supplierCreateTime"/>
         <result property="remark" column="supplierRemark"/>
+        <result property="isDelete" column="isDelete"/>
     </resultMap>
 </mapper>

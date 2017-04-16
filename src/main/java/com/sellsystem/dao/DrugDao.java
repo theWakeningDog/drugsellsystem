@@ -22,7 +22,7 @@ public interface DrugDao {
      * @param drugId
      * @return
      */
-    Drug getDrug(String drugId);
+    Drug getDrug(@Param("drugId") String drugId);
 
     /**
      * 新增

@@ -9,12 +9,12 @@ import java.util.Date;
 public class Supplier {
     //uuid
     private String id;
-
     private String name;
     //创建时间
     private Date createTime;
     //备注
     private String remark;
+    private Boolean isDelete;
 
     public String getId() {
         return id;
@@ -46,5 +46,13 @@ public class Supplier {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

@@ -9,7 +9,7 @@
         drug.period drugPeriod, drug.commonName drugCommonName, drug.createTime drugCreateTime, drug.remark drugRemark
     </sql>
 
-    <resultMap id="drugResult" type="drug">
+    <resultMap id="drugResult" type="Drug">
         <id property="id" column="drugId"/>
         <result property="no" column="drugNo"/>
         <result property="name" column="drugName"/>
@@ -45,7 +45,7 @@
         </where>
     </select>
 
-    <select id="getDrug" parameterType="java.lang.String" resultType="drug">
+    <select id="getDrug" parameterType="java.lang.String" resultMap="drugResult">
         SELECT
             <include refid="drugSQL"/>,
             <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,

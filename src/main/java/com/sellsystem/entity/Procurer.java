@@ -14,6 +14,7 @@ public class Procurer {
     private String email;
     private Date CreateTIme;
     private String remark;
+    private Boolean isDelete;
 
     public String getId() {
         return id;
@@ -69,5 +70,13 @@ public class Procurer {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

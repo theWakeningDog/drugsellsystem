@@ -5,20 +5,22 @@
 <mapper namespace="com.sellsystem.dao.TaskDao">
     <sql id="taskSQL">
         task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer,
-        task.level taskLevel, task.executor taskExecutor, task.createUser taskCreateUser,
+        task.level taskLevel, task.type taskType, task.executor taskExecutor, task.createUser taskCreateUser,
         task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
-        task.startTime taskStartTime, task.endTime taskEndTime
+        task.startTime taskStartTime, task.endTime taskEndTime, task.isDelete taskIsDelete
     </sql>
 
     <resultMap id="taskResult" type="Task">
         <id property="id" column="taskId"/>
         <result property="name" column="taskName"/>
+        <result property="type" column="taskType"/>
         <result property="level" column="taskLevel"/>
         <result property="attachment" column="taskAttachment"/>
         <result property="description" column="taskDescription"/>
         <result property="createTime" column="taskCreateTime"/>
         <result property="startTime" column="taskStartTime"/>
         <result property="endTime" column="taskEndTime"/>
+        <result property="isDelete" column="taskIsDelete"/>
         <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>
         <association property="customer" column="taskCustomer" resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
         <association property="executor" column="taskExecutor" resultMap="com.sellsystem.dao.UserDao.userResult"/>

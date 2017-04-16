@@ -8,12 +8,18 @@ import java.util.Date;
  * Created by zhangwei on 2017/3/17.
  */
 public class Task {
+    public static final String sellType = "销售";
+    public static final String buyType = "购买";
     private String id;
     private String name;
     //供应商
     private Supplier supplier;
     //客户
     private Customer customer;
+    //任务状态
+    private String state;
+    //任务类型，购买和销售
+    private String type;
     //任务级别
     private String level;
     //处理人
@@ -26,6 +32,7 @@ public class Task {
     private Date createTime;
     private Date startTime;
     private Date endTime;
+    private Boolean isDelete;
 
     public String getId() {
         return id;
@@ -57,6 +64,22 @@ public class Task {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLevel() {
@@ -121,5 +144,13 @@ public class Task {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

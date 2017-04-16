@@ -11,5 +11,6 @@
         <result property="email" column="procurerEmail"/>
         <result property="createTime" column="procurerCreateTime"/>
         <result property="remark" column="procurerRemark"/>
+        <result property="isDelete" column="isDelete"/>
     </resultMap>
 </mapper>

@@ -35,6 +35,7 @@ public class ProcureOrder {
     //所属仓库
     private Warehouse warehouse;*/
 
+   private Boolean isDelete;
     private Date createTime;
     private String remark;
 
@@ -68,6 +69,14 @@ public class ProcureOrder {
 
     public void setDrugList(List<Drug> drugList) {
         this.drugList = drugList;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 
     public Date getCreateTime() {

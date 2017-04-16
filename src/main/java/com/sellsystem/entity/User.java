@@ -15,6 +15,7 @@ public class User {
     private String email;
     private Date createTime;
     private String remark;
+    private Boolean isDelete;
 
     public String getId() {
         return id;
@@ -78,5 +79,13 @@ public class User {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 }

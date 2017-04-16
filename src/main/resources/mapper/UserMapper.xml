@@ -6,7 +6,7 @@
     <sql id="createUserSQL">
         createUser.id createUserId, createUser.name createUserName, createUser.password createUserPassword,
         createUser.age createUserAge, createUser.tel createUserTel, createUser.email createUserEmail,
-        createUser.createTime createUserCreateTime, createUser.remark createUserRemark
+        createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.isDelete createUserIsDelete
     </sql>
     <resultMap id="createUserResult" type="User">
         <id property="id" column="createUserId"/>
@@ -17,11 +17,12 @@
         <result property="email" column="createUserEmail"/>
         <result property="createTime" column="createUserCreateTime"/>
         <result property="remark" column="createUserRemark"/>
+        <result property="isDelete" column="createUserIsDelete"/>
     </resultMap>
 
     <sql id="userSQL">
         user.id userId, user.name userName, user.password userPassword, user.age userAge,
-        user.tel userTel, user.email userEmail,user.createTime userCreateTime, user.remark userRemark
+        user.tel userTel, user.email userEmail,user.createTime userCreateTime, user.remark userRemark, user.isDelete userIsDelete
     </sql>
     <resultMap id="userResult" type="User">
         <id property="id" column="userId"/>
@@ -32,5 +33,6 @@
         <result property="email" column="userEmail"/>
         <result property="createTime" column="userCreateTime"/>
         <result property="remark" column="userRemark"/>
+        <result property="isDelete" column="userIsDelete"/>
     </resultMap>
 </mapper>
