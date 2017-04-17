@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.TaskDao">
     <sql id="taskSQL">
-        task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer,
+        task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer, task.state taskState,
         task.level taskLevel, task.type taskType, task.executor taskExecutor, task.createUser taskCreateUser,
         task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
         task.startTime taskStartTime, task.endTime taskEndTime, task.isDelete taskIsDelete
@@ -13,6 +13,7 @@
     <resultMap id="taskResult" type="Task">
         <id property="id" column="taskId"/>
         <result property="name" column="taskName"/>
+        <result property="state" column="taskState"/>
         <result property="type" column="taskType"/>
         <result property="level" column="taskLevel"/>
         <result property="attachment" column="taskAttachment"/>
@@ -40,5 +41,20 @@
         LEFT JOIN `user` `user` ON task.executor = `user`.id
         LEFT JOIN `user` createUser ON task.createUser = createUser.id
         ORDER BY taskCreateTime DESC
+    </select>
+
+    <select id="get" resultMap="taskResult">
+        SELECT
+        <include refid="taskSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.userSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>
+        FROM
+        task task
+        LEFT JOIN supplier supplier ON task.supplier = supplier.id
+        LEFT JOIN customer customer ON task.customer = customer.id
+        LEFT JOIN `user` `user` ON task.executor = `user`.id
+        LEFT JOIN `user` createUser ON task.createUser = createUser.id
+        WHERE task.id = #{taskId}
     </select>
 </mapper>

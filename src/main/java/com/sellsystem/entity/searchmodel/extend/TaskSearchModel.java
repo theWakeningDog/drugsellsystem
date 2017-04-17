@@ -8,6 +8,7 @@ import com.sellsystem.entity.searchmodel.PageSearchModel;
 public class TaskSearchModel extends PageSearchModel {
     private String name;
     private String type;
+    private String level;
     private String executor;
 
     public String getName() {
@@ -24,6 +25,14 @@ public class TaskSearchModel extends PageSearchModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getExecutor() {
