@@ -78,7 +78,7 @@
                                     <button class="btn btn-primary">搜索</button>
                                     <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
                                             data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
-                                            th:class="${taskSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                                                                      th:class="${taskSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -94,6 +94,35 @@
                                     <option value="购买" th:selected="${taskSearchModel.type == '购买'}">购买</option>
                                     <option value="销售" th:selected="${taskSearchModel.type == '销售'}">销售</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px;">紧急程度：</span>
+                                </span>
+                                <select class="form-control" name="level">
+                                    <option>全部</option>
+                                    <option value="一般" th:selected="${taskSearchModel.level == '一般'}">一般</option>
+                                    <option value="紧急" th:selected="${taskSearchModel.level == '紧急'}">紧急</option>
+                                    <option value="非常紧急" th:selected="${taskSearchModel.level == '非常紧急'}">非常紧急</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px">创建时间：</span>
+                                </span>
+                                <input class="form-control" id="daterange-btn" name="createTime" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px">处理人：</span>
+                                </span>
+                                <select class="form-control" id="executor" name="executor"></select>
                             </div>
                         </div>
                     </div>
@@ -200,16 +229,8 @@
 <script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
 <script src="../../static/plugins/daterangepicker/daterangepicker.js"
         th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
 <script type="text/javascript" th:inline="text">
-    //点击仓库
-    /*function chooseWarehouse(ele) {
-     //对于th：attr、th：value可以这么取值
-     console.log($(ele).attr("warehouseId"));
-     console.log($(ele).attr("value"));
-     var warehouseId = $(ele).attr("warehouseId") || "";
-     window.location.href = "/drug?warehouseId=" + warehouseId
-     }*/
-
     $(function () {
         //iCheck的点击事件
         $('.mailbox-messages input[type="checkbox"]').iCheck({
@@ -309,21 +330,56 @@
         $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
             $(this).val('');
         });
-        //日期控件
-//        $('#period').daterangepicker({
-//            format: 'YYYY/MM/DD',
-//            locale: {
-//                applyLabel: '确定',
-//                cancelLabel: '取消',
-//                fromLabel: '开始',
-//                toLabel: '结束',
-//                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
-//                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
-//            }
-//        }, function(start, end, label) {//格式化日期显示框
-//            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
-//        });
+
+        //select2选择处理人
+        $("#executor").select2({
+            ajax: {
+                url: "",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return {keyword: params.term};
+                },
+                results: function (data, page) {
+                    return data;
+                },
+                processResults: function (data) {
+                    //返回的数据需要组成{id:"", text:""}的格式,想要自定义视图，就要自定义数据格式
+                    var itemList = [];
+                    for (var i = 0; i < data.length; i++) {
+                        itemList.push({id: data[i].id, text: data[i].name, phone: data[i].tel})
+                    }
+                    return{results: itemList};
+                },
+                cache: true
+            },
+            placeholder:'请选择',//默认文字提示
+            escapeMarkup: function (markup) { return markup; }, // 自定义格式化防止xss注入
+            minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+            formatResult: function formatRepo(repo){return repo.text;}, // 函数用来渲染结果
+            formatSelection: function formatRepoSelection(repo){return repo.text;}, // 函数用于呈现当前的选择
+            templateResult: formatData    //数据格式化
+        });
     });
+
+    function formatData(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var headerImg = state.header;
+        if (headerImg == null || headerImg == ""){
+            headerImg = "/resource/images/account_userhead.png";
+        }
+        //var mobile = state.lmPhone ? state.lmPhone : "";
+        var mobile = state.mobile || "";
+        var $state = $(
+            '<table><tr>' +
+            '<td style="padding-right:10px"><img style="width:40px;height:40px;" src="' + headerImg + '" class="img-flag" /></td>' +
+            '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话："+ mobile +
+            '</td></tr></table>'
+        );
+        return $state;
+    }
 </script>
 </body>
 </html>
