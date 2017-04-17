@@ -12,6 +12,7 @@ public enum TaskTarget {
     closed("closed", "已关闭"),
     refused("refused", "已拒绝"),
     offed("offed", "已取消");
+
     private String target;
     private String value;
 

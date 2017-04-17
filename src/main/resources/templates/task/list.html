@@ -24,7 +24,7 @@
 <body style="background: #ecf0f5;">
 <div class="row">
     <section class="content">
-        <!--<div class="col-md-3">
+        <div class="col-md-3">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">任务视图</h3>
@@ -37,17 +37,17 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li id="all-drug">
                             <a href="javascript:" onclick='chooseWarehouse(this)'>
-                                <i class="fa fa-filter"></i> 全部
-                                <span class="label label-danger pull-right" th:text="${drugAllNum}">65</span>
+                                <i class="fa fa-filter"></i> 全部任务
+                                <span class="label label-danger pull-right">65</span>
                             </a>
                         </li>
-                        &lt;!&ndash;<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                        <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
                         <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                         <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                         </li>
-                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>&ndash;&gt;
+                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
                     </ul>
-                    <ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
+                    <!--<ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
                         <li>
                             &lt;!&ndash;th:attr这样可以自定义属性，下面两个都可以取到warehouseId&ndash;&gt;
                             <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}"
@@ -57,28 +57,28 @@
                                       th:text="${warehouse.drugNum}">12</span>
                             </a>
                         </li>
-                    </ul>
+                    </ul>-->
                 </div>
-                &lt;!&ndash; /.box-body &ndash;&gt;
+                <!-- /.box-body -->
             </div>
-            &lt;!&ndash; /. box &ndash;&gt;
-        </div>-->
+            <!-- /. box -->
+        </div>
         <!-- /.col -->
         <div class="col-md-9">
-            <!--<form action="/drug">
-                <input type="hidden" id="searchClosed" name="searchClosed" value="${}">
-                <div th:class="${} ? 'box collapsed-box' : 'box'">
+            <form action="/drug">
+                <input type="hidden" id="searchClosed" name="searchClosed" value="${taskSearchModel.searchClosed}">
+                <div th:class="${taskSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
                     <div class="box-header with-border">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input class="form-control keyword-search criteria" name="name"
-                                       th:value="${}" placeholder="请输入药品名称">
+                                <input class="form-control criteria" name="name"
+                                       th:value="${taskSearchModel.name}" placeholder="请输入任务名称">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary">搜索</button>
-                                    <button id="btn-advance" type="button" class="btn btn-link &lt;!&ndash;btn-box-tool&ndash;&gt;"
-                                            data-widget="collapse">高级搜索&nbsp;&nbsp;<i
-                                            th:class="${} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                    <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
+                                            data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
+                                            th:class="${taskSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -87,33 +87,18 @@
                         <div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <span class="btn span-default" style="cursor: default; width: 90px;">通用名：</span>
+                                    <span class="btn span-default" style="cursor: default; width: 90px;">任务类型：</span>
                                 </span>
-                                <input type="text" class="form-control criteria" id="commonName" name="commonName"
-                                       th:value="${}" placeholder="请输入药品通用名" maxlength="10">
-                            </div>
-                        </div>
-                        &lt;!&ndash;<div class="col-md-6 col-sm-6 form-group">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
-                                </span>
-                                <input type="text" class="form-control pull-right" id="period" name="period" readonly>
-                            </div>
-                        </div>&ndash;&gt;
-                        &lt;!&ndash; Date and time range &ndash;&gt;
-                        <div class="col-md-6 col-sm-6 form-group">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
-                                </span>
-                                <input type="text" class="form-control" id="daterange-btn" name="periodTime"
-                                       th:value="${}" readonly>
+                                <select class="form-control" name="type"> <!-- th:switch="${taskSearchModel.type}"-->
+                                    <option>全部</option><!--th:case="购买" th:selected="selected"-->
+                                    <option value="购买" th:selected="${taskSearchModel.type == '购买'}">购买</option>
+                                    <option value="销售" th:selected="${taskSearchModel.type == '销售'}">销售</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>-->
+            </form>
             <div class="box box-success">
                 <!--<div class="box-header with-border">
                     <div class="box-tools pull-right">
@@ -148,7 +133,7 @@
                         <!-- /.pull-right -->
                     </div>
                     <div class="<!--table-responsive--> mailbox-messages">
-                        <table id="drug-table" class="table table-striped table-bordered table-hover">
+                        <table id="task-table" class="table table-striped table-bordered table-hover">
                             <thead>
                             <th><input type="checkbox" disabled></th>
                             <th>任务名称</th>
@@ -160,10 +145,11 @@
                             <tbody>
                             <tr th:each="task : ${taskList}">
                                 <td><input type="checkbox"></td>
-                                <td><a  href="http://www.baidu.com" th:href="@{/task/view(taskId=${task.id})}" th:text="${task.name}">任务名称</a></td>
+                                <td><a href="http://www.baidu.com" th:href="@{/task/view(taskId=${task.id})}"
+                                       th:text="${task.name}">任务名称</a></td>
                                 <td th:text="${task.type}">任务类型</td>
                                 <td th:text="${task.level}">紧急程度</td>
-                                <td><a href="http://www.baidu.com" th:text="${task.executor.name}">处理人</a> </td>
+                                <td><a href="http://www.baidu.com" th:text="${task.executor.name}">处理人</a></td>
                                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2012-20-31</td>
                             </tr>
                             </tbody>
@@ -214,38 +200,17 @@
 <script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
 <script src="../../static/plugins/daterangepicker/daterangepicker.js"
         th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
-<!--<script type="text/javascript" th:inline="text">
+<script type="text/javascript" th:inline="text">
     //点击仓库
-    function chooseWarehouse(ele) {
-        //对于th：attr、th：value可以这么取值
-        console.log($(ele).attr("warehouseId"));
-        console.log($(ele).attr("value"));
-        var warehouseId = $(ele).attr("warehouseId") || "";
-        window.location.href = "/drug?warehouseId=" + warehouseId
-    }
+    /*function chooseWarehouse(ele) {
+     //对于th：attr、th：value可以这么取值
+     console.log($(ele).attr("warehouseId"));
+     console.log($(ele).attr("value"));
+     var warehouseId = $(ele).attr("warehouseId") || "";
+     window.location.href = "/drug?warehouseId=" + warehouseId
+     }*/
 
     $(function () {
-        //js内联 动态显示/*[[${drugSearchModel.warehouseId}]]*/  静态显示  仓库ID
-        var whId = /*[[${drugSearchModel.warehouseId}]]*/ '仓库ID';
-        console.log(whId);
-        //点击仓库处于active状态
-        var $childA = $(".ul-active");
-        for (var i = 0; i < $childA.length; i++) {
-            var child = $childA[i];
-            //这是一个dom
-            console.log(child);
-            //需要用$(child)，把child转换为jQuery对象，才可以用jQuery的操作
-            console.log($(child).find("a").attr("warehouseId"));
-            console.log('${drugSearchModel.warehouseId}');
-            if ('[[${drugSearchModel.warehouseId}]]' == $(child).find("a").attr("warehouseId")) {
-                $(child).find("li").attr("class", "active");
-                break;
-            } else if ('[[${drugSearchModel.warehouseId}]]' == "null") {
-                $("#all-drug").attr("class", "active");
-                break;
-            }
-        }
-
         //iCheck的点击事件
         $('.mailbox-messages input[type="checkbox"]').iCheck({
             checkboxClass: 'icheckbox_flat-blue',
@@ -266,7 +231,7 @@
             $(this).data("clicks", !clicks);
         });
 
-        $("#drug-table").dataTable({
+        $("#task-table").dataTable({
             renderer: "bootstrap",
             paging: true, //是否显示分页
             info: true, //是否显示表格左下角的信息
@@ -279,8 +244,8 @@
             stateSave: false, //保存状态 - 在页面重新加载的时候恢复状态（页码等内容），慎用
             autoWidth: false, //控制Datatables是否自适应宽度
             deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
-            order: [], //设置第几列可以排序，是空的，可以去掉默认的排序（默认：第一列升序）
-            "aoColumnDefs": [{"bSortable": false, "aTargets": [0, 4]}],
+            order: [], //设置第几列可以排序。是空的，可以去掉默认的排序（默认：第一列升序）
+            "aoColumnDefs": [{"bSortable": false, "aTargets": [0, 4]}],//设置不排序
             "sPaginationType": "full_numbers",
             "oLanguage": {
                 "sLengthMenu": "每页显示 _MENU_ 条记录",
@@ -359,6 +324,6 @@
 //            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
 //        });
     });
-</script>-->
+</script>
 </body>
 </html>

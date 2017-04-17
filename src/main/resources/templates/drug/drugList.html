@@ -71,12 +71,12 @@
                         <div class="col-md-5"></div>
                         <div class="col-md-7">
                             <div class="input-group">
-                                <input class="form-control keyword-search criteria" name="name"
+                                <input class="form-control criteria" name="name"
                                        th:value="${drugSearchModel.name}" placeholder="请输入药品名称">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary">搜索</button>
                                     <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
-                                            data-widget="collapse">高级搜索&nbsp;&nbsp;<i
+                                            data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
                                             th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
                                 </span>
                             </div>
@@ -92,14 +92,6 @@
                                        th:value="${drugSearchModel.commonName}" placeholder="请输入药品通用名" maxlength="10">
                             </div>
                         </div>
-                        <!--<div class="col-md-6 col-sm-6 form-group">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
-                                </span>
-                                <input type="text" class="form-control pull-right" id="period" name="period" readonly>
-                            </div>
-                        </div>-->
                         <!-- Date and time range -->
                         <div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
