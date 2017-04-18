@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.CustomerDao">
     <sql id="customerSQL">
-        customer.id customerId, customer.name customerName, customer.serviceManager customerServiceManager,
+        customer.id customerId, customer.name customerName, customer.phone customerPhone,
         customer.level customerLevel, customer.type customerType, customer.address customerAddress,
         customer.createUser customerCreateUser, customer.isDelete customerIsDelete,
         customer.createTime customerCreateTime, customer.remark customerRemark
@@ -13,13 +13,13 @@
     <resultMap id="customerResult" type="Customer">
         <id property="id" column="customerId"/>
         <result property="name" column="customerName"/>
+        <result property="phone" column="customerPhone"/>
         <result property="level" column="customerLevel"/>
         <result property="type" column="customerType"/>
         <result property="address" column="customerAddress"/>
         <result property="isDelete" column="customerIsDelete"/>
         <result property="createTime" column="customerCreateTime"/>
         <result property="remark" column="customerRemark"/>
-        <association property="serviceManager" column="customerServiceManager" resultMap="com.sellsystem.dao.UserDao.userResult"/>
         <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
 </mapper>

@@ -3,7 +3,7 @@ package com.sellsystem.entity;
 import java.util.Date;
 
 /**
- * 客户联系人
+ * 客户联系人（舍弃）
  * Created by zhangwei on 2017/3/17.
  */
 public class Linkman {

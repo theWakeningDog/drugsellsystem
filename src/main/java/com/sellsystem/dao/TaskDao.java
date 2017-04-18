@@ -2,6 +2,7 @@ package com.sellsystem.dao;
 
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface TaskDao {
      * @param taskSearchModel
      * @return
      */
-    List<Task> getList(TaskSearchModel taskSearchModel);
+    List<Task> getList(@Param("taskSearchModel") TaskSearchModel taskSearchModel);
 
     /**
      * 详情

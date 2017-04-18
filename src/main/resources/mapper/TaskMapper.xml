@@ -40,10 +40,25 @@
         LEFT JOIN customer customer ON task.customer = customer.id
         LEFT JOIN `user` `user` ON task.executor = `user`.id
         LEFT JOIN `user` createUser ON task.createUser = createUser.id
+        <where>
+            <if test="taskSearchModel.name != null">
+                <bind name="namePattern" value="'%' + taskSearchModel.getName() + '%'"/>
+                task.name like #{namePattern}
+            </if>
+            <if test="taskSearchModel.type != null and taskSearchModel.type != ''">
+                and task.type = #{taskSearchModel.type}
+            </if>
+            <if test="taskSearchModel.level != null and taskSearchModel.level != ''">
+                andtask.level = #{taskSearchModel.level}
+            </if>
+            <if test="taskSearchModel.createTime != null and taskSearchModel.createTime != ''">
+              and task.createTime BETWEEN #{taskSearchModel.createTimeStart} AND #{taskSearchModel.createTimeEnd}
+            </if>
+        </where>
         ORDER BY taskCreateTime DESC
     </select>
 
-    <select id="get" resultMap="taskResult">
+    <select id="getTask" resultMap="taskResult">
         SELECT
         <include refid="taskSQL"/>,
         <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,

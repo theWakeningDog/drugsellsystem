@@ -36,12 +36,23 @@
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
         <where>
-            <if test="drugSearchModel.name != null">drug.name LIKE concat('%', #{drugSearchModel.name}, '%')</if>
-            <if test="drugSearchModel.warehouseId != null">AND drug.warehouse = #{drugSearchModel.warehouseId}</if>
-            <if test="drugSearchModel.sortId != null">AND drug.sort = #{drugSearchModel.sortId}</if>
-            <if test="drugSearchModel.commonName != null">AND drug.commonName LIKE concat('%', #{drugSearchModel.commonName}, '%')</if>
-            <if test="drugSearchModel.periodStart != null">AND drug.period > #{drugSearchModel.periodStart}</if>
-            <if test="drugSearchModel.periodEnd != null">AND #{drugSearchModel.periodEnd} > drug.period</if>
+            <if test="drugSearchModel.name != null">
+                <bind name="namePattern" value="'%' + drugSearchModel.getName() + '%'"/>
+                drug.name LIKE #{namePattern}
+            </if>
+            <if test="drugSearchModel.warehouseId != null">
+                and drug.warehouse = #{drugSearchModel.warehouseId}
+            </if>
+            <if test="drugSearchModel.sortId != null">
+                and drug.sort = #{drugSearchModel.sortId}
+            </if>
+            <if test="drugSearchModel.commonName != null">
+                <bind name="commonNamePattern" value="'%' + drugSearchModel.getCommonName() + '%'"/>
+                and drug.commonName LIKE #{commonNamePattern}
+            </if>
+            <if test="drugSearchModel.periodTime != null and drugSearchModel.periodTime != ''">
+                and drugSearchModel.periodTime between #{drugSearchModel.periodTimeStart} and #{drugSearchModel.periodTimeEnd}
+            </if>
         </where>
     </select>
 

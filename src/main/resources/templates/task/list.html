@@ -24,9 +24,17 @@
 </head>
 <body style="background: #ecf0f5;">
 <style type="text/css">
-    .select2-container--default .select2-selection--single {border-radius: 0}
-    .select2-container .select2-selection--single {height: 34px}
-    .select2-container--default .select2-selection--single .select2-selection__arrow {height: 34px}
+    .select2-container--default .select2-selection--single {
+        border-radius: 0
+    }
+
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
 </style>
 <div class="row">
     <section class="content">
@@ -71,8 +79,8 @@
         </div>
         <!-- /.col -->
         <div class="col-md-9">
-            <form action="/drug">
-                <input type="hidden" id="searchClosed" name="searchClosed" value="${taskSearchModel.searchClosed}">
+            <form action="/task">
+                <input type="hidden" id="searchClosed" name="searchClosed" th:value="${taskSearchModel.searchClosed}">
                 <div th:class="${taskSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
                     <div class="box-header with-border">
                         <div class="col-md-6"></div>
@@ -96,7 +104,7 @@
                                     <span class="btn span-default" style="cursor: default; width: 90px;">任务类型：</span>
                                 </span>
                                 <select class="form-control" name="type"> <!-- th:switch="${taskSearchModel.type}"-->
-                                    <option>全部</option><!--th:case="购买" th:selected="selected"-->
+                                    <option value="">全部</option><!--th:case="购买" th:selected="selected"-->
                                     <option value="购买" th:selected="${taskSearchModel.type == '购买'}">购买</option>
                                     <option value="销售" th:selected="${taskSearchModel.type == '销售'}">销售</option>
                                 </select>
@@ -108,7 +116,7 @@
                                     <span class="btn span-default" style="cursor: default; width: 90px;">紧急程度：</span>
                                 </span>
                                 <select class="form-control" name="level">
-                                    <option>全部</option>
+                                    <option value="">全部</option>
                                     <option value="一般" th:selected="${taskSearchModel.level == '一般'}">一般</option>
                                     <option value="紧急" th:selected="${taskSearchModel.level == '紧急'}">紧急</option>
                                     <option value="非常紧急" th:selected="${taskSearchModel.level == '非常紧急'}">非常紧急</option>
@@ -120,7 +128,8 @@
                                 <span class="input-group-btn">
                                     <span class="btn span-default" style="cursor: default; width: 90px">创建时间：</span>
                                 </span>
-                                <input class="form-control" id="daterange-btn" name="createTime" readonly>
+                                <input class="form-control" id="daterange-btn" name="createTime" readonly
+                                       th:value="${taskSearchModel.createTime}">
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 form-group">
@@ -136,7 +145,8 @@
             </form>
             <div class="box box-primary">
                 <div class="box-body with-border">
-                    <a href="http://www.baidu.com" class="btn btn-primary" th:href="@{/task/create}"><i class="fa fa-plus"></i>  新建</a>
+                    <a href="http://www.baidu.com" class="btn btn-primary" th:href="@{/task/create}"><i
+                            class="fa fa-plus"></i> 新建</a>
                     <Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>
                 </div>
             </div>
@@ -178,6 +188,7 @@
                             <thead>
                             <th><input type="checkbox" disabled></th>
                             <th>任务名称</th>
+                            <th>客户</th>
                             <th>任务状态</th>
                             <th>任务类型</th>
                             <th>紧急程度</th>
@@ -187,12 +198,14 @@
                             <tbody>
                             <tr th:each="task : ${taskList}">
                                 <td><input type="checkbox"></td>
-                                <td><a href="http://www.baidu.com" th:href="@{/task/view(taskId=${task.id})}"
+                                <td><a href="view.html" th:href="@{/task/view(taskId=${task.id})}"
                                        th:text="${task.name}">任务名称</a></td>
+                                <td><a href="../customer/view.html" th:href="@{/customer/view(customerId=${task.customer.id})}"
+                                       th:text="${task.customer.name}">客户</a></td>
                                 <td th:text="${task.state}">任务状态</td>
                                 <td th:text="${task.type}">任务类型</td>
                                 <td th:text="${task.level}">紧急程度</td>
-                                <td><a href="http://www.baidu.com" th:text="${task.executor.name}">处理人</a></td>
+                                <td><a href="../user/view.html" th:text="${task.executor.name}">处理人</a></td>
                                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2012-20-31</td>
                             </tr>
                             </tbody>
@@ -202,29 +215,6 @@
                     <!-- /.mail-box-messages -->
                 </div>
                 <!-- /.box-body -->
-                <!--<div class="box-footer no-padding">
-                    <div class="mailbox-controls">
-                        &lt;!&ndash; Check all button &ndash;&gt;
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                        </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
-                        </div>
-                        &lt;!&ndash; /.btn-group &ndash;&gt;
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                        <div class="pull-right">
-                            1-50/200
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                            </div>
-                            &lt;!&ndash; /.btn-group &ndash;&gt;
-                        </div>
-                        &lt;!&ndash; /.pull-right &ndash;&gt;
-                    </div>
-                </div>-->
             </div>
             <!-- /. box -->
         </div>
@@ -363,15 +353,21 @@
                     for (var i = 0; i < data.length; i++) {
                         itemList.push({id: data[i].id, text: data[i].name, phone: data[i].tel})
                     }
-                    return{results: itemList};
+                    return {results: itemList};
                 },
                 cache: true
             },
-            placeholder:'请选择',//默认文字提示
-            escapeMarkup: function (markup) { return markup; }, // 自定义格式化防止xss注入
+            placeholder: '请选择',//默认文字提示
+            escapeMarkup: function (markup) {
+                return markup;
+            }, // 自定义格式化防止xss注入
             minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
-            formatResult: function formatRepo(repo){return repo.text;}, // 函数用来渲染结果
-            formatSelection: function formatRepoSelection(repo){return repo.text;}, // 函数用于呈现当前的选择
+            formatResult: function formatRepo(repo) {
+                return repo.text;
+            }, // 函数用来渲染结果
+            formatSelection: function formatRepoSelection(repo) {
+                return repo.text;
+            }, // 函数用于呈现当前的选择
             templateResult: formatData    //数据格式化
         });
     });
@@ -381,7 +377,7 @@
             return state.text;
         }
         var headerImg = state.header;
-        if (headerImg == null || headerImg == ""){
+        if (headerImg == null || headerImg == "") {
             headerImg = "/resource/images/account_userhead.png";
         }
         //var mobile = state.lmPhone ? state.lmPhone : "";
@@ -389,7 +385,7 @@
         var $state = $(
             '<table><tr>' +
             '<td style="padding-right:10px"><img style="width:40px;height:40px;" src="' + headerImg + '" class="img-flag" /></td>' +
-            '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话："+ mobile +
+            '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + mobile +
             '</td></tr></table>'
         );
         return $state;

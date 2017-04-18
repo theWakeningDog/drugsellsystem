@@ -1,6 +1,7 @@
 package com.sellsystem.entity.searchmodel.extend;
 
 import com.sellsystem.entity.searchmodel.PageSearchModel;
+import org.springframework.util.StringUtils;
 
 /**
  * 药品搜索条件
@@ -15,8 +16,7 @@ public class DrugSearchModel extends PageSearchModel {
     //通用名
     private String commonName;
     //有效期
-    private String periodStart;
-    private String periodEnd;
+    private String periodTime;
 
     public String getName() {
         return name;
@@ -50,19 +50,35 @@ public class DrugSearchModel extends PageSearchModel {
         this.commonName = commonName;
     }
 
-    public String getPeriodStart() {
-        return periodStart;
+    public String getPeriodTime() {
+        return periodTime;
     }
 
-    public void setPeriodStart(String periodStart) {
-        this.periodStart = periodStart;
+    public void setPeriodTime(String periodTime) {
+        this.periodTime = periodTime;
     }
 
-    public String getPeriodEnd() {
-        return periodEnd;
+    /**
+     * 按时间搜索时，分解时间获取开始时间，不用写属性，这样mybatis可以获取
+     * @return
+     */
+    public String getPeriodTimeStart() {
+        if (!StringUtils.isEmpty(periodTime)) {
+            String[] period = periodTime.split(" - ");
+            return period[0].trim();
+        }
+        return null;
     }
 
-    public void setPeriodEnd(String periodEnd) {
-        this.periodEnd = periodEnd;
+    /**
+     * 按时间搜索时，分解时间获取结束时间
+     * @return
+     */
+    public String getPeriodTimeEnd() {
+        if (!StringUtils.isEmpty(periodTime)) {
+            String[] period = periodTime.split(" - ");
+            return period[1].trim();
+        }
+        return null;
     }
 }

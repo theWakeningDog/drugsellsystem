@@ -3,7 +3,7 @@ package com.sellsystem.entity;
 import java.util.Date;
 
 /**
- * 供应商
+ * 供应商(舍弃)
  * Created by zhangwei on 2017/3/4/004.
  */
 public class Supplier {

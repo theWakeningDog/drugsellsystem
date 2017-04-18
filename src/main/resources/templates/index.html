@@ -32,14 +32,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <![endif]-->
     <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
     <style>
-        .nav-tabs>li>a {
-            background: #ccc;
-            color: #fff;
-        }
-        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-             background: #3c8dbc;
-            color: #fff;
-        }
+        .nav-tabs>li>a {background: #ccc; color: #6c6c6c;}
+        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {background: #3c8dbc; color: #fff;}
+        .nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus {color: #444; background: #ccc;}
+        /*消除y轴滚动条*/
+        body {overflow-y: hidden;}
     </style>
 </head>
 

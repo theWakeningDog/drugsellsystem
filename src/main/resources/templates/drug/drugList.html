@@ -29,7 +29,8 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">所属仓库</h3>
                     <div class="box-tools">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="box-body no-padding">
@@ -65,7 +66,7 @@
         <!-- /.col -->
         <div class="col-md-9">
             <form action="/drug">
-                <input type="hidden" id="searchClosed" name="searchClosed" value="${drugSearchModel.searchClosed}">
+                <input type="hidden" id="searchClosed" name="searchClosed" th:value="${drugSearchModel.searchClosed}">
                 <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
                     <div class="box-header with-border">
                         <div class="col-md-5"></div>
@@ -77,7 +78,7 @@
                                     <button class="btn btn-primary">搜索</button>
                                     <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
                                             data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
-                                            th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                                                                      th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
                                 </span>
                             </div>
                         </div>
@@ -98,7 +99,8 @@
                                 <span class="input-group-btn">
                                     <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
                                 </span>
-                                <input type="text" class="form-control" id="daterange-btn" name="periodTime" th:value="${drugSearchModel.periodStart}" readonly>
+                                <input type="text" class="form-control" id="daterange-btn" name="periodTime"
+                                       th:value="${drugSearchModel.periodTime}" readonly>
                             </div>
                         </div>
                     </div>
@@ -155,14 +157,15 @@
                             <tbody>
                             <tr th:each="drug : ${drugList}">
                                 <td><input type="checkbox"></td>
-                                <td><a th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a></td>
+                                <td><a href="view.html" th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a>
+                                </td>
                                 <td th:text="${drug.name}">复方丹参片</td>
                                 <!--<td th:text="${drug.commonName}">复方丹参片</td>-->
                                 <td th:text="${drug.unit}">瓶</td>
                                 <td th:text="${drug.number}">100</td>
                                 <td th:text="${drug.retail}">120</td>
                                 <!--/sort/view?sortId=-->
-                                <td><a th:href="@{/sort/view(sortId=${drug.sort.id})}"
+                                <td><a href="../sort/view.html" th:href="@{/sort/view(sortId=${drug.sort.id})}"
                                        th:text="${drug.sort.name}">中药</a></td>
                                 <!--<td th:text="${drug.origin}">广州白云山制药</td>-->
                                 <td th:text="${#dates.format(drug.period, 'yyyy-MM-dd')}">2028-10-23</td>
@@ -175,29 +178,6 @@
                     <!-- /.mail-box-messages -->
                 </div>
                 <!-- /.box-body -->
-                <!--<div class="box-footer no-padding">
-                    <div class="mailbox-controls">
-                        &lt;!&ndash; Check all button &ndash;&gt;
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                        </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
-                        </div>
-                        &lt;!&ndash; /.btn-group &ndash;&gt;
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                        <div class="pull-right">
-                            1-50/200
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                            </div>
-                            &lt;!&ndash; /.btn-group &ndash;&gt;
-                        </div>
-                        &lt;!&ndash; /.pull-right &ndash;&gt;
-                    </div>
-                </div>-->
             </div>
             <!-- /. box -->
         </div>
@@ -317,13 +297,15 @@
                 "opens": "left",    //位置，left、center、right
                 autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
                 ranges: {//列表
-                    '今天': [moment(), moment()],
+                    //'今天': [moment(), moment()],
                     //'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    '最近7天': [moment().subtract(6, 'days'), moment()],
-                    '最近30天': [moment().subtract(29, 'days'), moment()],
+                    //'最近7天': [moment().subtract(6, 'days'), moment()],
+                    //'最近30天': [moment().subtract(29, 'days'), moment()],
                     //'本月': [moment().startOf('month'), moment().endOf('month')],
                     //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                    '最近3个月': [moment().subtract(3, 'month').startOf('month'), moment()]
+                    //'最近三个月': [moment().subtract(3, 'month').startOf('month'), moment()]
+                    '已过期': [moment().subtract(10, 'year'), moment()],
+                    '即将过期': [moment(), moment().add(29, 'days')]
                 },
                 locale: {
                     applyLabel: '确定',

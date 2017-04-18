@@ -43,7 +43,7 @@ public class TaskController {
      */
     @GetMapping("/view")
     public String view(Model model, String taskId) {
-        model.addAttribute("task", taskService.getTask(taskId));
+        model.addAttribute("task", taskService.getTask(taskId).getData());
         return "task/view";
     }
 

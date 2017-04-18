@@ -9,8 +9,7 @@ import java.util.Date;
 public class Customer {
     private String id;
     private String name;
-    //服务经理（User）
-    private User serviceManager;
+    private String phone;
     //客户级别
     private String level;
     //客户类型
@@ -38,12 +37,12 @@ public class Customer {
         this.name = name;
     }
 
-    public User getServiceManager() {
-        return serviceManager;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setServiceManager(User serviceManager) {
-        this.serviceManager = serviceManager;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getLevel() {

@@ -12,7 +12,7 @@ public class Task {
     public static final String buyType = "购买";
     private String id;
     private String name;
-    //供应商
+    //供应商(已舍弃)
     private Supplier supplier;
     //客户
     private Customer customer;
