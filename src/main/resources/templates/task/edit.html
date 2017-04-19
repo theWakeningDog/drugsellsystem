@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${task == null}">新建任务</title>
+    <title th:if="${task != null && task.id != null}">修改任务</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+</head>
+<style type="text/css">
+    body {background: #ecf0f5}
+</style>
+<body>
+<form action="list.html" th:action="@{/task/save}" method="post">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <div class="btn btn-group">
+                <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>  返回</a>
+                <a href="list.html" th:href="@{/task/save}" type="submit" class="btn btn-primary"><i class="fa fa-arrow-up"></i>  保存</a>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

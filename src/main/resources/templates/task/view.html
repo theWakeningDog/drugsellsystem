@@ -27,11 +27,9 @@
         <div class="col-md-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-
-                        <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-edit"></i>  编辑</button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i>  删除</button>
-
+                    <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+                    <a href="edit.html" th:href="@{/task/edit(taskId=${task.id})}" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
                 </div>
             </div>
         </div>
@@ -69,7 +67,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2020-10-31</span>
+                                <span class="col-md-9 cl-xs-8"
+                                      th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2020-10-31</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
@@ -77,7 +76,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">开始日期：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${#dates.format(task.startTime, 'yyyy-MM-dd')}">山东省青岛市</span>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${#dates.format(task.startTime, 'yyyy-MM-dd')}">山东省青岛市</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">结束日期：</label>
@@ -89,7 +89,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">描述：</label>
-                                <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0" th:text="${task.description}">描述</span>
+                                <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
+                                      th:text="${task.description}">描述</span>
                             </div>
 
                         </div>

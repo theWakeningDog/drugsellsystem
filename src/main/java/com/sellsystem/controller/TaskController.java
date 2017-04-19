@@ -6,6 +6,7 @@ import com.sellsystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,13 +49,25 @@ public class TaskController {
     }
 
     /**
-     * 新建
+     * 保存
      * @param task
      * @return
      */
-    @PostMapping("/create")
-    public String create(Task task) {
-        taskService.create(task);
-        return "";
+    @PostMapping("/save")
+    public String save(Task task) {
+        if (!StringUtils.isEmpty(task.getId())) {
+            taskService.update(task);
+        } else {
+            taskService.create(task);
+        }
+        return "redirect:/task";
+    }
+
+    @GetMapping("/edit")
+    public String edit(Model model, String taskId) {
+        if (!StringUtils.isEmpty(taskId)) {
+            model.addAttribute("task", taskService.getTask(taskId).getData());
+        }
+        return "/task/edit";
     }
 }
