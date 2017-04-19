@@ -72,4 +72,20 @@
         LEFT JOIN `user` createUser ON task.createUser = createUser.id
         WHERE task.id = #{taskId}
     </select>
+
+    <insert id="create">
+        insert into task values (#{task.id}, #{task.name}, null, #{task.customer.id}, #{task.state}, #{task.type}, #{task.level},
+        #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.createTime}, #{task.startTime},
+        #{task.endTime}, #{task.isDelete});
+    </insert>
+
+    <update id="update">
+        update task
+        <set>
+            <if test="task.id != null">id = #{task.id}</if>
+            <if test="task.name != null">name = #{task.name}</if>
+            <if test="task.customer != null and task.customer.id != null">customer = #{task.custoemr.id}</if>
+            <if test="task.state != null">state = #{task.state}</if>
+        </set>
+    </update>
 </mapper>
