@@ -1,47 +1,49 @@
-package com.sellsystem.dao;
+package com.sellsystem.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.extend.UserSearchModel;
+import com.sellsystem.util.MsgModel;
 
 import java.util.List;
 
 /**
- * Created by zhangwei on 2017/3/19.
+ * Created by zhangwei on 2017/4/20.
  */
-public interface UserDao {
+public interface UserService {
 
     /**
      * 列表
      * @param userSearchModel
      * @return
      */
-    List<User> getList(UserSearchModel userSearchModel);
+    MsgModel<PageInfo<User>> getList(UserSearchModel userSearchModel);
 
     /**
      * 详情
      * @param userId
      * @return
      */
-    User getUser(String userId);
+    MsgModel<User> getUser(String userId);
 
     /**
      * 新增
      * @param user
      * @return
      */
-    int create(User user);
+    MsgModel<String> create(User user);
 
     /**
      * 修改
      * @param user
      * @return
      */
-    int update(User user);
+    MsgModel update(User user);
 
     /**
      * 删除
      * @param userIdList
      * @return
      */
-    int delete(List<String> userIdList);
+    MsgModel delete(List<String> userIdList);
 }

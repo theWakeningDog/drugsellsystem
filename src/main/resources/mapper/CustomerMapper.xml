@@ -24,6 +24,23 @@
         <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
 
+    <select id="getList" resultMap="customerResult">
+        select
+        <include refid="customerSQL"/>,
+        <include refid="createUserSQL"/>
+        from customer customer
+        left join user createUser on customer.createUser = createUser.id
+    </select>
+
+    <select id="getCustomer" resultMap="customerResult">
+        select
+        <include refid="customerSQL"/>,
+        <include refid="createUserSQL"/>
+        from customer customer
+        left join user createUser on customer.createUser = createUser.id
+        where customer.id = #{customerId}
+    </select>
+
     <insert id="create">
         <selectKey keyProperty="customer.id" resultType="java.lang.String" order="BEFORE">
             select uuid()
