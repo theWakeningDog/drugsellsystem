@@ -30,19 +30,19 @@ public interface TaskDao {
      * @param task
      * @return
      */
-    int create(Task task);
+    int create(@Param("task") Task task);
 
     /**
      * 修改
      * @param task
      * @return
      */
-    int update(Task task);
+    int update(@Param("task") Task task);
 
     /**
      * 删除
      * @param taskIdList
      * @return
      */
-    int delete(List<String> taskIdList);
+    int delete(@Param("taskIdList") List<String> taskIdList);
 }

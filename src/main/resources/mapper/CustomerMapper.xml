@@ -5,7 +5,7 @@
 <mapper namespace="com.sellsystem.dao.CustomerDao">
     <sql id="customerSQL">
         customer.id customerId, customer.name customerName, customer.phone customerPhone,
-        customer.level customerLevel, customer.type customerType, customer.address customerAddress,
+        customer.type customerType, customer.address customerAddress,
         customer.createUser customerCreateUser, customer.isDelete customerIsDelete,
         customer.createTime customerCreateTime, customer.remark customerRemark
     </sql>
@@ -14,7 +14,6 @@
         <id property="id" column="customerId"/>
         <result property="name" column="customerName"/>
         <result property="phone" column="customerPhone"/>
-        <result property="level" column="customerLevel"/>
         <result property="type" column="customerType"/>
         <result property="address" column="customerAddress"/>
         <result property="isDelete" column="customerIsDelete"/>
@@ -22,4 +21,34 @@
         <result property="remark" column="customerRemark"/>
         <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
+
+    <insert id="create">
+        <selectKey keyProperty="customer.id" resultType="java.lang.String" order="BEFORE">
+            select uuid()
+        </selectKey>
+        insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, #{customer.type},
+        #{customer.address}, #{customer.createUser.id}, #{customer.isDelete}, #{customer.createTime}, #{customer.remark});
+    </insert>
+
+    <update id="update">
+        update task
+        <set>
+            <if test="customer.id != null">id = #{customer.id},</if>
+            <if test="customer.name != null">name = #{customer.name},</if>
+            <if test="customer.phone != null">customer = #{customer.phone},</if>
+            <if test="customer.type != null">type = #{customer.type},</if>
+            <if test="customer.address != null">address = #{customer.address},</if>
+            <if test="customer.createUser != null and customer.createUser.id != null">createUser = #{customer.createUser.id},</if>
+            <if test="customer.isDelete != null">isDelete = #{customer.isDelete}</if>
+            <if test="customer.createTime != null">createTime = #{customer.createTime},</if>
+            <if test="customer.remark != null">remark = #{customer.remark},</if>
+        </set>
+    </update>
+
+    <delete id="delete">
+        delete from customer where id in
+        <foreach collection="customerIdList" item="customerId" index="index" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
 </mapper>

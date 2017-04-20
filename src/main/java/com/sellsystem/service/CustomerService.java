@@ -1,48 +1,52 @@
-package com.sellsystem.dao;
+package com.sellsystem.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sellsystem.entity.Customer;
+import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
-import org.apache.ibatis.annotations.Param;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import com.sellsystem.util.MsgModel;
 
 import java.util.List;
 
 /**
  * Created by zhangwei on 2017/3/18.
  */
-public interface CustomerDao {
+public interface CustomerService {
 
     /**
      * 列表
      * @param customerSearchModel
      * @return
      */
-    List<Customer> getList(@Param("customerSearchModel") CustomerSearchModel customerSearchModel);
+    MsgModel<PageInfo<Customer>> getList(CustomerSearchModel customerSearchModel);
 
     /**
      * 详情
      * @param customerId
      * @return
      */
-    Customer getCustomer(String customerId);
+    MsgModel<Customer> getCustomer(String customerId);
 
     /**
      * 新增
      * @param customer
      * @return
      */
-    int create(@Param("customer") Customer customer);
+    MsgModel<String> create(Customer customer);
 
     /**
      * 修改
      * @param customer
      * @return
      */
-    int update(@Param("customer") Customer customer);
+    MsgModel update(Customer customer);
 
     /**
      * 删除
      * @param customerIdList
      * @return
      */
-    int delete(@Param("customerIdList") List<String> customerIdList);
+    MsgModel delete(List<String> customerIdList);
+
 }

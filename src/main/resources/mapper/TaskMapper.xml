@@ -74,6 +74,9 @@
     </select>
 
     <insert id="create">
+       <selectKey keyProperty="task.id" resultType="java.lang.String" order="BEFORE">
+              select uuid()
+       </selectKey>
         insert into task values (#{task.id}, #{task.name}, null, #{task.customer.id}, #{task.state}, #{task.type}, #{task.level},
         #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.createTime}, #{task.startTime},
         #{task.endTime}, #{task.isDelete});
@@ -82,10 +85,26 @@
     <update id="update">
         update task
         <set>
-            <if test="task.id != null">id = #{task.id}</if>
-            <if test="task.name != null">name = #{task.name}</if>
-            <if test="task.customer != null and task.customer.id != null">customer = #{task.custoemr.id}</if>
-            <if test="task.state != null">state = #{task.state}</if>
+            <if test="task.id != null">id = #{task.id},</if>
+            <if test="task.name != null">name = #{task.name},</if>
+            <if test="task.customer != null and task.customer.id != null">customer = #{task.custoemr.id},</if>
+            <if test="task.type != null">type = #{task.type},</if>
+            <if test="task.level != null">level = #{task.level},</if>
+            <if test="task.executor != null and task.executor.id != null">executor = #{task.executor.id},</if>
+            <if test="task.createUser != null and task.createUser.id != null">createUser = #{task.createUser.id},</if>
+            <if test="task.attachment != null">attachment = #{task.attachment},</if>
+            <if test="task.description != null">description = #{task.description},</if>
+            <if test="task.createTime != null">createTime = #{task.createTime},</if>
+            <if test="task.startTime != null">startTime = #{task.startTime},</if>
+            <if test="task.endTime != null">endTime = #{task.endTime},</if>
+            <if test="task.isDelete != null">isDelete = #{task.isDelete}</if>
         </set>
     </update>
+
+    <delete id="delete">
+        delete from task where id in
+        <foreach collection="taskIdList" item="taskId" index="index" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
 </mapper>
