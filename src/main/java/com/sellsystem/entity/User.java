@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -13,6 +14,8 @@ public class User {
     private int age;
     private String tel;
     private String email;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
     private Date createTime;
     private String remark;
     private Boolean isDelete;
@@ -63,6 +66,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
     }
 
     public Date getCreateTime() {

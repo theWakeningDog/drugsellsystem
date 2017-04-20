@@ -5,7 +5,7 @@
 <mapper namespace="com.sellsystem.dao.CustomerDao">
     <sql id="customerSQL">
         customer.id customerId, customer.name customerName, customer.phone customerPhone,
-        customer.type customerType, customer.address customerAddress,
+        customer.type customerType, customer.address customerAddress, customer.longitude customerLongitude, customer.latitude customerLatitude,
         customer.createUser customerCreateUser, customer.isDelete customerIsDelete,
         customer.createTime customerCreateTime, customer.remark customerRemark
     </sql>
@@ -16,6 +16,8 @@
         <result property="phone" column="customerPhone"/>
         <result property="type" column="customerType"/>
         <result property="address" column="customerAddress"/>
+        <result property="longitude" column="customerLongitude"/>
+        <result property="latitude" column="customerLatitude"/>
         <result property="isDelete" column="customerIsDelete"/>
         <result property="createTime" column="customerCreateTime"/>
         <result property="remark" column="customerRemark"/>
@@ -26,8 +28,8 @@
         <selectKey keyProperty="customer.id" resultType="java.lang.String" order="BEFORE">
             select uuid()
         </selectKey>
-        insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, #{customer.type},
-        #{customer.address}, #{customer.createUser.id}, #{customer.isDelete}, #{customer.createTime}, #{customer.remark});
+        insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, null, #{customer.type},
+        #{customer.address}, #{customer.longitude}, #{customer.latitude}, #{customer.createUser.id}, #{customer.isDelete}, #{customer.createTime}, #{customer.remark});
     </insert>
 
     <update id="update">
@@ -38,10 +40,12 @@
             <if test="customer.phone != null">customer = #{customer.phone},</if>
             <if test="customer.type != null">type = #{customer.type},</if>
             <if test="customer.address != null">address = #{customer.address},</if>
+            <if test="customer.longitude != null">longitude = #{customer.longitude},</if>
+            <if test="customer.latitude != null">latitude = #{customer.latitude},</if>
             <if test="customer.createUser != null and customer.createUser.id != null">createUser = #{customer.createUser.id},</if>
             <if test="customer.isDelete != null">isDelete = #{customer.isDelete}</if>
             <if test="customer.createTime != null">createTime = #{customer.createTime},</if>
-            <if test="customer.remark != null">remark = #{customer.remark},</if>
+            <if test="customer.remark != null">remark = #{customer.remark}</if>
         </set>
     </update>
 

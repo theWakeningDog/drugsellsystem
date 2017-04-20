@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,6 +16,8 @@ public class Customer {
     //客户类型
     private String type;
     private String address;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
     private User createUser;
     //是否删除
     private Boolean isDelete;
@@ -67,6 +70,22 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
     }
 
     public User getCreateUser() {
