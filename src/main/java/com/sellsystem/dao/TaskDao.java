@@ -45,4 +45,6 @@ public interface TaskDao {
      * @return
      */
     int delete(@Param("taskIdList") List<String> taskIdList);
+
+    Task getT();
 }

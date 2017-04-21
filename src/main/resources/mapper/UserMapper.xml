@@ -40,7 +40,7 @@
         <result property="isDelete" column="userIsDelete"/>
     </resultMap>
 
-    <select id="getList" resultMap="customerResult">
+    <select id="getList" resultMap="userResult">
         select
         <include refid="userSQL"/>
         from user user
