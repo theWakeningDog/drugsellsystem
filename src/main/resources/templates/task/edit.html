@@ -16,28 +16,55 @@
 </head>
 <style type="text/css">
     body {background: #ecf0f5}
+    .form-control {
+        padding: 4px 4px 6px;
+        font-size: 12px;
+        height: 30px;
+        margin-bottom: 2px;
+    }
+    .control-label,.form-control
+    {
+        white-space: nowrap;
+        overflow: hidden;
+    }
 </style>
 <body>
-<form action="list.html" th:action="@{/task/save}" method="post">
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <div class="btn btn-group">
-                <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>  返回</a>
-                <a href="list.html" th:href="@{/task/save}" type="submit" class="btn btn-primary"><i class="fa fa-arrow-up"></i>  保存</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="box box-success">
-        <div class="box-body">
-            <div class="form-group">
-                <label for="name" class="control-label col-md-2">任务名称<span class="text-red">*</span>：</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" id="name" name="name">
+<div class="row">
+    <section class="content">
+        <div class="col-md-12">
+            <form action="list.html" th:action="@{/task/save}" method="post">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <div class="btn-group">
+                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>
+                                返回</a>
+                            <a href="list.html" th:href="@{/task/save}" type="submit" class="btn btn-primary"><i
+                                    class="fa fa-arrow-up"></i> 保存</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="box box-success">
+                    <div class="box-body">
+                        <div class="col-sm-6 form-group">
+                            <label for="serialNumber" class="col-md-2 col-sm-3 control-label">工具编号：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <input type="text" class="form-control" id="seriaNumber" name="serialNumber" value="">
+                            </div>
+                            <div class="col-sm-2 validation-tip"></div>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="serialNumber" class="col-md-2 col-sm-3 control-label">工具编号：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <input type="text" class="form-control" id="serialNumber" name="serialNumber" value="">
+                            </div>
+                            <div class="col-sm-2 validation-tip"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-</form>
+    </section>
+</div>
 </body>
 </html>
