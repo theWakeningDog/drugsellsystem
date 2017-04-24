@@ -50,7 +50,7 @@
 
                 <div class="box box-success">
                     <div class="box-body">
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="name" class="col-md-2 col-sm-3 control-label">客户名称<span
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="phone" class="col-md-2 col-sm-3 control-label">联系方式<span
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="type" class="col-md-2 col-sm-3 control-label">客户类型：</label>
                             <div class="col-md-8 col-sm-7">
                                 <select class="form-control" id="type" name="type">
@@ -77,14 +77,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 form-group">
-                            <label for="level" class="col-md-2 col-sm-3 control-label">客户地址：</label>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-3 control-label">客户地址：</label>
                             <div class="col-md-8 col-sm-7">
-                                <select class="form-control" id="level" name="level">
+                                <div data-toggle="distpicker">
+                                    <select></select>
+                                    <select></select>
+                                    <select></select>
+                                </div>
+                                <!--<select class="form-control" id="province" name="address">
                                     <option value="中">中</option>
                                     <option value="高" th:selected="${task != null && task.level == '高'}">高</option>
                                     <option value="低" th:selected="${task != null && task.level == '低'}">低</option>
-                                </select>
+                                </select>-->
                             </div>
                         </div>
                     </div>

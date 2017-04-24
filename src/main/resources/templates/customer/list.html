@@ -65,7 +65,7 @@
                                     <span class="btn span-default" style="cursor: default; width: 90px;">客户类型：</span>
                                 </span>
                                 <select class="form-control" name="type"> <!-- th:switch="${taskSearchModel.type}"-->
-                                    <option value="">--请选择--</option><!--th:case="购买" th:selected="selected"-->
+                                    <option value="">请选择</option><!--th:case="购买" th:selected="selected"-->
                                     <option value="顾客" th:selected="${customerSearchModel.type == '顾客'}">顾客</option>
                                     <option value="销售商" th:selected="${customerSearchModel.type == '销售商'}">销售商</option>
                                 </select>
@@ -204,7 +204,7 @@
             stateSave: false, //保存状态 - 在页面重新加载的时候恢复状态（页码等内容），慎用
             autoWidth: true, //控制Datatables是否自适应宽度   //scrollCollapse: true,
             deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
-            order: [6, "desc"], //设置可第几列以排序。是空的，可以去掉默认的排序（默认：第一列升序）
+            order: [5, "desc"], //设置可第几列以排序。是空的，可以去掉默认的排序（默认：第一列升序）
             "aoColumnDefs": [{"bSortable": false, "aTargets": [0]}],//设置不排序
             "sPaginationType": "full_numbers",
             "oLanguage": {
@@ -234,10 +234,10 @@
         });
 
         $('#daterange-btn').daterangepicker({
-                format: 'YYYY/MM/DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
+                format: 'YYYY-MM-DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
                 //startDate: moment().subtract(29, 'days'),
                 //endDate: moment(),
-                "opens": "left",    //位置，left、center、right
+                //"opens": "left",    //位置，left、center、right
                 autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
                 locale: {
                     applyLabel: '确定',
@@ -251,6 +251,25 @@
                 $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));//下面重新绑定了函数用于显示，因此这句没用了
             }
         );
+        //用on绑定函数，点击确定时，显示数据
+        $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+        });
+        //用on绑定函数，点击取消时，清空数据
+        $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+//        $('#daterange-btn').daterangepicker({
+//            format: 'YYYY/MM/DD',
+//            locale: {
+//                applyLabel: '确定',
+//                cancelLabel: '取消',
+//                fromLabel: '开始',
+//                toLabel: '结束',
+//                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+//                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+//            }
+//        });
     });
 </script>
 </body>

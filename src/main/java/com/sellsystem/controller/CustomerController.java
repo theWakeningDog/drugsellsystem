@@ -66,8 +66,8 @@ public class CustomerController {
     @GetMapping("/edit")
     public String edit(Model model, String customerId) {
         if (!StringUtils.isEmpty(customerId)) {
-            model.addAttribute("task", customerService.getCustomer(customerId).getData());
+            model.addAttribute("customer", customerService.getCustomer(customerId).getData());
         }
-        return "/task/edit";
+        return "/customer/edit";
     }
 }
