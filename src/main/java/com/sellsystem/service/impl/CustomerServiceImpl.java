@@ -9,6 +9,7 @@ import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
 import com.sellsystem.service.CustomerService;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by zhangwei on 2017/4/20.
  */
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired

@@ -11,9 +11,9 @@ public class Customer {
     private String id;
     private String name;
     private String phone;
-    //客户级别
+    //客户级别(舍弃)
     private String level;
-    //客户类型
+    //客户类型（销售商，购买者）
     private String type;
     private String address;
     private BigDecimal longitude;
