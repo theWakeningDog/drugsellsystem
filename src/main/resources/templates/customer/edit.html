@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:if="${task == null}">新建任务</title>
-    <title th:if="${task != null && task.id != null}">修改任务</title>
+    <title th:if="${customer == null}">新建客户</title>
+    <title th:if="${customer != null && customer.id != null}">修改客户</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
@@ -14,18 +14,22 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
     <!--nice validate-->
-    <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css" th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
+          th:href="@{/plugins/nice-validate/jquery.validator.css}">
 </head>
 <style type="text/css">
-    body {background: #ecf0f5}
+    body {
+        background: #ecf0f5
+    }
+
     .form-control {
         padding: 4px 4px 6px;
         font-size: 12px;
         height: 30px;
         margin-bottom: 2px;
     }
-    .control-label,.form-control
-    {
+
+    .control-label, .form-control {
         white-space: nowrap;
         overflow: hidden;
     }
@@ -34,14 +38,12 @@
 <div class="row">
     <section class="content">
         <div class="col-md-12">
-            <form action="list.html" th:action="@{/task/save}" method="post">
+            <form action="list.html" th:action="@{/customer/save}" method="post">
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">
-                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>
-                                返回</a>
-                            <a href="list.html" th:href="@{/task/save}" type="submit" class="btn btn-primary"><i
-                                    class="fa fa-arrow-up"></i> 保存</a>
+                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>返回</a>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 保存</button>
                         </div>
                     </div>
                 </div>
@@ -49,31 +51,34 @@
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="col-sm-6 form-group">
-                            <label for="name" class="col-md-2 col-sm-3 control-label">任务名称<span class="text-red">*</span>：</label>
+                            <label for="name" class="col-md-2 col-sm-3 control-label">客户名称<span
+                                    class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
-                                <input type="text" class="form-control" id="name" name="name" th:value="${task != null ? task.name : ''}">
+                                <input type="text" class="form-control" id="name" name="name"
+                                       th:value="${customer != null ? customer.name : ''}">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
                         <div class="col-sm-6 form-group">
-                            <label for="customer" class="col-md-2 col-sm-3 control-label">客户<span class="text-red">*</span>：</label>
+                            <label for="phone" class="col-md-2 col-sm-3 control-label">联系方式<span
+                                    class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
-                                <input type="text" class="form-control" id="customer" name="customer" th:value="${task != null ? task.customer.name : ''}">
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                       th:value="${customer != null ? customer.phone : ''}">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
                         <div class="col-sm-6 form-group">
-                            <label for="type" class="col-md-2 col-sm-3 control-label">任务类型<span class="text-red">*</span>：</label>
+                            <label for="type" class="col-md-2 col-sm-3 control-label">客户类型：</label>
                             <div class="col-md-8 col-sm-7">
                                 <select class="form-control" id="type" name="type">
-                                    <option value="购买">购买</option>
-                                    <option value="销售" th:selected="${task != null && task.type == '销售'}">销售</option>
+                                    <option value="销售商">销售商</option>
+                                    <option value="顾客" th:selected="${customer != null && customer.type == '顾客'}">顾客</option>
                                 </select>
                             </div>
-                            <div class="col-sm-2 validation-tip"></div>
                         </div>
                         <div class="col-sm-6 form-group">
-                            <label for="level" class="col-md-2 col-sm-3 control-label">紧急程度：</label>
+                            <label for="level" class="col-md-2 col-sm-3 control-label">客户地址：</label>
                             <div class="col-md-8 col-sm-7">
                                 <select class="form-control" id="level" name="level">
                                     <option value="中">中</option>
@@ -82,24 +87,17 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 form-group">
-                            <label for="attachment" class="col-md-2 col-sm-3 control-label">附件：</label>
-                            <div class="col-md-8 col-sm-7">
-                                <textarea class="form-control" id="attachment" name="attachment" th:value="${task != null ? task.attachment : ''}"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 form-group">
-                            <label for="description" class="col-md-2 col-sm-3 control-label">描述：</label>
-                            <div class="col-md-8 col-sm-7">
-                                <textarea class="form-control" id="description" name="description" th:value="${task != null ? task.description : ''}"></textarea>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
 </div>
-<script href="../../static/plugins/nice-validate/jquery.validator.js" th:href="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script href="../../static/plugins/jQuery/jquery-3.1.1.js" th:href="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script href="../../static/bootstrap/js/bootstrap.js" th:href="@{/bootstrap/js/bootstrap.js}"></script>
+<script href="../../static/plugins/nice-validate/jquery.validator.js"
+        th:href="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script href="../../static/plugins/distpicker/distpicker.js" th:href="@{/plugins/distpicker/distpicker.js}"></script>
+<script href="../../static/plugins/distpicker/distpicker.data.js" th:href="@{/plugins/distpicker/distpicker.data.js}"></script>
 </body>
 </html>

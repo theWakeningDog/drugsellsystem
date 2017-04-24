@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>任务详情</title>
+    <title>客户详情</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
@@ -28,71 +28,40 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <a href="edit.html" th:href="@{/task/edit(taskId=${task.id})}" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
+                    <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title" th:text="${task.name}">任务名称</h3>
+                    <h3 class="box-title" th:text="${customer.name}">任务名称</h3>
                 </div>
                 <form role="form">
                     <div class="box-body">
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">客户：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.customer.name}">客户</span>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">联系方式：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.customer.phone}">联系方式</span>
+                                <span class="col-md-9 col-xs-8" th:text="${customer.phone}">联系方式</span>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">任务状态：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${task.state}">任务状态</span>
+                                <label class="col-md-3 col-xs-4 control-label">客户类型：</label>
+                                <span class="col-md-9 cl-xs-8" th:text="${customer.type}">客户状态</span>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">任务类型：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.type}">任务类型</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">紧急程度：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${task.level}">紧急程度</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">处理人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.executor.name}">处理人</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
-                                <span class="col-md-9 cl-xs-8"
-                                      th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2020-10-31</span>
+                                <label class="col-md-3 col-xs-4 control-label">客户地址：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${customer.address}">任务类型</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.createUser.name}">创建人</span>
+                                <span class="col-md-9 col-xs-8" th:text="${customer.createUser.name}">创建人</span>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">开始日期：</label>
+                                <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
                                 <span class="col-md-9 col-xs-8"
-                                      th:text="${#dates.format(task.startTime, 'yyyy-MM-dd')}">山东省青岛市</span>
+                                      th:text="${#dates.format(customer.createTime, 'yyyy-MM-dd')}">山东省青岛市</span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">结束日期：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${#dates.format(task.endTime, 'yyyy-MM-dd')}">山东省青岛市</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">附件：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${task.attachment}">常温库</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">描述：</label>
-                                <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
-                                      th:text="${task.description}">描述</span>
-                            </div>
-
                         </div>
                     </div>
                 </form>
