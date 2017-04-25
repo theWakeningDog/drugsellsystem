@@ -63,7 +63,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">处理人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.executor.name}">处理人</span>
+                                <span class="col-md-9 col-xs-8" th:text="${task.executor != null ? task.executor.name : ''}">处理人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.createUser.name}">创建人</span>
+                                <span class="col-md-9 col-xs-8" th:text="${task.createUser != null ? task.createUser.name : ''}">创建人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">开始日期：</label>

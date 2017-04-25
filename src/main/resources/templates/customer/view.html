@@ -36,7 +36,7 @@
         <div class="col-md-6">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title" th:text="${customer.name}">任务名称</h3>
+                    <h3 class="box-title" th:text="${customer.name}">客户名称</h3>
                 </div>
                 <form role="form">
                     <div class="box-body">
@@ -51,11 +51,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">客户地址：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${customer.address}">任务类型</span>
+                                <span class="col-md-9 col-xs-8" th:text="${customer.province + '-' + customer.city + '-' + customer.district  + '-' + customer.address}">任务类型</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${customer.createUser.name}">创建人</span>
+                                <span class="col-md-9 col-xs-8" th:text="${customer.createUser != null ? customer.createUser.name : ''}">创建人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建日期：</label>

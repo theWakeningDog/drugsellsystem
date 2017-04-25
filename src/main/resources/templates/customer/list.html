@@ -129,7 +129,7 @@
                             <th><input type="checkbox" disabled></th>
                             <th>客户名称</th>
                             <th>联系方式</th>
-                            <th>客户级别</th>
+                            <!-- <th>客户级别</th> -->
                             <th>客户类型</th>
                             <th>创建时间</th>
                             </thead>
@@ -139,7 +139,7 @@
                                 <td><a href="view.html" th:href="@{/customer/view(customerId=${customer.id})}"
                                        th:text="${customer.name}">名称</a></td>
                                 <td th:text="${customer.phone}">联系方式</td>
-                                <td th:text="${customer.level}">级别</td>
+                                <!-- <td th:text="${customer.level}">级别</td> -->
                                 <td th:text="${customer.type}">类型</td>
                                 <td th:text="${#dates.format(customer.createTime, 'yyyy-MM-dd')}">创建时间</td>
                             </tr>

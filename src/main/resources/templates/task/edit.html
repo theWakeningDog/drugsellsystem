@@ -18,21 +18,9 @@
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
 </head>
 <style type="text/css">
-    body {
-        background: #ecf0f5
-    }
-
-    .form-control {
-        padding: 4px 4px 6px;
-        font-size: 12px;
-        height: 30px;
-        margin-bottom: 2px;
-    }
-
-    .control-label, .form-control {
-        white-space: nowrap;
-        overflow: hidden;
-    }
+    body {background: #ecf0f5}
+    .form-control {padding: 4px 4px 6px; font-size: 12px; height: 30px; margin-bottom: 2px;}
+    .control-label, .form-control {white-space: nowrap; overflow: hidden;}
 </style>
 <body>
 <div class="row">
@@ -55,7 +43,7 @@
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
                                 <input type="text" class="form-control" id="name" name="name"
-                                       th:value="${task != null ? task.name : ''}">
+                                       th:value="${task != null ? task.name : ''}" data-rule="required" data-msg="必填">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
@@ -64,7 +52,7 @@
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
                                 <input type="text" class="form-control" id="customer" name="customer"
-                                       th:value="${task != null ? task.customer.name : ''}">
+                                       th:value="${task != null ? task.customer.name : ''}" data-rule="required" data-msg="必填">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>

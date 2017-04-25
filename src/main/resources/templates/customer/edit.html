@@ -43,7 +43,7 @@
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
                                 <input type="text" class="form-control" id="name" name="name"
-                                       th:value="${customer != null ? customer.name : ''}" data-required="true">
+                                       th:value="${customer != null ? customer.name : ''}" data-rule="required" data-msg="必填">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
@@ -52,7 +52,8 @@
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                       th:value="${customer != null ? customer.phone : ''}">
+                                       th:value="${customer != null ? customer.phone : ''}" data-rule="required; phone"
+                                       data-rule-phone="[/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/, '请填写正确的联系方式']" data-msg-required="必填">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
@@ -69,15 +70,15 @@
                             <label class="col-md-2 col-sm-3 control-label">客户地址<span class="text-red">*</span>：</label>
                             <div id="dist-picker" class="col-md-8 col-sm-7">
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" name="province"></select>
+                                    <select class="form-control" id="province" name="province"></select>
                                 </div>
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" name="city"></select>
+                                    <select class="form-control" id="city" name="city"></select>
                                 </div>
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" name="district"></select>
+                                    <select class="form-control" id="district" name="district"></select>
                                 </div>
-                                <input type="text" class="form-control" name="address" data-required="true">
+                                <input type="text" class="form-control" name="address" th:value="${customer != null ? customer.address : ''}" data-rule="required">
                             </div>
                         </div>
                     </div>
@@ -95,11 +96,12 @@
 <script src="../../static/plugins/distpicker/distpicker.js" th:src="@{/plugins/distpicker/distpicker.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     $(function () {
+        //地址配置
         $("#dist-picker").distpicker({
-            autoSelect: true,
-            province: /*[[{customer.province}]]*/ '北京市',
-            city: /*[[{customer.city}]]*/ '北京市市辖区',
-            district: /*[[{customer.district}]]*/ '东城区'
+            autoSelect: true,//联动，改变省时，自动改变市、区
+            province: /*[[${customer != null ? customer.province : ''}]]*/ '北京市',//默认值
+            city: /*[[${customer != null ? customer.city : ''}]]*/ '北京市市辖区',
+            district: /*[[${customer != null ? customer.district : ''}]]*/ '东城区'
         });
     });
 </script>

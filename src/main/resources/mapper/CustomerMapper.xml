@@ -61,6 +61,9 @@
             <if test="customer.name != null">name = #{customer.name},</if>
             <if test="customer.phone != null">customer = #{customer.phone},</if>
             <if test="customer.type != null">type = #{customer.type},</if>
+            <if test="customer.province != null">province = #{customer.province},</if>
+            <if test="customer.city != null">city = #{customer.city},</if>
+            <if test="customer.district != null">district = #{customer.district},</if>
             <if test="customer.address != null">address = #{customer.address},</if>
             <if test="customer.longitude != null">longitude = #{customer.longitude},</if>
             <if test="customer.latitude != null">latitude = #{customer.latitude},</if>
