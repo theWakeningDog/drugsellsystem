@@ -5,7 +5,9 @@
 <mapper namespace="com.sellsystem.dao.CustomerDao">
     <sql id="customerSQL">
         customer.id customerId, customer.name customerName, customer.phone customerPhone,
-        customer.type customerType, customer.address customerAddress, customer.longitude customerLongitude, customer.latitude customerLatitude,
+        customer.type customerType, customer.province customerProvince,
+        customer.city customerCity, customer.district customerDistrict, customer.address customerAddress,
+        customer.longitude customerLongitude, customer.latitude customerLatitude,
         customer.createUser customerCreateUser, customer.isDelete customerIsDelete,
         customer.createTime customerCreateTime, customer.remark customerRemark
     </sql>
@@ -15,6 +17,9 @@
         <result property="name" column="customerName"/>
         <result property="phone" column="customerPhone"/>
         <result property="type" column="customerType"/>
+        <result property="province" column="customerProvince"/>
+        <result property="city" column="customerCity"/>
+        <result property="district" column="customerDistrict"/>
         <result property="address" column="customerAddress"/>
         <result property="longitude" column="customerLongitude"/>
         <result property="latitude" column="customerLatitude"/>
@@ -45,7 +50,7 @@
         <selectKey keyProperty="customer.id" resultType="java.lang.String" order="BEFORE">
             select uuid()
         </selectKey>
-        insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, null, #{customer.type},
+        insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, null, #{customer.type}, #{customer.province}, #{customer.city}, #{customer.district},
         #{customer.address}, #{customer.longitude}, #{customer.latitude}, #{customer.createUser.id}, #{customer.isDelete}, #{customer.createTime}, #{customer.remark});
     </insert>
 

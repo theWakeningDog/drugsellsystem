@@ -15,6 +15,13 @@ public class Customer {
     private String level;
     //客户类型（销售商，购买者）
     private String type;
+    //省
+    private String province;
+    //市
+    private String city;
+    //区
+    private String district;
+    //客户自己填写的地址
     private String address;
     private BigDecimal longitude;
     private BigDecimal latitude;
@@ -62,6 +69,30 @@ public class Customer {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getAddress() {

@@ -43,7 +43,7 @@
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
                                 <input type="text" class="form-control" id="name" name="name"
-                                       th:value="${customer != null ? customer.name : ''}">
+                                       th:value="${customer != null ? customer.name : ''}" data-required="true">
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
@@ -66,17 +66,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 col-sm-3 control-label">客户地址：</label>
+                            <label class="col-md-2 col-sm-3 control-label">客户地址<span class="text-red">*</span>：</label>
                             <div id="dist-picker" class="col-md-8 col-sm-7">
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" data-province="山东省"></select>
+                                    <select class="form-control" name="province"></select>
                                 </div>
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" data-city="青岛市"></select>
+                                    <select class="form-control" name="city"></select>
                                 </div>
                                 <div class="col-md-4 col-sm-4 no-padding">
-                                    <select class="form-control" data-district="市南"></select>
+                                    <select class="form-control" name="district"></select>
                                 </div>
+                                <input type="text" class="form-control" name="address" data-required="true">
                             </div>
                         </div>
                     </div>
@@ -92,10 +93,13 @@
 <!--distpicker，加载顺序不能变，先加载data-->
 <script src="../../static/plugins/distpicker/distpicker.data.js" th:src="@{/plugins/distpicker/distpicker.data.js}"></script>
 <script src="../../static/plugins/distpicker/distpicker.js" th:src="@{/plugins/distpicker/distpicker.js}"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     $(function () {
         $("#dist-picker").distpicker({
-            autoSelect: true
+            autoSelect: true,
+            province: /*[[{customer.province}]]*/ '北京市',
+            city: /*[[{customer.city}]]*/ '北京市市辖区',
+            district: /*[[{customer.district}]]*/ '东城区'
         });
     });
 </script>
