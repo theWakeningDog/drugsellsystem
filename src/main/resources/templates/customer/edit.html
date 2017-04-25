@@ -18,27 +18,15 @@
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
 </head>
 <style type="text/css">
-    body {
-        background: #ecf0f5
-    }
-
-    .form-control {
-        padding: 4px 4px 6px;
-        font-size: 12px;
-        height: 30px;
-        margin-bottom: 2px;
-    }
-
-    .control-label, .form-control {
-        white-space: nowrap;
-        overflow: hidden;
-    }
+    body {background: #ecf0f5}
+    .form-control {padding: 4px 4px 6px; font-size: 12px; height: 30px; margin-bottom: 2px;}
+    .control-label, .form-control {white-space: nowrap; overflow: hidden;}
 </style>
 <body>
 <div class="row">
     <section class="content">
         <div class="col-md-12">
-            <form action="list.html" th:action="@{/customer/save}" method="post">
+            <form role="form" class="form-horizontal" action="list.html" th:action="@{/customer/save}" method="post">
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">
@@ -79,17 +67,16 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 control-label">客户地址：</label>
-                            <div class="col-md-8 col-sm-7">
-                                <div data-toggle="distpicker">
-                                    <select></select>
-                                    <select></select>
-                                    <select></select>
+                            <div id="dist-picker" class="col-md-8 col-sm-7">
+                                <div class="col-md-4 col-sm-4 no-padding">
+                                    <select class="form-control" data-province="山东省"></select>
                                 </div>
-                                <!--<select class="form-control" id="province" name="address">
-                                    <option value="中">中</option>
-                                    <option value="高" th:selected="${task != null && task.level == '高'}">高</option>
-                                    <option value="低" th:selected="${task != null && task.level == '低'}">低</option>
-                                </select>-->
+                                <div class="col-md-4 col-sm-4 no-padding">
+                                    <select class="form-control" data-city="青岛市"></select>
+                                </div>
+                                <div class="col-md-4 col-sm-4 no-padding">
+                                    <select class="form-control" data-district="市南"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,11 +85,19 @@
         </div>
     </section>
 </div>
-<script href="../../static/plugins/jQuery/jquery-3.1.1.js" th:href="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
-<script href="../../static/bootstrap/js/bootstrap.js" th:href="@{/bootstrap/js/bootstrap.js}"></script>
-<script href="../../static/plugins/nice-validate/jquery.validator.js"
-        th:href="@{/plugins/nice-validate/jquery.validator.js}"></script>
-<script href="../../static/plugins/distpicker/distpicker.js" th:href="@{/plugins/distpicker/distpicker.js}"></script>
-<script href="../../static/plugins/distpicker/distpicker.data.js" th:href="@{/plugins/distpicker/distpicker.data.js}"></script>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script src="../../static/plugins/nice-validate/jquery.validator.js"
+        th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<!--distpicker，加载顺序不能变，先加载data-->
+<script src="../../static/plugins/distpicker/distpicker.data.js" th:src="@{/plugins/distpicker/distpicker.data.js}"></script>
+<script src="../../static/plugins/distpicker/distpicker.js" th:src="@{/plugins/distpicker/distpicker.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#dist-picker").distpicker({
+            autoSelect: true
+        });
+    });
+</script>
 </body>
 </html>

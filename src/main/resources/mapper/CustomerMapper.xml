@@ -21,7 +21,7 @@
         <result property="isDelete" column="customerIsDelete"/>
         <result property="createTime" column="customerCreateTime"/>
         <result property="remark" column="customerRemark"/>
-        <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.createUserResult"/>
     </resultMap>
 
     <select id="getList" resultMap="customerResult">
