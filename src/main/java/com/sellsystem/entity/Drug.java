@@ -141,4 +141,24 @@ public class Drug {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    @Override
+    public String toString() {
+        return "Drug{" +
+                "id='" + id + '\'' +
+                ", no='" + no + '\'' +
+                ", name='" + name + '\'' +
+                ", origin='" + origin + '\'' +
+                ", unit='" + unit + '\'' +
+                ", number=" + number +
+                ", purchase=" + purchase +
+                ", retail=" + retail +
+                ", period=" + period +
+                ", sort=" + sort +
+                ", warehouse=" + warehouse +
+                ", commonName='" + commonName + '\'' +
+                ", createTime=" + createTime +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }

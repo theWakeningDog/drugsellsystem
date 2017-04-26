@@ -153,4 +153,25 @@ public class Task {
     public void setDelete(Boolean delete) {
         isDelete = delete;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", supplier=" + supplier +
+                ", customer=" + customer +
+                ", state='" + state + '\'' +
+                ", type='" + type + '\'' +
+                ", level='" + level + '\'' +
+                ", executor=" + executor +
+                ", createUser=" + createUser +
+                ", attachment=" + attachment +
+                ", description='" + description + '\'' +
+                ", createTime=" + createTime +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

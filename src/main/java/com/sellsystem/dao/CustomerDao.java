@@ -23,7 +23,7 @@ public interface CustomerDao {
      * @param customerId
      * @return
      */
-    Customer getCustomer(String customerId);
+    Customer getCustomer(@Param("customerId") String customerId);
 
     /**
      * 新增

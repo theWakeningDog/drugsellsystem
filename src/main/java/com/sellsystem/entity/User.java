@@ -1,7 +1,9 @@
 package com.sellsystem.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 登录用户
@@ -19,6 +21,8 @@ public class User {
     private Date createTime;
     private String remark;
     private Boolean isDelete;
+    private String salt;            //加密密码的盐
+    private List<Role> roleList = new ArrayList<>();           //舍弃，用于测试shiro
 
     public String getId() {
         return id;
@@ -106,5 +110,46 @@ public class User {
 
     public void setDelete(Boolean delete) {
         isDelete = delete;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    /**
+     * 密码盐
+     * @return
+     */
+    public String getCredentialsSalt() {
+        return this.name + this.salt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", age=" + age +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", createTime=" + createTime +
+                ", remark='" + remark + '\'' +
+                ", isDelete=" + isDelete +
+                '}';
     }
 }
