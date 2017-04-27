@@ -34,7 +34,7 @@ public class DrugShiroConfiguration {
         //如果不设置默认会自动寻找Web工程根目录下的"login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         //登陆成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/login/home");
+        shiroFilterFactoryBean.setSuccessUrl("index.html");
         //未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
@@ -42,19 +42,19 @@ public class DrugShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //过滤链定义，从上往下顺序执行，一般将/**放在最下边。这里需要注意
         //<！--authc:所有url都必须认知通过才可以访问；anon:所有url都可以匿名访问-->
-//        filterChainDefinitionMap.put("/static/**", "anon");
-//        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/bootstrap/**", "anon");
-        filterChainDefinitionMap.put("/dist/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/plugins/**", "anon");
+        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
+//        filterChainDefinitionMap.put("/bootstrap/**", "anon");
+//        filterChainDefinitionMap.put("/dist/**", "anon");
+//        filterChainDefinitionMap.put("/js/**", "anon");
+//        filterChainDefinitionMap.put("/plugins/**", "anon");
         //配置退出过滤器，其中的具体退出逻辑shiro已经实现了
         filterChainDefinitionMap.put("/logout", "logout");
 //        filterChainDefinitionMap.put("/add", "perms[权限添加]");
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        System.out.println("-------------------------------------------------------Shiro拦截器工厂类注入成功---------------------------------------------------------");
+        System.out.println("-------------------------Shiro拦截器工厂类注入成功------------------------------");
         return shiroFilterFactoryBean;
     }
 

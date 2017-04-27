@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by zhangwei on 2017/3/11.
  */
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/user")
 public class UserController {
 
     /**
