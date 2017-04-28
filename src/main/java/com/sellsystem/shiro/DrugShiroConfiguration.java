@@ -1,7 +1,9 @@
 package com.sellsystem.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -68,6 +70,8 @@ public class DrugShiroConfiguration {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 设置realm.
         securityManager.setRealm(drugShiroRealm());
+        //注入缓存管理器
+        securityManager.setCacheManager(ehcacheManager());//这个如果执行多次，也是同样的一个对象
         return securityManager;
     }
 
@@ -79,8 +83,8 @@ public class DrugShiroConfiguration {
     @Bean
     public DrugShiroRealm drugShiroRealm() {
         DrugShiroRealm drugShiroRealm = new DrugShiroRealm();
-        //注入凭证匹配器（密码不是密文的不需要注入）
-        drugShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        //注入凭证匹配器（密码是明文的不需要注入）
+        //drugShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return drugShiroRealm;
     }
 
@@ -96,4 +100,34 @@ public class DrugShiroConfiguration {
         hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如两次：md5(md5(""))
         return hashedCredentialsMatcher;
     }
+
+    /**
+     * 开启shiro aop注解支持
+     * 使用代理方式；所以需要开启代码支持
+     * @param securityManager
+     * @return
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor sourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        sourceAdvisor.setSecurityManager(securityManager);
+        return sourceAdvisor;
+    }
+
+    /**
+     * shiro缓存管理器
+     * 需要注入对应的其他的实体类中:
+     * 1、安全管理器：SecurityManager
+     * 可见securityManager是整个shiro的核心；
+     * @return
+     */
+    @Bean
+    public EhCacheManager ehcacheManager() {
+        System.out.println("-------------------------------EhCacheManager.ehcacheManager()------------");
+        EhCacheManager ehCacheManager = new EhCacheManager();
+        ehCacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return ehCacheManager;
+    }
+
+
 }

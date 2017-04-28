@@ -3,6 +3,7 @@ package com.sellsystem.controller;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = {"/","/idx"},method= RequestMethod.POST)
+    @RequestMapping(value = {"/","/idx"})
     public String index(){
         return "/index";
     }
@@ -51,5 +52,15 @@ public class LoginController {
         map.put("msg", msg);
         //此方法不处理登陆成功，由shiro进行处理
         return "/login";
+    }
+
+     /**
+     * 首页
+     * @return
+     */
+    @RequestMapping("/login/home")
+    public String home(Model model) {
+        model.addAttribute("login", "login in  project");
+        return "home";
     }
 }

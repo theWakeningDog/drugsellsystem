@@ -1,5 +1,6 @@
 package com.sellsystem.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +22,22 @@ public class UserController {
     }
 
     /**
-     * 首页
+     * 用户查询.（测试shiro权限）
      * @return
      */
-    @RequestMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("login", "login in  project");
-        return "home";
+    @RequestMapping("/userList")
+    public String userInfo(){
+        return "userInfo";
     }
+
+    /**
+     * 用户添加（测试shiro权限）
+     * @return
+     */
+    @RequestMapping("/userAdd")
+    @RequiresPermissions("userInfo:add")
+    public String userInfoAdd(){
+        return "userInfoAdd";
+    }
+
 }
