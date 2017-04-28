@@ -2,6 +2,7 @@ package com.sellsystem.dao;
 
 import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.extend.UserSearchModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,33 +16,40 @@ public interface UserDao {
      * @param userSearchModel
      * @return
      */
-    List<User> getList(UserSearchModel userSearchModel);
+    List<User> getList(@Param("userSearchModel") UserSearchModel userSearchModel);
 
     /**
      * 详情
      * @param userId
      * @return
      */
-    User getUser(String userId);
+    User getUser(@Param("userId") String userId);
+
+    /**
+     * 通过账号查找
+     * @param account
+     * @return
+     */
+    User getUserByAccount(@Param("account") String account);
 
     /**
      * 新增
      * @param user
      * @return
      */
-    int create(User user);
+    int create(@Param("user") User user);
 
     /**
      * 修改
      * @param user
      * @return
      */
-    int update(User user);
+    int update(@Param("user") User user);
 
     /**
      * 删除
      * @param userIdList
      * @return
      */
-    int delete(List<String> userIdList);
+    int delete(@Param("userIdList") List<String> userIdList);
 }

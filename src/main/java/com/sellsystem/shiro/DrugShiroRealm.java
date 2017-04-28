@@ -67,12 +67,12 @@ public class DrugShiroRealm extends AuthorizingRealm {
         System.out.println("-------------------------------------DrugShiroRealm doGetAuthenticationInfo()-----------------------------------------");
 
         //获取用户输入的账号
-        String userName = (String) authenticationToken.getPrincipal();
+        String account = (String) authenticationToken.getPrincipal();
         System.out.println("---------------------------------------user  credentials" + authenticationToken.getCredentials());
 
         //通过username从数据库中查找 User对象，如果找到，没找到.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        User user = userService.getUser(userName).getData();
+        User user = userService.getUserByAccount(account).getData();
         if (null == user) {
             return null;
         }
@@ -91,7 +91,7 @@ public class DrugShiroRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user,   //用户名
                 user.getPassword(),  //密码
-                ByteSource.Util.bytes(user.getCredentialsSalt()), //加密盐  salt=userName+salt
+                ByteSource.Util.bytes(user.getCredentialsSalt()), //加密盐  salt=account+salt
                 getName()  //realm name
         );
 

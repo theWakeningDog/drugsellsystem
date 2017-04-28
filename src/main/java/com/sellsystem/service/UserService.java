@@ -27,6 +27,13 @@ public interface UserService {
     MsgModel<User> getUser(String userId);
 
     /**
+     * 通过账号查找用户
+     * @param account
+     * @return
+     */
+    MsgModel<User> getUserByAccount(String account);
+
+    /**
      * 新增
      * @param user
      * @return

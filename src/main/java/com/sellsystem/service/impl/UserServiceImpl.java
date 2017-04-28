@@ -48,6 +48,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 通过账号查找
+     * @param account
+     * @return
+     */
+    @Override
+    public MsgModel<User> getUserByAccount(String account) {
+        return new MsgModel<>(userDao.getUserByAccount(account));
+    }
+
+    /**
      * 新增
      * @param user
      * @return

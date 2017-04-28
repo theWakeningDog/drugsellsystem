@@ -8,8 +8,9 @@
 拦截
 <span th:text="${msg}"></span>
 <form action="" method="post">
-    用户名：<input name="">
-    密码：<input name="">
+    <!--这里的用户名和密码的name需要和shiro中AuthenticationToken实体类保持一致-->
+    用户名：<input name="username">
+    密码：<input name="password">
     <button type="submit">提交</button>
 </form>
 </body>

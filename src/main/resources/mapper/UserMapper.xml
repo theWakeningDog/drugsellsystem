@@ -4,13 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.UserDao">
     <sql id="createUserSQL">
-        createUser.id createUserId, createUser.name createUserName, createUser.password createUserPassword,
+        createUser.id createUserId, createUser.name createUserName, createUser.account createUserAccount, createUser.password createUserPassword,
         createUser.age createUserAge, createUser.tel createUserTel, createUser.email createUserEmail, createUser.longitude createUserLongitude,
         createUser.latitude createUserLatitude, createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.isDelete createUserIsDelete
     </sql>
     <resultMap id="createUserResult" type="User">
         <id property="id" column="createUserId"/>
         <result property="name" column="createUserName"/>
+        <result property="account" column="createUserAccount"/>
         <result property="password" column="createUserPassword"/>
         <result property="age" column="createUserAge"/>
         <result property="tel" column="createUserTel"/>
@@ -23,12 +24,13 @@
     </resultMap>
 
     <sql id="userSQL">
-        user.id userId, user.name userName, user.password userPassword, user.age userAge, user.tel userTel, user.email userEmail,
+        user.id userId, user.name userName, user.account userAccount, user.password userPassword, user.age userAge, user.tel userTel, user.email userEmail,
         user.longitude userLongitude, user.latitude userLatitude,user.createTime userCreateTime, user.remark userRemark, user.isDelete userIsDelete
     </sql>
     <resultMap id="userResult" type="User">
         <id property="id" column="userId"/>
         <result property="name" column="userName"/>
+        <result property="account" column="userAccount"/>
         <result property="password" column="userPassword"/>
         <result property="age" column="userAge"/>
         <result property="tel" column="userTel"/>
@@ -51,6 +53,13 @@
         <include refid="userSQL"/>
         from user user
         where user.id = #{userId}
+    </select>
+
+    <select id="getUserByAccount" resultMap="userResult">
+        select
+         <include refid="userSQL"/>
+         from user user
+        where user.account = #{account}
     </select>
 
     <insert id="create">

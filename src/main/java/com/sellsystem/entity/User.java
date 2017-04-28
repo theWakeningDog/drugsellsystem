@@ -12,6 +12,7 @@ import java.util.List;
 public class User {
     private String id;
     private String name;
+    private String account;
     private String password;
     private int age;
     private String tel;
@@ -21,7 +22,7 @@ public class User {
     private Date createTime;
     private String remark;
     private Boolean isDelete;
-    private String salt;            //加密密码的盐
+    private String salt = "8d78869f470951332959580424d4bf4f";            //加密密码的盐
     private List<Role> roleList = new ArrayList<>();           //舍弃，用于测试shiro
 
     public String getId() {
@@ -38,6 +39,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getPassword() {
@@ -133,7 +142,7 @@ public class User {
      * @return
      */
     public String getCredentialsSalt() {
-        return this.name + this.salt;
+        return this.account + this.salt;
     }
 
     @Override
@@ -141,6 +150,7 @@ public class User {
         return "User{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
                 ", age=" + age +
                 ", tel='" + tel + '\'' +
@@ -150,6 +160,8 @@ public class User {
                 ", createTime=" + createTime +
                 ", remark='" + remark + '\'' +
                 ", isDelete=" + isDelete +
+                ", salt='" + salt + '\'' +
+                ", roleList=" + roleList +
                 '}';
     }
 }
