@@ -19,7 +19,7 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = {"/","/idx"})
+    @RequestMapping(value = {"/","/index"})
     public String index(){
         return "/index";
     }

@@ -37,7 +37,7 @@ public class DrugShiroConfiguration {
         //如果不设置默认会自动寻找Web工程根目录下的"login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
         //登陆成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/idx");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         //未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
@@ -50,11 +50,6 @@ public class DrugShiroConfiguration {
         //--------------------------- "/login"，登陆是不能忽略的，否则的话是不会执行realm的---------------------------------------
        // filterChainDefinitionMap.put("/login", "anon");
 
-//        filterChainDefinitionMap.put("/bootstrap/**", "anon");
-//        filterChainDefinitionMap.put("/dist/**", "anon");
-//        filterChainDefinitionMap.put("/js/**", "anon");
-//        filterChainDefinitionMap.put("/plugins/**", "anon");
-
         //配置退出过滤器，其中的具体退出逻辑shiro已经实现了
         filterChainDefinitionMap.put("/logout", "logout");
 //        filterChainDefinitionMap.put("/add", "perms[权限添加]");
@@ -65,6 +60,10 @@ public class DrugShiroConfiguration {
         return shiroFilterFactoryBean;
     }
 
+    /**
+     * securityManager:shiro的核心
+     * @return
+     */
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();

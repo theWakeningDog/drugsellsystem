@@ -15,7 +15,7 @@ public class User {
     private String account;
     private String password;
     private int age;
-    private String tel;
+    private String tel;         //舍弃
     private String email;
     private BigDecimal longitude;
     private BigDecimal latitude;
@@ -153,7 +153,6 @@ public class User {
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
                 ", age=" + age +
-                ", tel='" + tel + '\'' +
                 ", email='" + email + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +

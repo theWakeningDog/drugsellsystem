@@ -69,7 +69,7 @@ public class DrugShiroRealm extends AuthorizingRealm {
         //获取用户输入的账号
         String account = (String) authenticationToken.getPrincipal();
         char[] password = (char[]) authenticationToken.getCredentials();
-        System.out.println("---------------------------------------user  credentials" + authenticationToken.getCredentials());
+        System.out.println("-----------------------------------user  credentials" + authenticationToken.getCredentials());
 
         //通过username从数据库中查找 User对象，如果找到，没找到.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
@@ -89,15 +89,15 @@ public class DrugShiroRealm extends AuthorizingRealm {
 
         //加密方式
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
-        /*SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user,   //用户名
                 user.getPassword(),  //密码
                 ByteSource.Util.bytes(user.getCredentialsSalt()), //加密盐  salt=account+salt
                 getName()  //realm name
-        );*/
+        );
 
         //明文：若存在，将此用户存放到登陆认证info中，无需自己做密码对比，Shiro会进行密码对比校验
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), getName());
+        //SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         return authenticationInfo;
     }
 
@@ -171,18 +171,3 @@ public class DrugShiroRealm extends AuthorizingRealm {
         return stringPermissions;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
