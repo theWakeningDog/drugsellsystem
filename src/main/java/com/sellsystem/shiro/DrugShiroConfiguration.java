@@ -45,7 +45,7 @@ public class DrugShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //过滤链定义，从上往下顺序执行，一般将/**放在最下边。这里需要注意
         //<！--authc:所有url都必须认知通过才可以访问；anon:所有url都可以匿名访问-->
-        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("static/**", "anon");
 
         //--------------------------- "/login"，登陆是不能忽略的，否则的话是不会执行realm的---------------------------------------
        // filterChainDefinitionMap.put("/login", "anon");
