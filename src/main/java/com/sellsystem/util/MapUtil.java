@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
+ * 高德地图解析
  * Created by zhangwei on 2017/4/19.
  */
 public class MapUtil {

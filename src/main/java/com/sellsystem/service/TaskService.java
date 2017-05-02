@@ -1,7 +1,9 @@
 package com.sellsystem.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.util.MsgModel;
 
@@ -27,6 +29,13 @@ public interface TaskService {
     MsgModel<Task> getTask(String taskId);
 
     /**
+     * 日志信息
+     * @param recordSearchModel
+     * @return
+     */
+    MsgModel<List<Record>> getRecordList(RecordSearchModel recordSearchModel);
+
+    /**
      * 新增
      * @param task
      * @return
@@ -46,5 +55,4 @@ public interface TaskService {
      * @return
      */
     MsgModel delete(List<String> taskIdList);
-
 }

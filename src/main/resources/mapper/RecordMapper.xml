@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.WarehouseDao">
+    <sql id="recordSQL">
+        record.id recordId, record.action recordAction, record.createTime recordCreateTime
+    </sql>
+
+    <resultMap id="recordResult" type="Record">
+        <id property="id" column="recordId"/>
+        <result property="action" column="recordAction"/>
+        <result property="createTime" column="recordCreateTime"/>
+        <association property="executor" column="executor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+    </resultMap>
+    <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+    <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
+
+    <select id="getList" resultType="java.util.Map">
+        SELECT
+            warehouse.id, warehouse.name, warehouse.createTime, warehouse.remark, COUNT(drug.id) drugNum
+        FROM warehouse warehouse
+        LEFT JOIN drug drug ON warehouse.id = drug.warehouse
+        GROUP BY warehouse.id
+    </select>
+
+    <insert id="create">
+        <selectKey keyProperty="warehouse.id" resultType="java.lang.String" order="BEFORE">
+            SELECT uuid() FROM dual
+        </selectKey>
+        insert into warehouse values
+        (#{warehouse.id}, #{warehouse.name}, #{warehouse.createTime}, #{warehouse.remark});
+    </insert>
+
+    <update id="update">
+        update warehouse
+        <set>
+            <if test="warehouse.name != null">name = #{warehouse.name}</if>
+            <if test="warehouse.remark != null">remark = #{warehouse.remark}</if>
+        </set>
+        where id = #{warehouse.id}
+    </update>
+
+    <delete id="delete">
+        delete from warehouse where id = #{warehouse.id}
+    </delete>
+</mapper>

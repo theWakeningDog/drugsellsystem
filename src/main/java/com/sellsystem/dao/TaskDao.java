@@ -1,7 +1,10 @@
 package com.sellsystem.dao;
 
+import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import com.sellsystem.util.MsgModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -46,5 +49,4 @@ public interface TaskDao {
      */
     int delete(@Param("taskIdList") List<String> taskIdList);
 
-    Task getT();
 }

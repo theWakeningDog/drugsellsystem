@@ -3,8 +3,10 @@ package com.sellsystem.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.dao.TaskDao;
+import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.Sortable;
+import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.util.MsgModel;
@@ -38,6 +40,16 @@ public class TaskServiceImpl implements TaskService {
      */
     public MsgModel<Task> getTask(String taskId) {
         return new MsgModel<>(taskDao.getTask(taskId));
+    }
+
+    /**
+     * 日志
+     * @param recordSearchModel
+     * @return
+     */
+    @Override
+    public MsgModel<List<Record>> getRecordList(RecordSearchModel recordSearchModel) {
+        return taskDao.getRecordList(recordSearchModel);
     }
 
     /**

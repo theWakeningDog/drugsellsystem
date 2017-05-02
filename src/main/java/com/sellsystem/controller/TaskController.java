@@ -1,6 +1,8 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * Created by zhangwei on 2017/3/17.
