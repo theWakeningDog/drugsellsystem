@@ -7,4 +7,5 @@ public final class Constant {
 
     //任务
     public static final String engineFile = "task.xml";
+    public static final String updateTask = "修改";
 }

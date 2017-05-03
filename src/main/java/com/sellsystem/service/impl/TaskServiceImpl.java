@@ -61,10 +61,7 @@ public class TaskServiceImpl implements TaskService {
             task.setState(engine.getStateByEngine(Constant.engineFile, task.getState(), TaskEvent.create.getEvent()));
             task.setCreateTime(new Date());
             taskDao.create(task);
-            Record record = new Record();
-            record.setExecutor(ShiroUtils.getUser());
-            record.setAction(TaskEvent.create.getValue());
-            record.setTask(task);
+            Record record = this.createRecord(task, TaskEvent.create.getValue());
             recordDao.create(record);
             msgModel.setData(task.getId());
         } catch (Exception e) {
@@ -83,8 +80,11 @@ public class TaskServiceImpl implements TaskService {
     public MsgModel update(Task task) {
         MsgModel msgModel = new MsgModel();
         try {
-            //创建人置为空，不修改
-            task.setCreateUser(null);
+            Task workTask = taskDao.getTask(task.getId());
+            Record record = this.createRecord(workTask, Constant.updateTask);
+            recordDao.create(record);
+            //创建人不能修改
+            task.setCreateUser(workTask.getCreateUser());
             taskDao.update(task);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,6 +109,20 @@ public class TaskServiceImpl implements TaskService {
             msgModel.setMessage("删除失败");
         }
         return msgModel;
+    }
+
+    /**
+     * 生成record
+     * @param task
+     * @param action
+     * @return
+     */
+    private Record createRecord(Task task, String action) {
+        Record record = new Record();
+        record.setExecutor(ShiroUtils.getUser());
+        record.setAction(action);
+        record.setTask(task);
+        return record;
     }
 
 }
