@@ -83,7 +83,7 @@ public class DrugShiroConfiguration {
     public DrugShiroRealm drugShiroRealm() {
         DrugShiroRealm drugShiroRealm = new DrugShiroRealm();
         //注入凭证匹配器（密码是明文的不需要注入）
-        //drugShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        drugShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return drugShiroRealm;
     }
 
