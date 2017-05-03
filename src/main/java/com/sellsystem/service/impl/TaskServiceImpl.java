@@ -43,16 +43,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * 日志
-     * @param recordSearchModel
-     * @return
-     */
-    @Override
-    public MsgModel<List<Record>> getRecordList(RecordSearchModel recordSearchModel) {
-        return taskDao.getRecordList(recordSearchModel);
-    }
-
-    /**
      * 新增
      * @param task
      * @return

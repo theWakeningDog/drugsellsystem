@@ -6,12 +6,14 @@ import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.service.RecordService;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by zhangwei on 2017/5/2.
  */
+@Service
 public class RecordServiceImpl implements RecordService {
 
     @Autowired

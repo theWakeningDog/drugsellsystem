@@ -5,6 +5,7 @@ import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
-    @GetMapping("/view/taskRecord")
+    @GetMapping("/list")
     public List<Record> recordList(RecordSearchModel recordSearchModel) {
         return recordService.getList(recordSearchModel).getData();
     }

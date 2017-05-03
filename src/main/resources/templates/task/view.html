@@ -28,8 +28,10 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <a href="edit.html" th:href="@{/task/edit(taskId=${task.id})}" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
+                    <a href="edit.html" th:href="@{/task/edit(taskId=${task.id})}" class="btn btn-primary"><i
+                            class="fa fa-edit"></i> 编辑</a>
+                    <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i
+                            class="fa fa-trash-o"></i> 删除</a>
                 </div>
             </div>
         </div>
@@ -63,7 +65,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">处理人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.executor != null ? task.executor.name : ''}">处理人</span>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${task.executor != null ? task.executor.name : ''}">处理人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
@@ -72,7 +75,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${task.createUser != null ? task.createUser.name : ''}">创建人</span>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${task.createUser != null ? task.createUser.name : ''}">创建人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">开始日期：</label>
@@ -92,14 +96,159 @@
                                 <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
                                       th:text="${task.description}">描述</span>
                             </div>
-
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h5 class="box-title">药品出入库记录</h5>
+                </div>
+                <div>
+                    <div class="tab-pane-wrap">
+                        <div class="col-md-12">
+                            <!-- The time line -->
+                            <ul id="timeline" class="timeline">
+                                <!-- timeline time label -->
+                                <li class="time-label">
+                                    <span id="last-time" class="bg-red">最近更新</span>
+                                </li>
+                            </ul>
+                            <div id="div-load-more" class="box-footer clearfix text-center"
+                                 style="border-top: 0; padding: 0 10px 10px 10px;">
+                                <a href="javascript:void(0);" class="uppercase" id="load-more">加载更多</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loading" class="col-md-12">
+                        <div class="box box-solid">
+                            <div class="box-body">
+
+                            </div><!-- /.box-body -->
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                            <!-- end loading -->
+                        </div><!-- /.box -->
+                    </div>
+                    <div id="noData" class="col-md-12" style="display: none;">
+                        <div class="box box-solid">
+                            <div class="box-body">
+
+                            </div><!-- /.box-body -->
+                            <!-- Loading (remove the following to stop the loading)-->
+                            <div class="overlay text-center">
+                                已经是最后一页了
+                            </div>
+                            <!-- end loading -->
+                        </div><!-- /.box -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+        loadTimeLine();
+        $("#load-more").click(function () {
+            loadTimeLine();
+        });
+    });
+    var pageNumber = 1;
+    function showLoading() {
+        $('#loading').show()
+    }
+    function hideLoading() {
+        $('#loading').hide()
+    }
+    function loadTimeLine() {
+        $("#div-load-more").hide();
+        showLoading();
+        //异步加载时间轴信息
+        var url = "/record/list";
+        var taskId = /*[[${task.id}]]*/ '任务id';
+        console.log(taskId);
+        $.get(url, {
+            taskId: taskId,
+            pageNum: pageNumber,
+            pageSize: 10
+        }, function (result) {
+            renderTable(result);
+            pageNumber += 1;
+            hideLoading();
+            $("#div-load-more").show();
+        });
+    }
+    //最后一页
+    function showNone() {
+        $('#noData').show();
+        setTimeout("$('#noData').hide()", 2000);
+    }
+    //时间轴数据
+    function renderTable(data) {
+        if (data == undefined || data.length == 0) {
+            showNone();
+            return;
+        }
+        var tempHtml = "";
+        for (var i = 0; i < data.length; i++) {
+            if (data.length > 0) {
+                tempHtml += '<li>';
+                tempHtml += '<i class="fa fa-envelope bg-blue"></i>';
+                tempHtml += '<div class="timeline-item">';
+                tempHtml += '<span class="time"><i class="fa fa-clock-o"></i>' + data[i].createTime + '</span>';
+                tempHtml += '<h5 class="timline-header">';
+                tempHtml += formatMessageText(data[i]);
+                tempHtml += '</h5>';
+                tempHtml += ' <div class="timeline-body">';
+                tempHtml += '</div>';
+                tempHtml += '</div>';
+                tempHtml += '</li>';
+            }
+        }
+        $("#timeline").append(tempHtml);
+    }
+
+    //数据格式化
+    function formatMessageText(data) {
+        var urlHtmlTemp = "新的一谈加油";
+        /*if (data.action == "指派") {
+         urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
+         urlHtmlTemp += '把工单&nbsp;&nbsp;#' +  data.taskNo + '&nbsp;&nbsp;' + data.action + '给&nbsp;&nbsp;';
+         urlHtmlTemp += '<a href="/security/user/view/' + data.executorId + '">' + data.executorName + '</a>';
+         } else {
+         urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
+         urlHtmlTemp += data.action + '了工单&nbsp;&nbsp;#' + data.taskNo;
+         if(Object.keys(data.content).length > 0) {
+         if (data.content.updateType == "tRecord") {
+         urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
+         } else if (data.content.updateType == "tOther") {
+         urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
+         } else {
+         urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
+         }
+         //附件
+         if (data.attachments != "") {
+         urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
+         for (var i= 0; i < data.attachments.length; i++) {
+         urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
+         urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="'+data.attachments[i].url+'">';
+         urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
+         urlHtmlTemp +='</div><br>';
+         }
+         }
+         }
+         }*/
+        return urlHtmlTemp;
+    }
+</script>
 </body>
 </html>

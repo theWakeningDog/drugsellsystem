@@ -29,13 +29,6 @@ public interface TaskService {
     MsgModel<Task> getTask(String taskId);
 
     /**
-     * 日志信息
-     * @param recordSearchModel
-     * @return
-     */
-    MsgModel<List<Record>> getRecordList(RecordSearchModel recordSearchModel);
-
-    /**
      * 新增
      * @param task
      * @return

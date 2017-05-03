@@ -2,46 +2,46 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sellsystem.dao.WarehouseDao">
+<mapper namespace="com.sellsystem.dao.RecordDao">
     <sql id="recordSQL">
-        record.id recordId, record.action recordAction, record.createTime recordCreateTime
+        record.id recordId, record.executor recordExecutor, record.customer recordCustomer, record.task recordTask,
+        record.action recordAction, record.drug recordDrug, record.drugNumber recordDrugNumber, record.createTime recordCreateTime
     </sql>
 
     <resultMap id="recordResult" type="Record">
         <id property="id" column="recordId"/>
         <result property="action" column="recordAction"/>
         <result property="createTime" column="recordCreateTime"/>
-        <association property="executor" column="executor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <association property="executor" column="recordExecutor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
+        <association property="customer" column="recordCustomer"
+                     resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
+        <association property="task" column="recordTask" resultMap="com.sellsystem.dao.TaskDao.taskResult"/>
+        <association property="drug" column="recordDrug" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
     </resultMap>
-    <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
-    <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
 
     <select id="getList" resultType="java.util.Map">
         SELECT
-            warehouse.id, warehouse.name, warehouse.createTime, warehouse.remark, COUNT(drug.id) drugNum
-        FROM warehouse warehouse
-        LEFT JOIN drug drug ON warehouse.id = drug.warehouse
-        GROUP BY warehouse.id
+        <include refid="recordSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.userSQL"/>,
+        <include refid="com.sellsystem.dao.TaskDao.taskSQL"/>,
+        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+        FROM record record
+        LEFT JOIN drug drug ON record.drug = drug.id
+        LEFT JOIN customer customer ON record.customer = customer.id
+        LEFT JOIN task task ON record.task = task.id
+        LEFT JOIN user user ON record.executor = user.id
     </select>
 
     <insert id="create">
-        <selectKey keyProperty="warehouse.id" resultType="java.lang.String" order="BEFORE">
+        <selectKey keyProperty="record.id" resultType="java.lang.String" order="BEFORE">
             SELECT uuid() FROM dual
         </selectKey>
-        insert into warehouse values
-        (#{warehouse.id}, #{warehouse.name}, #{warehouse.createTime}, #{warehouse.remark});
+        insert into record values
+        (#{record.id}, #{record.executor.id}, #{record.customer.id}, #{record.task.id}, #{record.action}, #{record.drug.id}, #{record.drugNumber}, #{record.createTime});
     </insert>
 
-    <update id="update">
-        update warehouse
-        <set>
-            <if test="warehouse.name != null">name = #{warehouse.name}</if>
-            <if test="warehouse.remark != null">remark = #{warehouse.remark}</if>
-        </set>
-        where id = #{warehouse.id}
-    </update>
-
     <delete id="delete">
-        delete from warehouse where id = #{warehouse.id}
+        delete from record where id = '1'
     </delete>
 </mapper>

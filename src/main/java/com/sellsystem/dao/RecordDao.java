@@ -3,6 +3,7 @@ package com.sellsystem.dao;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.util.MsgModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface RecordDao {
      * @param recordSearchModel
      * @return
      */
-    MsgModel<List<Record>> getList(RecordSearchModel recordSearchModel);
+    MsgModel<List<Record>> getList(@Param("recordSearchModel") RecordSearchModel recordSearchModel);
+
+    MsgModel<String> create(@Param("record") Record record);
 }
