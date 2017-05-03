@@ -53,11 +53,11 @@ public class ShiroUtils {
 		return (ShiroPrincipal)subject.getPrincipal();
 	}
 
-	public static String getDisplayName() {
+	public static String getName() {
 		return getUser().getName();
 	}
 
-	public static String getLoginUserId() {
+	public static String getUserId() {
 		return getUser().getId();
 	}
 

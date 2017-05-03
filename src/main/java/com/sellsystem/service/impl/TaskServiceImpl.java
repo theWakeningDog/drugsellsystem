@@ -2,13 +2,16 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.dao.RecordDao;
 import com.sellsystem.dao.TaskDao;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.enumerate.TaskEvent;
 import com.sellsystem.entity.searchmodel.Sortable;
-import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
+import com.sellsystem.shiro.ShiroUtils;
+import com.sellsystem.util.Constant;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,11 @@ import java.util.List;
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
-    public TaskDao taskDao;
+    private TaskDao taskDao;
+    @Autowired
+    private StateMachineEngine engine;
+    @Autowired
+    private RecordDao recordDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
         String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
@@ -51,8 +58,14 @@ public class TaskServiceImpl implements TaskService {
     public MsgModel<String> create(Task task) {
         MsgModel msgModel = new MsgModel();
         try {
+            task.setState(engine.getStateByEngine(Constant.engineFile, task.getState(), TaskEvent.create.getEvent()));
             task.setCreateTime(new Date());
             taskDao.create(task);
+            Record record = new Record();
+            record.setExecutor(ShiroUtils.getUser());
+            record.setAction(TaskEvent.create.getValue());
+            record.setTask(task);
+            recordDao.create(record);
             msgModel.setData(task.getId());
         } catch (Exception e) {
             e.printStackTrace();

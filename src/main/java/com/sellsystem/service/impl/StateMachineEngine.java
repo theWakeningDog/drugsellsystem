@@ -1,4 +1,4 @@
-package com.sellsystem.service;
+package com.sellsystem.service.impl;
 
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.scxml.SCXMLExecutor;
@@ -53,7 +53,14 @@ public class StateMachineEngine {
         }
         return engine;
     }
-    //获取转换后的状态
+
+    /**
+     * 获取转换后的状态
+     * @param fileName
+     * @param initState
+     * @param transformState：转换的事件
+     * @return
+     */
     public  String getStateByEngine(String fileName,String initState,String transformState){
         String currentStatue = "";
         SCXMLExecutor engine=initEngine(fileName,initState);
@@ -72,7 +79,12 @@ public class StateMachineEngine {
     }
 
 
-    //根据初始状态获取 可操作的权限
+    /**
+     * 根据初始状态获取 可操作的权限
+     * @param fileName
+     * @param initState
+     * @return
+     */
     public  List<String> getCommandsByEngine(String fileName, String initState){
         SCXMLExecutor engine=initEngine(fileName,initState);
         List<String> listCommands=new ArrayList<>();
@@ -87,7 +99,11 @@ public class StateMachineEngine {
         return listCommands;
     }
 
-    //获取初始状态
+    /**
+     * 获取初始状态
+     * @param fileName
+     * @return
+     */
     public  String getInitStateByEngine(String fileName){
         SCXMLExecutor engine=initEngine(fileName,"");
         return engine.getStateMachine().getInitial();
