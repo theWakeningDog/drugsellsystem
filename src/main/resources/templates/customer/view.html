@@ -28,8 +28,10 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}" class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
+                    <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}"
+                       class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}" class="btn btn-danger"><i
+                            class="fa fa-trash-o"></i> 删除</a>
                 </div>
             </div>
         </div>
@@ -51,11 +53,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">客户地址：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${customer.province + '-' + customer.city + '-' + customer.district  + '-' + customer.address}">任务类型</span>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${customer.province + '-' + customer.city + '-' + customer.district  + '-' + customer.address}">任务类型</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建人：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${customer.createUser != null ? customer.createUser.name : ''}">创建人</span>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${customer.createUser != null ? customer.createUser.name : ''}">创建人</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
@@ -65,6 +69,81 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box-solid">
+                <div class="box-header with-border">
+                    <div class="nav-tabs-custom ">
+                        <ul class="nav nav-tabs" id="nav-tabs">
+                            <li class="active"><a href="#tab-tasks" data-toggle="tab">工单</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <%--历史任务--%>
+
+                            <div class="tab-pane active" id="tab-tasks">
+                                <div class="tab-pane-wrap">
+                                    <table id="task-table" class="table table-select  table-striped table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>工单编号</th>
+                                            <th>产品名称</th>
+                                            <th>任务状态</th>
+                                            <th>负责人</th>
+                                            <th>创建时间</th>
+                                            <th>完成时间</th>
+                                            <th>客户评价</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <script>
+                                    $(function () {
+                                        var tbody = $("#task-table tbody");
+                                        //联系人列表--------------
+                                        var lmTable = $('#task-table').DataTable({
+                                            paging: true,
+                                            lengthChange: false,
+                                            searching: false,
+                                            ordering: true,
+                                            info: true,
+                                            autoWidth: false,
+                                            iDisplayLength: 10,
+                                            order: [[5, "desc"]]
+                                        });
+                                        $('[data-toggle="popover"]').popover({
+                                            trigger: 'manual',
+                                            placement: 'right', delay: {hide: 100}
+                                        }).on("mouseenter", function () {
+                                            var _this = this;
+                                            $(this).popover("show");
+                                            $(this).siblings(".popover").on("mouseleave", function () {
+                                                $(_this).popover('hide');
+                                            });
+                                        }).on("mouseleave", function () {
+                                            var _this = this;
+                                            setTimeout(function () {
+                                                if (!$(".popover:hover").length) {
+                                                    $(_this).popover("hide")
+                                                }
+                                            }, 100);
+                                        });
+                                        $("[data-toggle='popover']").mouseleave(function () {
+                                            $(".popover").mouseleave(function () {
+                                                $(this).remove();
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <%--历史任务--%>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
