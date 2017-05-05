@@ -6,12 +6,15 @@ import com.sellsystem.dao.RecordDao;
 import com.sellsystem.dao.TaskDao;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.User;
 import com.sellsystem.entity.enumerate.TaskEvent;
+import com.sellsystem.entity.enumerate.TaskTarget;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.shiro.ShiroUtils;
 import com.sellsystem.util.Constant;
+import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +61,8 @@ public class TaskServiceImpl implements TaskService {
     public MsgModel<String> create(Task task) {
         MsgModel msgModel = new MsgModel();
         try {
+            //先把user定死
+            task.setCreateUser(ShiroUtils.getUser());
             task.setState(engine.getStateByEngine(Constant.engineFile, task.getState(), TaskEvent.create.getEvent()));
             task.setCreateTime(new Date());
             taskDao.create(task);
@@ -112,6 +117,58 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
+     * 指派
+     * @param task
+     * @return
+     */
+    @Override
+    public MsgModel allotTask(Task task) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Task workTask = taskDao.getTask(task.getId());
+            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.allot.getEvent()));
+            task.setCreateUser(workTask.getCreateUser());
+            task.setExecutor(this.getUser());
+            taskDao.update(task);
+
+            Record record = this.createRecord(task, TaskEvent.allot.getEvent());
+            record.setExecutor(this.getUser());
+            recordDao.create(record);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setMessage("指派失败");
+        }
+        return msgModel;
+    }
+
+    /**
+     * 完成
+     * @param task
+     * @return
+     */
+    @Override
+    public MsgModel finishTask(Task task) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Task workTask = taskDao.getTask(task.getId());
+            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.finish.getValue()));
+            task.setCreateUser(workTask.getCreateUser());
+            task.setCompleteTime(DateUtil.getCurrentDayDate());
+            taskDao.update(task);
+
+            Record record = this.createRecord(task, TaskEvent.finish.getValue());
+            record.setExecutor(this.getUser());
+            recordDao.create(record);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setMessage("指派失败");
+        }
+        return msgModel;
+    }
+
+    /**
      * 生成record
      * @param task
      * @param action
@@ -119,10 +176,17 @@ public class TaskServiceImpl implements TaskService {
      */
     private Record createRecord(Task task, String action) {
         Record record = new Record();
-        record.setExecutor(ShiroUtils.getUser());
+        record.setCreateUser(ShiroUtils.getUser());
         record.setAction(action);
         record.setTask(task);
+        record.setCreateTime(DateUtil.getCurrentDayDate());
         return record;
     }
 
+    //假的，需要修改
+    private User getUser() {
+        User user = new User();
+        user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
+        return user;
+    }
 }

@@ -16,21 +16,30 @@
     <!--nice validate-->
     <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
 </head>
 <style type="text/css">
     body {background: #ecf0f5}
     .form-control {padding: 4px 4px 6px; font-size: 12px; height: 30px; margin-bottom: 2px;}
     .control-label, .form-control {white-space: nowrap; overflow: hidden;}
+    .select2-container--default .select2-selection--single {border-radius: 0}
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
 </style>
 <body>
 <div class="row">
     <section class="content">
         <div class="col-md-12">
-            <form action="list.html" th:action="@{/task/save}" method="post">
+            <form role="form" class="form-horizontal" action="list.html" th:action="@{/task/save}" method="post" data-validator-option="{timely:2}">
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">
-                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>返回</a>
+                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 保存</button>
                         </div>
                     </div>
@@ -38,7 +47,7 @@
 
                 <div class="box box-success">
                     <div class="box-body">
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="name" class="col-md-2 col-sm-3 control-label">任务名称<span
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
@@ -47,16 +56,20 @@
                             </div>
                             <div class="col-sm-2 validation-tip"></div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="customer" class="col-md-2 col-sm-3 control-label">客户<span
                                     class="text-red">*</span>：</label>
                             <div class="col-md-8 col-sm-7">
-                                <input type="text" class="form-control" id="customer" name="customer"
-                                       th:value="${task != null ? task.customer.name : ''}" data-rule="required" data-msg="必填">
+                                <select id="customer" name="customer.id" style="width: 100%">
+                                    <option value=""></option>
+                                    <span  th:each="customer : ${customerList}">
+                                        <option th:value="${customer.id}" th:text="${customer.name}">客户</option>
+                                    </span>
+                                </select>
                             </div>
-                            <div class="col-sm-2 validation-tip"></div>
+                            <div class="col-sm-offset-7 validation-tip"></div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="type" class="col-md-2 col-sm-3 control-label">任务类型：</label>
                             <div class="col-md-8 col-sm-7">
                                 <select class="form-control" id="type" name="type">
@@ -65,7 +78,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="level" class="col-md-2 col-sm-3 control-label">紧急程度：</label>
                             <div class="col-md-8 col-sm-7">
                                 <select class="form-control" id="level" name="level">
@@ -75,14 +88,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="attachment" class="col-md-2 col-sm-3 control-label">附件：</label>
                             <div class="col-md-8 col-sm-7">
                                 <textarea class="form-control" id="attachment" name="attachment"
                                           th:value="${task != null ? task.attachment : ''}"></textarea>
                             </div>
                         </div>
-                        <div class="col-sm-6 form-group">
+                        <div class="form-group">
                             <label for="description" class="col-md-2 col-sm-3 control-label">描述：</label>
                             <div class="col-md-8 col-sm-7">
                                 <textarea class="form-control" id="description" name="description"
@@ -95,9 +108,19 @@
         </div>
     </section>
 </div>
-<script href="../../static/plugins/jQuery/jquery-3.1.1.js" th:href="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
-<script href="../../static/bootstrap/js/bootstrap.js" th:href="@{/bootstrap/js/bootstrap.js}"></script>
-<script href="../../static/plugins/nice-validate/jquery.validator.js"
-        th:href="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script src="../../static/plugins/nice-validate/jquery.validator.js"
+        th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script src="../../static/plugins/nice-validate/local/zh-CN.js" th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#customer").select2({
+            placeholder: "请选择客户"
+        });
+    });
+
+</script>
 </body>
 </html>

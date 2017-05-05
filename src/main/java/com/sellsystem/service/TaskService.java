@@ -48,4 +48,18 @@ public interface TaskService {
      * @return
      */
     MsgModel delete(List<String> taskIdList);
+
+    /**
+     * 指派
+     * @param task
+     * @return
+     */
+    MsgModel allotTask(Task task);
+
+    /**
+     * 完成
+     * @param task
+     * @return
+     */
+    MsgModel finishTask(Task task);
 }

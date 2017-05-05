@@ -16,5 +16,5 @@ public interface RecordService {
      * @param recordSearchModel
      * @return
      */
-    MsgModel<List<Record>> getList(RecordSearchModel recordSearchModel);
+    List<Record> getList(RecordSearchModel recordSearchModel);
 }

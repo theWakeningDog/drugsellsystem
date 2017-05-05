@@ -30,9 +30,9 @@ public class Task {
     private ArrayList<String>  attachment = new ArrayList<>();
     private String description;
     private Date createTime;
-    private Date startTime;
+    private Date completeTime;
     private Date endTime;
-    private Boolean isDelete;
+    private int isDelete = 0; //是否删除0：未删除
 
     public String getId() {
         return id;
@@ -130,12 +130,12 @@ public class Task {
         this.createTime = createTime;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getCompleteTime() {
+        return completeTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setCompleteTime(Date completeTime) {
+        this.completeTime = completeTime;
     }
 
     public Date getEndTime() {
@@ -146,12 +146,12 @@ public class Task {
         this.endTime = endTime;
     }
 
-    public Boolean getDelete() {
+    public int getIsDelete() {
         return isDelete;
     }
 
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
     }
 
     @Override
@@ -169,7 +169,7 @@ public class Task {
                 ", attachment=" + attachment +
                 ", description='" + description + '\'' +
                 ", createTime=" + createTime +
-                ", startTime=" + startTime +
+                ", startTime=" + completeTime +
                 ", endTime=" + endTime +
                 ", isDelete=" + isDelete +
                 '}';

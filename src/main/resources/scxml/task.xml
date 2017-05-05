@@ -2,21 +2,6 @@
 <scxml xmlns="http://www.w3.org/2005/07/scxml"
        version="1.0"
        initialstate="create">
-    <!--<state id="created">
-        <transition event="task_allot" target="allocated"/>
-    </state>
-    <state id="allocated">
-        <transition event="task_start" target="processing"/>
-    </state>
-    <state id="processing">
-        <transition event="task_finish" target="finished"/>
-    </state>
-    <state id="finished">
-        <transition event="task_close" target="closed"/>
-    </state>
-    <state id="closed">
-        <transition event="task_reopen"   target="processing"/>
-    </state>-->
     <state id="create">
         <transition event="task_create" target="created"/>
     </state>
@@ -26,13 +11,13 @@
         <transition event="task_off" target="offed"/>
     </state>
     <!--指派后可接受、可拒绝、可取消-->
-    <state id="allocated">
+    <!--<state id="allocated">
         <transition event="task_accept" target="accepted"/>
         <transition event="task_refuse" target="refused"/>
         <transition event="task_off" target="offed"/>
-    </state>
+    </state>-->
     <!--接受后可完成、可取消-->
-    <state id="accepted">
+    <state id="allocated">
         <transition event="task_finish" target="finished"/>
         <transition event="task_off" target="offed"/>
     </state>

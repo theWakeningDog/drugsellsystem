@@ -32,6 +32,9 @@
                             class="fa fa-edit"></i> 编辑</a>
                     <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i
                             class="fa fa-trash-o"></i> 删除</a>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-primary" onclick="allotTask()" th:if="${task.state == 'created'}">指派</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,7 +81,7 @@
                                 <span class="col-md-9 col-xs-8"
                                       th:text="${task.createUser != null ? task.createUser.name : ''}">创建人</span>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">开始日期：</label>
                                 <span class="col-md-9 col-xs-8"
                                       th:text="${#dates.format(task.startTime, 'yyyy-MM-dd')}">山东省青岛市</span>
@@ -86,7 +89,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">结束日期：</label>
                                 <span class="col-md-9 col-xs-8" th:text="${#dates.format(task.endTime, 'yyyy-MM-dd')}">山东省青岛市</span>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">附件：</label>
                                 <span class="col-md-9 cl-xs-8" th:text="${task.attachment}">常温库</span>
@@ -156,6 +159,7 @@
 <script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
 <script type="text/javascript" th:inline="javascript">
+    var taskId = /*[[${task.id}]]*/ '任务id';
     $(function () {
         loadTimeLine();
         $("#load-more").click(function () {
@@ -174,8 +178,6 @@
         showLoading();
         //异步加载时间轴信息
         var url = "/record/list";
-        var taskId = /*[[${task.id}]]*/ '任务id';
-        console.log(taskId);
         $.get(url, {
             taskId: taskId,
             pageNum: pageNumber,
@@ -248,6 +250,10 @@
          }
          }*/
         return urlHtmlTemp;
+    }
+
+    function allotTask() {
+        location.href="/task/allot?id=" + taskId;
     }
 </script>
 </body>

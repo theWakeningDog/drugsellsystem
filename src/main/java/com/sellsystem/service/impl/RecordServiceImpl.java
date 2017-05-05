@@ -20,7 +20,7 @@ public class RecordServiceImpl implements RecordService {
     private RecordDao recordDao;
 
     @Override
-    public MsgModel<List<Record>> getList(RecordSearchModel recordSearchModel) {
+    public List<Record> getList(RecordSearchModel recordSearchModel) {
         return recordDao.getList(recordSearchModel);
     }
 }

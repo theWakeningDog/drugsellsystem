@@ -9,6 +9,7 @@ import java.util.Date;
 public class Record {
     private String id;
     private Task task;
+    private User createUser;
     private User executor;
     private Customer customer;
     private String action;
@@ -33,6 +34,14 @@ public class Record {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public User getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(User createUser) {
+        this.createUser = createUser;
     }
 
     public User getExecutor() {

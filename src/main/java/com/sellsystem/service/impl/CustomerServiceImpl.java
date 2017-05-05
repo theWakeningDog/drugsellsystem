@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.dao.CustomerDao;
 import com.sellsystem.entity.Customer;
+import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
 import com.sellsystem.service.CustomerService;
@@ -56,6 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
     public MsgModel<String> create(Customer customer) {
         MsgModel msgModel = new MsgModel();
         try {
+            //先把user定死
+            //task.setCreateUser(ShiroUtils.getUser());
+            User user = new User();
+            user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
+            customer.setCreateUser(user);
             customer.setCreateTime(new Date());
             customerDao.create(customer);
             msgModel.setData(customer.getId());

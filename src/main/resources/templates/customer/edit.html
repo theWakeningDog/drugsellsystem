@@ -26,7 +26,7 @@
 <div class="row">
     <section class="content">
         <div class="col-md-12">
-            <form role="form" class="form-horizontal" action="list.html" th:action="@{/customer/save}" method="post">
+            <form role="form" class="form-horizontal nice-validator" action="list.html" th:action="@{/customer/save}" method="post">
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">
@@ -78,7 +78,7 @@
                                 <div class="col-md-4 col-sm-4 no-padding">
                                     <select class="form-control" id="district" name="district"></select>
                                 </div>
-                                <input type="text" class="form-control" name="address" th:value="${customer != null ? customer.address : ''}" data-rule="required">
+                                <input type="text" class="form-control" name="address" th:value="${customer != null ? customer.address : ''}" data-rule="required" data-msg="必填">
                             </div>
                         </div>
                     </div>

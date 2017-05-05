@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Drug {
     private String id;
-    private String no;
+    private String no;//舍弃
     private String name;
     //产地
     private String origin;

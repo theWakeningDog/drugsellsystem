@@ -14,30 +14,15 @@ import java.util.List;
  * @since 0.1
  */
 public class ShiroUtils {
-	/**
-	 * 全部数据权限
-	 */
-	public static final String ALL_DATA = "ALL_DATA";
-	/**
-	 * 团队数据权限
-	 */
-	public static final String TEAM_DATA = "TEAM_DATA";
-	/**
-	 * 个人数据权限
-	 */
-	public static final String SELF_DATA = "SELF_DATA";
-
-
-
-
-	/*public static Tenant getTenant() {
-		ShiroPrincipal principal = getPrincipal();
-		return principal.getTenant();
-	}*/
 
 	public static User getUser() {
-		ShiroPrincipal principal = getPrincipal();
-		return principal.getUser();
+		//ShiroPrincipal principal = getPrincipal();
+		//return principal.getUser();
+		/*Subject subject = getSubject();
+		return (User)subject.getPrincipal();*/
+		User user = new User();
+		user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
+		return user;
 	}
 
 	public static Subject getSubject(){
@@ -50,6 +35,7 @@ public class ShiroUtils {
 	 */
 	public static ShiroPrincipal getPrincipal() {
 		Subject subject = getSubject();
+		Object o = subject.getPrincipal();
 		return (ShiroPrincipal)subject.getPrincipal();
 	}
 
@@ -87,39 +73,11 @@ public class ShiroUtils {
 	}
 
 	/**
-	 * 获取联系人ID
-	 *
-	 */
-	public static Object getLinkman(){
-		Subject subject = getSubject();
-		Session session = subject.getSession();
-		Object linkman = session.getAttribute("linkman");
-		return linkman;
-	}
-
-	/**
-	 * 设置联系人ID
-	 * @param linkman
-	 */
-	public static void setLinkman(Object linkman){
-		Subject subject = getSubject();
-		Session session = subject.getSession();
-		session.setAttribute("linkman",linkman);
-	}
-
-	/**
 	 * 获取当前session
 	 * @return
 	 */
 	public static Session getSession(){
 		Subject subject = getSubject();
 		return subject.getSession();
-	}
-
-
-	public static String getOpenid(){
-		Subject subject = getSubject();
-		ShiroPrincipal shiroPrincipal = (ShiroPrincipal)subject.getPrincipal();
-		return shiroPrincipal.getOpenid();
 	}
 }

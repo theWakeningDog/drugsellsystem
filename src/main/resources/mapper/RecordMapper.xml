@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.RecordDao">
     <sql id="recordSQL">
-        record.id recordId, record.executor recordExecutor, record.customer recordCustomer, record.task recordTask,
+        record.id recordId, record.createUser recordCreateUser, record.executor recordExecutor, record.customer recordCustomer, record.task recordTask,
         record.action recordAction, record.drug recordDrug, record.drugNumber recordDrugNumber, record.createTime recordCreateTime
     </sql>
 
@@ -12,6 +12,7 @@
         <id property="id" column="recordId"/>
         <result property="action" column="recordAction"/>
         <result property="createTime" column="recordCreateTime"/>
+        <association property="createUser" column="recordCreateUser" resultMap="com.sellsystem.dao.UserDao.createUserResult"/>
         <association property="executor" column="recordExecutor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
         <association property="customer" column="recordCustomer"
                      resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
@@ -19,10 +20,11 @@
         <association property="drug" column="recordDrug" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
     </resultMap>
 
-    <select id="getList" resultType="java.util.Map">
+    <select id="getList" resultMap="recordResult">
         SELECT
         <include refid="recordSQL"/>,
         <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>,
         <include refid="com.sellsystem.dao.UserDao.userSQL"/>,
         <include refid="com.sellsystem.dao.TaskDao.taskSQL"/>,
         <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
@@ -30,7 +32,9 @@
         LEFT JOIN drug drug ON record.drug = drug.id
         LEFT JOIN customer customer ON record.customer = customer.id
         LEFT JOIN task task ON record.task = task.id
+        LEFT JOIN user createUser ON record.createUser = createUser.id
         LEFT JOIN user user ON record.executor = user.id
+        WHERE record.task = #{recordSearchModel.taskId}
     </select>
 
     <insert id="create">
@@ -38,7 +42,7 @@
             SELECT uuid() FROM dual
         </selectKey>
         insert into record values
-        (#{record.id}, #{record.executor.id}, #{record.customer.id}, #{record.task.id}, #{record.action}, #{record.drug.id}, #{record.drugNumber}, #{record.createTime});
+        (#{record.id}, #{record.createUser.id}, #{record.executor.id}, #{record.customer.id}, #{record.task.id}, #{record.action}, #{record.drug.id}, #{record.drugNumber}, #{record.createTime});
     </insert>
 
     <delete id="delete">

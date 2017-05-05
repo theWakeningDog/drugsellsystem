@@ -17,7 +17,7 @@ public interface RecordDao {
      * @param recordSearchModel
      * @return
      */
-    MsgModel<List<Record>> getList(@Param("recordSearchModel") RecordSearchModel recordSearchModel);
+    List<Record> getList(@Param("recordSearchModel") RecordSearchModel recordSearchModel);
 
-    MsgModel<String> create(@Param("record") Record record);
+    int create(@Param("record") Record record);
 }

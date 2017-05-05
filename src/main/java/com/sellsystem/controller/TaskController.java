@@ -2,8 +2,10 @@ package com.sellsystem.controller;
 
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import com.sellsystem.service.CustomerService;
 import com.sellsystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private CustomerService customerService;
 
     /**
      * 列表
@@ -67,11 +71,29 @@ public class TaskController {
         return "redirect:/task";
     }
 
+    /**
+     * 编辑
+     * @param model
+     * @param taskId
+     * @return
+     */
     @GetMapping("/edit")
     public String edit(Model model, String taskId) {
         if (!StringUtils.isEmpty(taskId)) {
             model.addAttribute("task", taskService.getTask(taskId).getData());
         }
+        model.addAttribute("customerList", customerService.getList(new CustomerSearchModel()).getData().getList());
         return "/task/edit";
+    }
+
+    /**
+     * 指派
+     * @param task
+     * @return
+     */
+    @GetMapping("/allot")
+    public String allotTask(Task task) {
+        taskService.allotTask(task);
+        return "redirect:/task";
     }
 }

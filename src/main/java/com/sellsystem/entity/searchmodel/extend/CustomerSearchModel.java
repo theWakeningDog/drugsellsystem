@@ -11,6 +11,10 @@ public class CustomerSearchModel extends PageSearchModel {
     private String type;
     private String createTime;
 
+    public CustomerSearchModel() {
+        super.setPageSize(0);
+    }
+
     public String getName() {
         return name;
     }

@@ -7,7 +7,7 @@
         task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer, task.state taskState,
         task.level taskLevel, task.type taskType, task.executor taskExecutor, task.createUser taskCreateUser,
         task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
-        task.startTime taskStartTime, task.endTime taskEndTime, task.isDelete taskIsDelete
+        task.completeTime taskCompleteTime, task.endTime taskEndTime, task.isDelete taskIsDelete
     </sql>
 
     <resultMap id="taskResult" type="Task">
@@ -19,7 +19,7 @@
         <result property="attachment" column="taskAttachment"/>
         <result property="description" column="taskDescription"/>
         <result property="createTime" column="taskCreateTime"/>
-        <result property="startTime" column="taskStartTime"/>
+        <result property="completeTime" column="taskCompleteTime"/>
         <result property="endTime" column="taskEndTime"/>
         <result property="isDelete" column="taskIsDelete"/>
         <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>
@@ -78,16 +78,16 @@
               select uuid()
        </selectKey>
         insert into task values (#{task.id}, #{task.name}, null, #{task.customer.id}, #{task.state}, #{task.type}, #{task.level},
-        #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.createTime}, #{task.startTime},
+        #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.createTime}, #{task.completeTime},
         #{task.endTime}, #{task.isDelete});
     </insert>
 
     <update id="update">
         update task
         <set>
-            <if test="task.id != null">id = #{task.id},</if>
             <if test="task.name != null">name = #{task.name},</if>
             <if test="task.customer != null and task.customer.id != null">customer = #{task.custoemr.id},</if>
+            <if test="task.state != null">state = #{task.state},</if>
             <if test="task.type != null">type = #{task.type},</if>
             <if test="task.level != null">level = #{task.level},</if>
             <if test="task.executor != null and task.executor.id != null">executor = #{task.executor.id},</if>
@@ -95,10 +95,11 @@
             <if test="task.attachment != null">attachment = #{task.attachment},</if>
             <if test="task.description != null">description = #{task.description},</if>
             <if test="task.createTime != null">createTime = #{task.createTime},</if>
-            <if test="task.startTime != null">startTime = #{task.startTime},</if>
+            <if test="task.completeTime != null">completeTime = #{task.completeTime},</if>
             <if test="task.endTime != null">endTime = #{task.endTime},</if>
-            <if test="task.isDelete != null">isDelete = #{task.isDelete}</if>
+            isDelete = #{task.isDelete}
         </set>
+        WHERE task.id = #{task.id}
     </update>
 
     <delete id="delete">
