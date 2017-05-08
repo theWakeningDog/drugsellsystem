@@ -79,24 +79,28 @@
                             <li class="active"><a href="#tab-tasks" data-toggle="tab">工单</a></li>
                         </ul>
                         <div class="tab-content">
-                            <%--历史任务--%>
-
                             <div class="tab-pane active" id="tab-tasks">
                                 <div class="tab-pane-wrap">
                                     <table id="task-table" class="table table-select  table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th>工单编号</th>
-                                            <th>产品名称</th>
+                                            <th>任务名称</th>
                                             <th>任务状态</th>
-                                            <th>负责人</th>
+                                            <th>任务类型</th>
+                                            <th>紧急程度</th>
+                                            <th>创建人</th>
                                             <th>创建时间</th>
-                                            <th>完成时间</th>
-                                            <th>客户评价</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-
+                                            <tr>
+                                                <td th:text="${task.name}">任务名称</td>
+                                                <td th:text="${task.state}">任务状态</td>
+                                                <td th:text="${task.type}">任务类型</td>
+                                                <td th:text="${task.level}">紧急程度</td>
+                                                <td th:text="${task.executor.name}">创建人</td>
+                                                <td th:text="${task.createTime}">创建时间</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -140,7 +144,6 @@
                                     });
                                 </script>
                             </div>
-                            <%--历史任务--%>
                         </div>
                     </div>
                 </div>
