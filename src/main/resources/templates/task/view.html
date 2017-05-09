@@ -33,7 +33,9 @@
                     <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i
                             class="fa fa-trash-o"></i> 删除</a>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary" onclick="allotTask()" th:if="${task.state == 'created'}">指派</button>
+                        <div th:switch="${task.state}">
+                            <button type="button" class="btn btn-primary" onclick="allotTask()" th:if="${task.state == 'created'}">指派</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,14 +1,12 @@
 package com.sellsystem.util;
 
-import java.util.List;
+import static com.sellsystem.constant.ClassConstants.SUCCESS;
 
 /**
  * 消息提示
  * Created by zhangwei on 2017/3/4/004.
  */
 public class MsgModel<T> {
-    public static final int SUCCESS = 1;
-    public static final int FAIL = 0;
     private int status;
     private String message;
     private T data;

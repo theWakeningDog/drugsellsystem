@@ -44,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 详情
+     *
      * @param taskId
      * @return
      */
@@ -53,6 +54,7 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 新增
+     *
      * @param task
      * @return
      */
@@ -70,14 +72,15 @@ public class TaskServiceImpl implements TaskService {
             msgModel.setData(task.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
-            msgModel.setData("新建失败");
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setData(ClassConstants.TASK_OPT_FAIL);
         }
         return msgModel;
     }
 
     /**
      * 修改任务
+     *
      * @param task
      * @return
      */
@@ -92,14 +95,15 @@ public class TaskServiceImpl implements TaskService {
             taskDao.update(task);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
-            msgModel.setData("修改失败");
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setData(ClassConstants.TASK_OPT_FAIL);
         }
         return msgModel;
     }
 
     /**
      * 删除任务
+     *
      * @param taskIdList
      * @return
      */
@@ -109,14 +113,15 @@ public class TaskServiceImpl implements TaskService {
             taskDao.delete(taskIdList);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
-            msgModel.setMessage("删除失败");
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
         }
         return msgModel;
     }
 
     /**
      * 指派
+     *
      * @param task
      * @return
      */
@@ -125,7 +130,8 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.allot.getEvent()));
+            task.setState(engine.getStateByEngine(
+                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.allot.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
             task.setExecutor(this.getUser());
             taskDao.update(task);
@@ -135,14 +141,40 @@ public class TaskServiceImpl implements TaskService {
             recordDao.create(record);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
-            msgModel.setMessage("指派失败");
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
+        }
+        return msgModel;
+    }
+
+    /**
+     * 取消
+     *
+     * @param task
+     * @return
+     */
+    @Override
+    public MsgModel offTask(Task task) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Task workTask = taskDao.getTask(task.getId());
+            task.setState(engine.getStateByEngine(
+                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.off.getValue()));
+            taskDao.update(task);
+
+            Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
+            recordDao.create(record);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
         }
         return msgModel;
     }
 
     /**
      * 完成
+     *
      * @param task
      * @return
      */
@@ -151,39 +183,49 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.finish.getEvent()));
+            task.setState(engine.getStateByEngine(
+                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.finish.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
             task.setCompleteTime(DateUtil.getCurrentDayDate());
             taskDao.update(task);
 
             Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
-            record.setExecutor(this.getUser());
             recordDao.create(record);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
-            msgModel.setMessage("指派失败");
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
         }
         return msgModel;
     }
 
     /**
      * 关闭
+     *
      * @param task
      * @return
      */
     @Override
     public MsgModel closeTask(Task task) {
-        Task workTask = taskDao.getTask(task.getId());
-        task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.close.getEvent()));
-        taskDao.update(task);
-        Record record = this.createRecord(task, TaskEventEnum.close.getValue());
-        recordDao.create(record);
-        return null;
+        MsgModel msgModel = new MsgModel();
+        try {
+            Task workTask = taskDao.getTask(task.getId());
+            task.setState(engine.getStateByEngine(
+                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.close.getEvent()));
+            taskDao.update(task);
+            Record record = this.createRecord(task, TaskEventEnum.close.getValue());
+            recordDao.create(record);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
+        }
+        return msgModel;
     }
 
     /**
      * 生成record
+     *
      * @param task
      * @param action
      * @return

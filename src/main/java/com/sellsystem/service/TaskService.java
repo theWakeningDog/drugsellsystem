@@ -57,6 +57,13 @@ public interface TaskService {
     MsgModel allotTask(Task task);
 
     /**
+     * 取消
+     * @param task
+     * @return
+     */
+    MsgModel offTask(Task task);
+
+    /**
      * 完成
      * @param task
      * @return
