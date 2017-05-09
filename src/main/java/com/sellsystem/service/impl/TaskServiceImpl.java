@@ -131,7 +131,7 @@ public class TaskServiceImpl implements TaskService {
             task.setExecutor(this.getUser());
             taskDao.update(task);
 
-            Record record = this.createRecord(task, TaskEvent.allot.getEvent());
+            Record record = this.createRecord(task, TaskEvent.allot.getValue());
             record.setExecutor(this.getUser());
             recordDao.create(record);
         } catch (Exception e) {
@@ -152,7 +152,7 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.finish.getValue()));
+            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.finish.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
             task.setCompleteTime(DateUtil.getCurrentDayDate());
             taskDao.update(task);
@@ -166,6 +166,21 @@ public class TaskServiceImpl implements TaskService {
             msgModel.setMessage("指派失败");
         }
         return msgModel;
+    }
+
+    /**
+     * 关闭
+     * @param task
+     * @return
+     */
+    @Override
+    public MsgModel closeTask(Task task) {
+        Task workTask = taskDao.getTask(task.getId());
+        task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.close.getEvent()));
+        taskDao.update(task);
+        Record record = this.createRecord(task, TaskEvent.close.getValue());
+        recordDao.create(record);
+        return null;
     }
 
     /**

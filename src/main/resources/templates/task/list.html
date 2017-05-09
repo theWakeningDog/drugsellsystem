@@ -203,7 +203,11 @@
                                 <td><a href="../customer/view.html" th:href="@{/customer/view(customerId=${task.customer.id})}"
                                        th:text="${task.customer.name}">客户</a></td>
                                 <td th:text="${task.state}">任务状态</td>
-                                <td th:text="${task.type}">任务类型</td>
+                                <td th:text="${task.type}">
+                                    <span th:if="task.type != null" th:switch="${task.type.toString()}">
+                                        <span class="label label-info" th:case="created" th:text="已创建"></span>
+                                    </span>
+                                </td>
                                 <td th:text="${task.level}">紧急程度</td>
                                 <td><a href="../user/view.html" th:text="${task.executor != null ? task.executor.name : ''}">处理人</a></td>
                                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2012-20-31</td>

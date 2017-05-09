@@ -62,4 +62,11 @@ public interface TaskService {
      * @return
      */
     MsgModel finishTask(Task task);
+
+    /**
+     * 关闭
+     * @param task
+     * @return
+     */
+    MsgModel closeTask(Task task);
 }
