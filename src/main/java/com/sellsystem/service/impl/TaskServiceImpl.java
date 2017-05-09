@@ -7,13 +7,12 @@ import com.sellsystem.dao.TaskDao;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.User;
-import com.sellsystem.entity.enumerate.TaskEvent;
-import com.sellsystem.entity.enumerate.TaskTarget;
+import com.sellsystem.entity.enumerate.TaskEventEnum;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.shiro.ShiroUtils;
-import com.sellsystem.util.Constant;
+import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +62,10 @@ public class TaskServiceImpl implements TaskService {
         try {
             //先把user定死
             task.setCreateUser(ShiroUtils.getUser());
-            task.setState(engine.getStateByEngine(Constant.engineFile, task.getState(), TaskEvent.create.getEvent()));
+            task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, task.getState(), TaskEventEnum.create.getEvent()));
             task.setCreateTime(new Date());
             taskDao.create(task);
-            Record record = this.createRecord(task, TaskEvent.create.getValue());
+            Record record = this.createRecord(task, TaskEventEnum.create.getValue());
             recordDao.create(record);
             msgModel.setData(task.getId());
         } catch (Exception e) {
@@ -86,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            Record record = this.createRecord(workTask, Constant.updateTask);
+            Record record = this.createRecord(workTask, ClassConstants.UPDATE_TASK);
             recordDao.create(record);
             //创建人不能修改
             task.setCreateUser(workTask.getCreateUser());
@@ -126,12 +125,12 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.allot.getEvent()));
+            task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.allot.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
             task.setExecutor(this.getUser());
             taskDao.update(task);
 
-            Record record = this.createRecord(task, TaskEvent.allot.getValue());
+            Record record = this.createRecord(task, TaskEventEnum.allot.getValue());
             record.setExecutor(this.getUser());
             recordDao.create(record);
         } catch (Exception e) {
@@ -152,12 +151,12 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.finish.getEvent()));
+            task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.finish.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
             task.setCompleteTime(DateUtil.getCurrentDayDate());
             taskDao.update(task);
 
-            Record record = this.createRecord(task, TaskEvent.finish.getValue());
+            Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
             record.setExecutor(this.getUser());
             recordDao.create(record);
         } catch (Exception e) {
@@ -176,9 +175,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public MsgModel closeTask(Task task) {
         Task workTask = taskDao.getTask(task.getId());
-        task.setState(engine.getStateByEngine(Constant.engineFile, workTask.getState(), TaskEvent.close.getEvent()));
+        task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.close.getEvent()));
         taskDao.update(task);
-        Record record = this.createRecord(task, TaskEvent.close.getValue());
+        Record record = this.createRecord(task, TaskEventEnum.close.getValue());
         recordDao.create(record);
         return null;
     }

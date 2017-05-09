@@ -3,7 +3,7 @@ package com.sellsystem.entity.enumerate;
 /**
  * Created by zhangwei on 2017/4/16.
  */
-public enum TaskTarget {
+public enum TaskTargetEnum {
     created("created", "已创建"),
     allotted("allotted", "已指派"),
     accepted("accepted", "已接受"),
@@ -16,12 +16,12 @@ public enum TaskTarget {
     private String target;
     private String value;
 
-    TaskTarget(String target, String value) {
+    TaskTargetEnum(String target, String value) {
         this.target = target;
         this.value = value;
     }
 
-    TaskTarget() {
+    TaskTargetEnum() {
     }
 
     public String getTarget() {

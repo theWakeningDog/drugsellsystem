@@ -3,7 +3,7 @@ package com.sellsystem.entity.enumerate;
 /**
  * Created by zhangwei on 2017/4/16.
  */
-public enum TaskEvent {
+public enum TaskEventEnum {
     create("task_create", "创建"),
     allot("task_allot", "指派"),
     accept("task_accept", "接受"),
@@ -16,12 +16,12 @@ public enum TaskEvent {
     private String event;
     private String value;
 
-    TaskEvent(String event, String value) {
+    TaskEventEnum(String event, String value) {
         this.event = event;
         this.value = value;
     }
 
-    TaskEvent() {
+    TaskEventEnum() {
     }
 
     public String getEvent() {
