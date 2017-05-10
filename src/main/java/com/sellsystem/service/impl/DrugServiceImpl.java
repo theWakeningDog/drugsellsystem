@@ -2,6 +2,7 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.dao.DrugDao;
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.searchmodel.Sortable;
@@ -59,7 +60,7 @@ public class DrugServiceImpl implements DrugService {
             msgModel.setData(drug.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("新增失败");
         }
         return msgModel;
@@ -76,7 +77,7 @@ public class DrugServiceImpl implements DrugService {
             drugDao.update(drug);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("修改失败");
         }
         return msgModel;

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -86,6 +87,8 @@ public class TaskController {
         return "/task/edit";
     }
 
+    /*============================任务流程开始======================================*/
+
     /**
      * 指派
      * @param task
@@ -96,4 +99,49 @@ public class TaskController {
         taskService.allotTask(task);
         return "redirect:/task";
     }
+
+    /**
+     * 完成
+     * @param task
+     * @return
+     */
+    @GetMapping("/finish")
+    public String finishTask(HttpServletRequest request, Task task) {
+        request.setAttribute("task", taskService.getTask(task.getId()));
+        return "/task/receipt";
+    }
+
+    /**
+     * 完成
+     * @param task
+     * @return
+     */
+    @GetMapping("/confirm")
+    public String confirmFinishTask(Task task) {
+        taskService.finishTask(task);
+        return "redirect:/task";
+    }
+
+    /**
+     * 关闭
+     * @param task
+     * @return
+     */
+    @GetMapping("/close")
+    public String closeTask(Task task) {
+        taskService.closeTask(task);
+        return "redirect:/task";
+    }
+
+    /**
+     * 取消
+     * @param task
+     * @return
+     */
+    @GetMapping("/off")
+    public String offTask(Task task) {
+        taskService.offTask(task);
+        return "redirect:/task";
+    }
+    /*============================任务流程结束======================================*/
 }

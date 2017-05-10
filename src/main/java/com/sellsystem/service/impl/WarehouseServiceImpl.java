@@ -3,6 +3,7 @@ package com.sellsystem.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.dao.WarehouseDao;
 import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.Sortable;
@@ -61,7 +62,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             msgModel.setMessage(warehouse.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("新增失败");
         }
         return  msgModel;
@@ -78,7 +79,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseDao.update(warehouse);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("修改失败");
         }
         return  msgModel;
@@ -95,7 +96,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseDao.delete(warehouseId);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("删除失败");
         }
         return msgModel;

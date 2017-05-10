@@ -33,9 +33,20 @@
                     <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i
                             class="fa fa-trash-o"></i> 删除</a>
                     <div class="pull-right">
-                        <div th:switch="${task.state}">
-                            <button type="button" class="btn btn-primary" onclick="allotTask()" th:if="${task.state == 'created'}">指派</button>
-                        </div>
+                        <span th:switch="${task.state.toString()}">
+                            <span th:case="created">
+                                <button type="button" class="btn btn-primary" onclick="allotTask()">指派</button>
+                                <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
+                            </span>
+                            <span th:case="allotted">
+                                <button type="button" class="btn btn-primary" onclick="finishTask()">回执并完成</button>
+                                <button type="button" class="btn btn-primary" onclick="allotTask()">转派</button>
+                                <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
+                            </span>
+                            <span th:case="finished">
+                                <button type="button" class="btn btn-primary" onclick="closeTask()">关闭</button>
+                            </span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -254,9 +265,24 @@
         return urlHtmlTemp;
     }
 
+    /* =======================任务流程开始==================================  */
+    //指派、转派
     function allotTask() {
-        location.href="/task/allot?id=" + taskId;
+        location.href = "/task/allot?id=" + taskId;
     }
+    //回执并完成
+    function finishTask() {
+        location.href = "/task/finish?id=" + taskId;
+    }
+    //取消
+    function offTask() {
+        location.href = "/task/off?id=" + taskId;
+    }
+    //关闭
+    function closeTask() {
+        location.href = "/task/close?id=" + taskId;
+    }
+    /* =======================任务流程结束==================================  */
 </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.dao.UserDao;
 import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.Sortable;
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
             msgModel.setData(user.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setData("新建失败");
         }
         return msgModel;
@@ -89,7 +90,7 @@ public class UserServiceImpl implements UserService {
             userDao.update(user);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setData("修改失败");
         }
         return msgModel;
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
             userDao.delete(userIdList);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("删除失败");
         }
         return msgModel;

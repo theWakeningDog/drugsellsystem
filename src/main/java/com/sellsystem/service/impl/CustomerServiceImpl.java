@@ -2,6 +2,7 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.dao.CustomerDao;
 import com.sellsystem.entity.Customer;
 import com.sellsystem.entity.User;
@@ -67,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
             msgModel.setData(customer.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setData("新建失败");
         }
         return msgModel;
@@ -87,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerDao.update(customer);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setData("修改失败");
         }
         return msgModel;
@@ -105,7 +106,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerDao.delete(customerIdList);
         } catch (Exception e) {
             e.printStackTrace();
-            msgModel.setStatus(MsgModel.FAIL);
+            msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("删除失败");
         }
         return msgModel;
