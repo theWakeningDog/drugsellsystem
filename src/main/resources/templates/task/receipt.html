@@ -175,16 +175,39 @@
     $(function () {
         $("#save-receipt").on("click", function () {
             swal({
-                title: "确定完成吗？",        //必填
-                text: "",
-                type: "info",       //warning、error、success、info、input
-                allotEscapeKey: true,       //默认true,可以使用escape（空格）键
-                //customClass:           //自定义样式
-                allowOutsideClick: false,
-            });
-        });
+                    title: "确定完成吗？",        //必填
+                    text: "",
+                    type: "info",       //warning、error、success、info、input
+                    allotEscapeKey: true,       //默认true,可以使用escape（空格）键
+                    //customClass:           //自定义样式
+                    allowOutsideClick: false,       //默认false，点击其他地方不可关闭
+                    showCancelButton: true,      //退出按钮
+                    showConfirmButton: true,    //确认按钮
+                    confirmButtonText: "确定",
+                    confirmButtonColor: "#AEDEF4",         //确认按钮颜色：默认#AEDEF4，必须为hex值
+                    cancelButtonText: "退出",
+                    closeOnConfirm: true,           //确定时关闭
+                    closeOnCancel: true,            //退出时关闭
+                    imageUrl: "",           //图片
+                    imageSize: "",          //大小    80x80  宽*高
+                    timer: null,        //多少ms自动关闭
+                    html: false,         //防止xss攻击。true：title和text可以使用html
+                    animation: true,        //动画 可选值true、false、pop、slide-from-top、slide-from-bottom
+                    inputType: "",          //文本类型：text、password等
+                    inputPlaceholder: null,       //文本框提示
+                    inputValue: null,
+                    showLoaderOnConfirm: true      //点击confirm时的加载动画;需要设置closeOnConfirm：false和下面的function
+                }
+                /*, function(){
+                setTimeout(function(){
+                    swal("Ajax request finished!");
+                }, 2000);
+                }
+            );*/
+        );
     });
-    function showModal() {
+    function
+    showModal() {
         $("#drug-modal").modal("show");
     }
 </script>
