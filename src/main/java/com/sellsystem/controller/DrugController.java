@@ -58,7 +58,7 @@ public class DrugController {
             drugAllNum += Integer.parseInt(warehouseMap.get("drugNum").toString());
         }
         model.addAttribute("drugAllNum", drugAllNum);
-        return "drug/drugList";
+        return "drug/list";
     }
 
     /**

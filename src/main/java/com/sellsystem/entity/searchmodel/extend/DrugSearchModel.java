@@ -13,7 +13,7 @@ public class DrugSearchModel extends PageSearchModel {
     private String warehouseId;
     //类别名
     private String sortId;
-    //通用名
+    //通用名，舍弃
     private String commonName;
     //有效期
     private String periodTime;
@@ -40,14 +40,6 @@ public class DrugSearchModel extends PageSearchModel {
 
     public void setSortId(String sortId) {
         this.sortId = sortId;
-    }
-
-    public String getCommonName() {
-        return commonName;
-    }
-
-    public void setCommonName(String commonName) {
-        this.commonName = commonName;
     }
 
     public String getPeriodTime() {

@@ -26,7 +26,7 @@ public class Drug {
     //仓库
     private Warehouse warehouse;
     //通用名
-    private String commonName;
+    private String commonName;//舍弃
     private Date createTime;
     private String remark;
 
@@ -146,7 +146,6 @@ public class Drug {
     public String toString() {
         return "Drug{" +
                 "id='" + id + '\'' +
-                ", no='" + no + '\'' +
                 ", name='" + name + '\'' +
                 ", origin='" + origin + '\'' +
                 ", unit='" + unit + '\'' +
@@ -156,7 +155,6 @@ public class Drug {
                 ", period=" + period +
                 ", sort=" + sort +
                 ", warehouse=" + warehouse +
-                ", commonName='" + commonName + '\'' +
                 ", createTime=" + createTime +
                 ", remark='" + remark + '\'' +
                 '}';

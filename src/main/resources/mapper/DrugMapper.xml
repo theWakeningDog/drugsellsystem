@@ -6,7 +6,7 @@
     <sql id="drugSQL">
         drug.id drugId, drug.name drugName, drug.origin drugOrigin,
         drug.unit drugUnit, drug.number drugNumber, drug.purchase drugPurchase, drug.retail drugRetail,
-        drug.period drugPeriod, drug.commonName drugCommonName, drug.createTime drugCreateTime, drug.remark drugRemark
+        drug.period drugPeriod, drug.createTime drugCreateTime, drug.remark drugRemark
     </sql>
 
     <resultMap id="drugResult" type="Drug">
@@ -18,20 +18,20 @@
         <result property="purchase" column="drugPurchase"/>
         <result property="retail" column="drugRetail"/>
         <result property="period" column="drugPeriod"/>
-        <result property="commonName" column="drugCommonName"/>
         <result property="createTime" column="drugCreateTime"/>
         <result property="remark" column="drugRemark"/>
         <association property="sort" column="drugSort" resultMap="com.sellsystem.dao.SortDao.sortResult"/>
-        <association property="warehouse" column="drugWarehouse" resultMap="com.sellsystem.dao.WarehouseDao.warehouseResult"/>
+        <association property="warehouse" column="drugWarehouse"
+                     resultMap="com.sellsystem.dao.WarehouseDao.warehouseResult"/>
     </resultMap>
 
     <select id="getList" resultMap="drugResult">
         SELECT
-            <include refid="drugSQL"/>,
-            <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
-            <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
+        <include refid="drugSQL"/>,
+        <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
         FROM
-            drug drug
+        drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
         <where>
@@ -45,23 +45,20 @@
             <if test="drugSearchModel.sortId != null">
                 and drug.sort = #{drugSearchModel.sortId}
             </if>
-            <if test="drugSearchModel.commonName != null">
-                <bind name="commonNamePattern" value="'%' + drugSearchModel.getCommonName() + '%'"/>
-                and drug.commonName LIKE #{commonNamePattern}
-            </if>
             <if test="drugSearchModel.periodTime != null and drugSearchModel.periodTime != ''">
-                and drugSearchModel.periodTime between #{drugSearchModel.periodTimeStart} and #{drugSearchModel.periodTimeEnd}
+                and drugSearchModel.periodTime between #{drugSearchModel.periodTimeStart} and
+                #{drugSearchModel.periodTimeEnd}
             </if>
         </where>
     </select>
 
     <select id="getDrug" parameterType="java.lang.String" resultMap="drugResult">
         SELECT
-            <include refid="drugSQL"/>,
-            <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
-            <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
+        <include refid="drugSQL"/>,
+        <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
         FROM
-            drug drug
+        drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
         WHERE drug.id = #{drugId}
@@ -72,9 +69,10 @@
             select uuid() from dual;
         </selectKey>
         insert into drug values (#{drug.id}, #{drug.name}, #{drug.origin}, #{drug.unit}, #{drug.number},
-        #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.commonName}, #{drug.createTime}, #{drug.remark});
+        #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.createTime},
+        #{drug.remark});
     </insert>
-    
+
     <update id="update">
         update drug
         <set>
@@ -85,7 +83,6 @@
             <if test="purchase != null">purchase = #{drug.purchase}</if>
             <if test="retail != null">retail = #{drug.retail}</if>
             <if test="period != null">period = #{drug.period}</if>
-            <if test="commonName != null">commonName = #{drug.commonName}</if>
             <if test="createTime != null">createTime = #{drug.createTime}</if>
             <if test="remark != null">remark = #{drug.remark}</if>
             <if test="period != null">period = #{drug.period}</if>

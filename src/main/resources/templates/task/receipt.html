@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.css" th:href="@{/dist/css/AdminLTE.min.css}">
-
+    <!--sweetalert提示框-->
+    <link rel="stylesheet" href="../../static/plugins/sweetalert/sweetalert.css" th:href="@{/plugins/sweetalert/sweetalert.css}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,8 +52,8 @@
             <div class="col-sm-4 invoice-col">
                 任务<br/>
                 任务状态：<strong>已接受</strong><br>
-                任务类型：<span th:text="${task.type}">任务类型</span><br>
-                紧急程度：<span th:text="${task.level}">紧急程度</span>
+                任务类型：<strong th:text="${task.type}">购买or销售</strong><br>
+                紧急程度：<span th:text="${task.level}">中or高or低</span>
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
@@ -65,17 +66,28 @@
         <!-- /.row -->
 
         <!-- Table row -->
-        <div class="row"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="lead">药品</p>
+                <small>
+                    <button class="btn btn-link" onclick="showModal()">添加</button>
+                </small>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12 table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Qty</th>
-                        <th>Product</th>
-                        <th>Serial #</th>
-                        <th>Description</th>
-                        <th>Subtotal</th>
+                        <th>名称</th>
+                        <th>单位</th>
+                        <th>数量</th>
+                        <th>进价</th>
+                        <th>零售价</th>
+                        <th>类别</th>
+                        <th>仓库</th>
+                        <th>有效期</th>
+                        <th>产地</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -117,18 +129,63 @@
         <div class="row">
             <div class="pull-right">
                 <button class="btn btn-default">取消并返回</button>
-                <button class="btn btn-primary">确认并完成</button>
+                <button id="save-receipt" class="btn btn-primary">确认并完成</button>
             </div>
         </div>
     </section>
     <!-- /.content -->
 </div>
+
+<!--modal：购买或销售药品-->
+<div class="modal fade" id="drug-modal" tabindex="-1" role="dialog" aria-labelledby="myLabelModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">名称</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body &hellip;</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <button id="btn">打印</button>
 <!-- ./wrapper -->
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<!-- DataTables -->
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"
+        th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"
+        th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<!--sweetalert 提示框-->
+<script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
 <script type="text/javascript">
     var btn = document.getElementById("btn");
     btn.onclick = function () {
         window.print();
+    };
+
+    $(function () {
+        $("#save-receipt").on("click", function () {
+            swal({
+                title: "确定完成吗？",        //必填
+                text: "",
+                type: "info",       //warning、error、success、info、input
+                allotEscapeKey: true,       //默认true,可以使用escape（空格）键
+                //customClass:           //自定义样式
+                allowOutsideClick: false,
+            });
+        });
+    });
+    function showModal() {
+        $("#drug-modal").modal("show");
     }
 </script>
 </body>

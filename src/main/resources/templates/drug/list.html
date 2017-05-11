@@ -143,7 +143,7 @@
                         <table id="drug-table" class="table table-striped table-bordered table-hover">
                             <thead>
                             <th><input type="checkbox" disabled></th>
-                            <th>药品编号</th>
+                            <!--<th>药品编号</th>-->
                             <th>药品名称</th>
                             <!--<th>药品通用名</th>-->
                             <th>药品单位</th>
@@ -157,9 +157,9 @@
                             <tbody>
                             <tr th:each="drug : ${drugList}">
                                 <td><input type="checkbox"></td>
-                                <td><a href="view.html" th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a>
-                                </td>
-                                <td th:text="${drug.name}">复方丹参片</td>
+                                <!--<td><a href="view.html" th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a>-->
+                                <!--</td>-->
+                                <td><a href="view.html" th:href="@{/drug/view/(drugId=${drug.id})}" th:text="${drug.name}">复方丹参片</a></td>
                                 <!--<td th:text="${drug.commonName}">复方丹参片</td>-->
                                 <td th:text="${drug.unit}">瓶</td>
                                 <td th:text="${drug.number}">100</td>
