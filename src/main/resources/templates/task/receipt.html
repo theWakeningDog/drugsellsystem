@@ -17,7 +17,14 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.css" th:href="@{/dist/css/AdminLTE.min.css}">
     <!--sweetalert提示框-->
-    <link rel="stylesheet" href="../../static/plugins/sweetalert/sweetalert.css" th:href="@{/plugins/sweetalert/sweetalert.css}">
+    <link rel="stylesheet" href="../../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
+    <!--nice validate-->
+    <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
+          th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <!--datetimepicker-->
+    <link rel="stylesheet" href="../../static/plugins/datepicker/datepicker3.css"
+          th:href="@{/plugins/datepicker/datepicker3.css}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -146,27 +153,87 @@
                 <h4 class="modal-title">名称</h4>
             </div>
             <div class="modal-body">
-                <form role="form" class="form-horizontal">
+                <form id="drug-purchase-form" role="form" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-md-2 col-sm-3 control-label">名称：<span class="text-red">*</span></label>
+                        <label for="name" class="col-md-2 col-sm-3 control-label">名称：<span
+                                class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <input class="form-control" name="name">
+                            <input id="name" class="form-control" name="name" data-rule="required" data-msg="必填">
                         </div>
                         <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 col-sm-3 control-label">数量：<span class="text-red">*</span></label>
+                        <label for="unit" class="col-md-2 col-sm-3 control-label">单位：<span
+                                class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <input class="form-control" type="number" name="name">
+                            <select id="unit" class="form-control" name="unit" data-rule="required" data-msg="必填">
+
+                            </select>
                         </div>
                         <div class="validation-tip"></div>
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="number" class="col-md-2 col-sm-3 control-label">数量：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="number" class="form-control" type="number" name="number" min="0" data-rule="required" data-msg="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase" class="col-md-2 col-sm-3 control-label">进价：<span class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="purchase" class="form-control" type="number" name="purchase" min="0.00" data-rule="required" data-msg="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="retail" class="col-md-2 col-sm-3 control-label">零售价：<span class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="retail" class="form-control" type="number" name="retail" min="0.00" data-rule="required; retail" data-rule-retail="[^([1-9]+(\.[0-9]{2})?|0\.[1-9][0-9]|0\.0[1-9])$, '请输入正确价格']" data-msg="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sort" class="col-md-2 col-sm-3 control-label">类别：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <select id="sort" class="form-control" name="sort.id">
+
+                            </select>
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="warehouse" class="col-md-2 col-sm-3 control-label">仓库：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <select id="warehouse" class="form-control" name="warehouse.id">
+
+                            </select>
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="period" class="col-md-2 col-sm-3 control-label">有效期：<span class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="period" class="form-control" type="text" name="period" readonly="readonly" data-rule="required" data-msg="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="origin" class="col-md-2 col-sm-3 control-label">产地：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="origin" class="form-control" type="text" name="origin" data-rule="required" data-msg="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button id="drug-save" type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
@@ -182,6 +249,15 @@
         th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
 <!--sweetalert 提示框-->
 <script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
+<!--nice validate-->
+<script src="../../static/plugins/nice-validate/jquery.validator.js"
+        th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script src="../../static/plugins/nice-validate/local/zh-CN.js"
+        th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<script src="../../static/plugins/datepicker/bootstrap-datepicker.js"
+        th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script src="../../static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"
+        th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}"></script>
 <script type="text/javascript">
     var btn = document.getElementById("btn");
     btn.onclick = function () {
@@ -189,6 +265,7 @@
     };
 
     $(function () {
+        /*======================== 提示框 ===============================*/
         $("#save-receipt").on("click", function () {
             swal({
                     title: "确定完成吗？",        //必填
@@ -214,18 +291,60 @@
                     inputValue: null,
                     showLoaderOnConfirm: true      //点击confirm时的加载动画;需要设置closeOnConfirm：false和下面的function
                 }
-                /*, function(){
-                setTimeout(function(){
-                    swal("Ajax request finished!");
-                }, 2000);
-                }
-            );*/
-        );
+                    /*, function(){
+                     setTimeout(function(){
+                     swal("Ajax request finished!");
+                     }, 2000);
+                     }
+                     );*/
+            );
+        });
+
+        /*========================= datetimepicker =================================*/
+        $("#period").datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            pickerPosition: "bottom-left",
+            startView: 2,
+            minViewMode: 0,
+            startDate: new Date(),
+            language:'zh-CN'
+        }).on("changeDate",function (e) {
+            $(e.target).trigger("validate");
+        });
+
+        /*========================= nice validate ================================*/
+        $("#drug-save").on("click", function () {
+            $("#drug-purchase-form").trigger("validate");
+            if ($(".has-error").length > 0) {
+                return false;
+            }
+            var purchaseObj = {};//采购表单
+            $.each($("#drug-purchase-form").serializeArray(), function (index, item) {
+                purchaseObj[item.name] = item.value;
+            });
+            parsePurchase(purchaseObj);
+        });
     });
-    });
-    function
-    showModal() {
+    function showModal() {
         $("#drug-modal").modal("show");
+    }
+
+    //解析采购表单
+    function parsePurchase(o) {
+        o = o || {};
+        if (o) {
+            var purchaseArr = [];
+            purchaseArr.push(o.name);
+            purchaseArr.push(o.unit);
+            purchaseArr.push('<input type="number" value="' + o.number + '">');
+            purchaseArr.push(o.purchase);
+            purchaseArr.push('<input type="number" value="' + o.retail + '">');
+            purchaseArr.push(o["sort.id"]);
+            purchaseArr.push(o["warehouse.id"]);
+            purchaseArr.push(o.period);
+            purchaseArr.push('<textarea row="1">' + o.origin + '</textarea>');
+        }
     }
 </script>
 </body>
