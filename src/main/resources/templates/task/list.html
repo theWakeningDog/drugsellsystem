@@ -110,19 +110,19 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6 form-group">
+                        <!--<div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn span-default" style="cursor: default; width: 90px;">紧急程度：</span>
                                 </span>
                                 <select class="form-control" name="level">
-                                    <option value="">--请选择--</option>
+                                    <option value="">&#45;&#45;请选择&#45;&#45;</option>
                                     <option value="一般" th:selected="${taskSearchModel.level == '一般'}">一般</option>
                                     <option value="紧急" th:selected="${taskSearchModel.level == '紧急'}">紧急</option>
                                     <option value="非常紧急" th:selected="${taskSearchModel.level == '非常紧急'}">非常紧急</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
                                 <span class="input-group-btn">
@@ -191,7 +191,7 @@
                             <th>客户</th>
                             <th>任务状态</th>
                             <th>任务类型</th>
-                            <th>紧急程度</th>
+                            <!--<th>紧急程度</th>-->
                             <th>负责人</th>
                             <th>创建时间</th>
                             </thead>
@@ -213,7 +213,7 @@
                                     </span>
                                 </td>
                                 <td th:text="${task.type}">任务类型</td>
-                                <td th:text="${task.level}">紧急程度</td>
+                                <!--<td th:text="${task.level}">紧急程度</td>-->
                                 <td><a href="../user/view.html" th:text="${task.executor != null ? task.executor.name : ''}">处理人</a></td>
                                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2012-20-31</td>
                             </tr>

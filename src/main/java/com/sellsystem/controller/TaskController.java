@@ -5,8 +5,11 @@ import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.service.CustomerService;
+import com.sellsystem.service.SortService;
 import com.sellsystem.service.TaskService;
+import com.sellsystem.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +32,14 @@ public class TaskController {
     private TaskService taskService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private WarehouseService warehouseService;
+    @Autowired
+    private SortService sortService;
 
     /**
      * 列表
+     *
      * @param model
      * @param taskSearchModel
      * @return
@@ -47,6 +55,7 @@ public class TaskController {
 
     /**
      * 详情
+     *
      * @param model
      * @param taskId
      * @return
@@ -59,6 +68,7 @@ public class TaskController {
 
     /**
      * 保存
+     *
      * @param task
      * @return
      */
@@ -74,6 +84,7 @@ public class TaskController {
 
     /**
      * 编辑
+     *
      * @param model
      * @param taskId
      * @return
@@ -91,6 +102,7 @@ public class TaskController {
 
     /**
      * 指派
+     *
      * @param task
      * @return
      */
@@ -102,17 +114,21 @@ public class TaskController {
 
     /**
      * 完成
+     *
      * @param task
      * @return
      */
     @GetMapping("/finish")
-    public String finishTask(HttpServletRequest request, Task task) {
-        request.setAttribute("task", taskService.getTask(task.getId()));
+    public String finishTask(Model model, Task task) {
+        model.addAttribute("task", taskService.getTask(task.getId()).getData());
+        model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData());
+        model.addAttribute("sortList", sortService.listSort().getData());
         return "/task/receipt";
     }
 
     /**
      * 完成
+     *
      * @param task
      * @return
      */
@@ -124,6 +140,7 @@ public class TaskController {
 
     /**
      * 关闭
+     *
      * @param task
      * @return
      */
@@ -135,6 +152,7 @@ public class TaskController {
 
     /**
      * 取消
+     *
      * @param task
      * @return
      */
