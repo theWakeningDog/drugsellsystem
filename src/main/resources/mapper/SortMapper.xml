@@ -14,4 +14,8 @@
         <result property="createTime" column="sortCreateTime"/>
         <result property="remark" column="sortRemark"/>
     </resultMap>
+
+    <select id="getList" resultMap="sortResult">
+        select <include refid="sortSQL"/> from sort
+    </select>
 </mapper>

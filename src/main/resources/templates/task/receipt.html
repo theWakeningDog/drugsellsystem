@@ -83,7 +83,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+                <table id="drug-table" class="table table-striped">
                     <thead>
                     <tr>
                         <th>名称</th>
@@ -210,7 +210,7 @@
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
                             <select id="sort" class="form-control" name="sort.id">
-
+                                <option th:each="sort : ${sortList}" th:value="${sort.id}" th:text="${sort.name}"></option>
                             </select>
                         </div>
                         <div class="validation-tip"></div>
@@ -219,9 +219,8 @@
                         <label for="warehouse" class="col-md-2 col-sm-3 control-label">仓库：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <select id="warehouse" class="form-control" name="warehouse.id"
-                                    th:each="warehouse : ${warehouseList}">
-                                <option th:value="${warehouse.id}" th:text="${warehouse.name}"></option>
+                            <select id="warehouse" class="form-control" name="warehouse.id">
+                                <option th:each="warehouse : ${warehouseList}" th:value="${warehouse.id}" th:text="${warehouse.name}"></option>
                             </select>
                         </div>
                         <div class="validation-tip"></div>
@@ -279,6 +278,16 @@
     };
 
     $(function () {
+        var drugTable = $("#drug-table").dataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "autoWidth": false
+        });
+        console.log(drugTable.row);
+        var row =  $("#drug-table").row.add([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]).draw().node();
         /*======================== 提示框 ===============================*/
         $("#save-receipt").on("click", function () {
             swal({
@@ -337,7 +346,11 @@
             $.each($("#drug-purchase-form").serializeArray(), function (index, item) {
                 purchaseObj[item.name] = item.value;
             });
-            parsePurchase(purchaseObj);
+            var data = parsePurchase(purchaseObj);
+            console.log(data);
+            drugTable.row.add( [ 'Fiona White', 32, 'Edinburgh' ] )
+                .draw()
+                .node();
         });
     });
     function showModal() {
@@ -358,6 +371,7 @@
             purchaseArr.push(o["warehouse.id"]);
             purchaseArr.push(o.period);
             purchaseArr.push('<textarea row="1">' + o.origin + '</textarea>');
+            return purchaseArr;
         }
     }
 </script>

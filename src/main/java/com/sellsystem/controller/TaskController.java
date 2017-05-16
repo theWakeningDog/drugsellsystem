@@ -121,7 +121,7 @@ public class TaskController {
     @GetMapping("/finish")
     public String finishTask(Model model, Task task) {
         model.addAttribute("task", taskService.getTask(task.getId()).getData());
-        model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData());
+        model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
         return "/task/receipt";
     }
