@@ -95,6 +95,7 @@
                         <th>仓库</th>
                         <th>有效期</th>
                         <th>产地</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -210,7 +211,8 @@
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
                             <select id="sort" class="form-control" name="sort.id">
-                                <option th:each="sort : ${sortList}" th:value="${sort.id}" th:text="${sort.name}"></option>
+                                <option th:each="sort : ${sortList}" th:value="${sort.id}"
+                                        th:text="${sort.name}"></option>
                             </select>
                         </div>
                         <div class="validation-tip"></div>
@@ -220,7 +222,8 @@
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
                             <select id="warehouse" class="form-control" name="warehouse.id">
-                                <option th:each="warehouse : ${warehouseList}" th:value="${warehouse.id}" th:text="${warehouse.name}"></option>
+                                <option th:each="warehouse : ${warehouseList}" th:value="${warehouse.id}"
+                                        th:text="${warehouse.name}"></option>
                             </select>
                         </div>
                         <div class="validation-tip"></div>
@@ -251,7 +254,7 @@
         </div>
     </div>
 </div>
-<button id="btn">打印</button>
+<!--<button id="btn">打印</button>-->
 <!-- ./wrapper -->
 <script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
 <script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
@@ -271,14 +274,16 @@
         th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
 <script src="../../static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"
         th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}"></script>
-<script type="text/javascript">
-    var btn = document.getElementById("btn");
+<script type="text/javascript" th:inline="javascript">
+    /*var btn = document.getElementById("btn");
     btn.onclick = function () {
+        //打印
         window.print();
-    };
+    };*/
 
     $(function () {
-        var drugTable = $("#drug-table").dataTable({
+        /*======================== DataTable ===============================*/
+        var drugTable = $("#drug-table").DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
@@ -286,8 +291,6 @@
             "info": false,
             "autoWidth": false
         });
-        console.log(drugTable.row);
-        var row =  $("#drug-table").row.add([ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]).draw().node();
         /*======================== 提示框 ===============================*/
         $("#save-receipt").on("click", function () {
             swal({
@@ -339,7 +342,7 @@
         /*========================= nice validate ================================*/
         $("#drug-save").on("click", function () {
             $("#drug-purchase-form").trigger("validate");
-            if ($(".has-error").length > 0) {
+            if ($(".n-error").length > 0) {
                 return false;
             }
             var purchaseObj = {};//采购表单
@@ -347,10 +350,16 @@
                 purchaseObj[item.name] = item.value;
             });
             var data = parsePurchase(purchaseObj);
-            console.log(data);
-            drugTable.row.add( [ 'Fiona White', 32, 'Edinburgh' ] )
-                .draw()
-                .node();
+            if (data) {
+                drugTable.row.add(parsePurchase(purchaseObj)).draw().node();
+                $("#drug-modal").modal("hide");
+                clearForm($('#drug-purchase-form'));
+            }
+            /*$("#drug-modal").on("hidden.bs.modal", function() {
+                //$('#drug-purchase-form').validator('destroy');
+                clearForm($('#drug-purchase-form'));
+                //formValidator();    //重新加载验证
+            });*/
         });
     });
     function showModal() {
@@ -359,21 +368,46 @@
 
     //解析采购表单
     function parsePurchase(o) {
-        o = o || {};
+        //o = o || {};
         if (o) {
+            var sortList = /*[[${sortList}]]*/"{'id':'','name':'sort'}";//处理类别
+            var warehouseList = /*[[${warehouseList}]]*/"{'id':'','name':'warehouse'}";//处理仓库
             var purchaseArr = [];
             purchaseArr.push(o.name);
             purchaseArr.push(o.unit);
             purchaseArr.push('<input type="number" value="' + o.number + '">');
             purchaseArr.push(o.purchase);
             purchaseArr.push('<input type="number" value="' + o.retail + '">');
-            purchaseArr.push(o["sort.id"]);
-            purchaseArr.push(o["warehouse.id"]);
+            sortList.forEach(function (value, index, array) {
+                //if (value.id == o["sort.id"] && purchaseArr.push(value.name)) return false;
+                return !(value.id == o["sort.id"] && purchaseArr.push(value.name));
+            });
+            warehouseList.forEach(function (warehouse, index, obj) {
+                //if (warehouse.id == o["warehouse.id"] && purchaseArr.push(warehouse.name)) return false;
+                return !(warehouse.id == o["warehouse.id"] && purchaseArr.push(warehouse.name));
+            });
             purchaseArr.push(o.period);
-            purchaseArr.push('<textarea row="1">' + o.origin + '</textarea>');
+            purchaseArr.push('<textarea rows="1">' + o.origin + '</textarea>');
+            purchaseArr.push('<a href="javascript:void(0);">删除</a>');
             return purchaseArr;
         }
     }
+
+    //关闭modal时输入清空数据
+    function clearForm(form) {
+        // input清空
+        $(':input', form).each(function () {
+            var type = this.type;
+            var tag = this.tagName.toLowerCase(); // normalize case
+            if (type == 'text' || type == 'password' || type == 'number' || tag == 'textarea')
+                this.value = "";
+            // 多选checkboxes清空
+            // select 下拉框清空
+            else if (tag == 'select')
+                this.selectedIndex = 0;
+        });
+    }
+
 </script>
 </body>
 </html>
