@@ -2,8 +2,10 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.dao.DrugDao;
 import com.sellsystem.dao.RecordDao;
 import com.sellsystem.dao.TaskDao;
+import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.User;
@@ -33,6 +35,8 @@ public class TaskServiceImpl implements TaskService {
     private StateMachineEngine engine;
     @Autowired
     private RecordDao recordDao;
+    @Autowired
+    private DrugDao drugDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
         String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
@@ -173,13 +177,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * 完成
+     * 完成,药品处理
      *
      * @param task
      * @return
      */
     @Override
-    public MsgModel finishTask(Task task) {
+    public MsgModel finishTask(Task task, List<Drug> drugList) {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
@@ -191,6 +195,12 @@ public class TaskServiceImpl implements TaskService {
 
             Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
             recordDao.create(record);
+
+            if (drugList.size() > 0) {
+                for (Drug drug : drugList) {
+                    drugDao.create(drug);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             msgModel.setStatus(ClassConstants.FAIL);

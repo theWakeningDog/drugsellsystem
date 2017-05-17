@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
+<!--销售-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,9 +23,6 @@
     <!--nice validate-->
     <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
-    <!--datetimepicker-->
-    <link rel="stylesheet" href="../../static/plugins/datepicker/datepicker3.css"
-          th:href="@{/plugins/datepicker/datepicker3.css}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -89,12 +87,8 @@
                         <th>名称</th>
                         <th>单位</th>
                         <th>数量</th>
-                        <th>进价</th>
                         <th>零售价</th>
-                        <th>类别</th>
-                        <th>仓库</th>
                         <th>有效期</th>
-                        <th>产地</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -144,117 +138,69 @@
     <!-- /.content -->
 </div>
 
-<!--modal：购买或销售药品-->
-<div class="modal fade" id="drug-modal" tabindex="-1" role="dialog" aria-labelledby="myLabelModal">
+<!--modal：销售药品-->
+<div class="modal fade" id="drug-sell-modal" tabindex="-1" role="dialog" aria-labelledby="myLabelModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">药品添加</h4>
+                <h4 class="modal-title">药品销售</h4>
             </div>
             <div class="modal-body">
-                <form id="drug-purchase-form" role="form" class="form-horizontal">
+                <form id="drug-sell-form" role="form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="name" class="col-md-2 col-sm-3 control-label">名称：<span
+                        <label for="sell-name" class="col-md-2 col-sm-3 control-label">名称：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <input id="name" class="form-control" name="name" data-rule="required" data-msg="必填">
-                        </div>
-                        <div class="validation-tip"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="unit" class="col-md-2 col-sm-3 control-label">单位：<span
-                                class="text-red">*</span></label>
-                        <div class="col-md-8 col-sm-7">
-                            <select id="unit" class="form-control" name="unit" data-rule="required" data-msg="必填">
-                                <option value=""></option>
-                                <option value="盒">盒</option>
-                                <option value="瓶">瓶</option>
+                            <select id="sell-name" class="form-control" name="name" data-rule="required" data-msg="必填">
+
                             </select>
                         </div>
                         <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="number" class="col-md-2 col-sm-3 control-label">数量：<span
+                        <label class="col-md-2 col-sm-3 control-label">库存：</label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="repertory" class="control-label" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell-number" class="col-md-2 col-sm-3 control-label">销售数量：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <input id="number" class="form-control" type="number" name="number" min="0"
+                            <input id="sell-number" class="form-control" type="number" name="number" min="0"
                                    data-rule="required; drugNumber" data-rule-drugNumber="[/^(([1-9]\d*))$/, '请输入正确数量']"
                                    data-msg-required="必填">
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="purchase" class="col-md-2 col-sm-3 control-label">进价：<span class="text-red">*</span></label>
+                        <label class="col-md-2 col-sm-3 control-label">有效期：</label>
                         <div class="col-md-8 col-sm-7">
-                            <input id="purchase" class="form-control" type="number" name="purchase" min="0.00"
-                                   data-rule="required; purchase"
-                                   data-rule-purchase="[/^([1-9]+(\.[0-9]{2})?|0\.[1-9][0-9]|0\.0[1-9])$/, '']"
-                                   data-msg="必填"
-                                   data-msg-purchase="请输入正确价格">
+                            <input class="form-control" id="sell-period" readonly>
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="retail" class="col-md-2 col-sm-3 control-label">零售价：<span class="text-red">*</span></label>
+                        <label class="col-md-2 col-sm-3 control-label">单价：</label>
                         <div class="col-md-8 col-sm-7">
-                            <input id="retail" class="form-control" type="number" name="retail" min="0.00"
-                                   data-rule="required; retail"
-                                   data-rule-retail="[/^([1-9]+(\.[0-9]{2})?|0\.[1-9][0-9]|0\.0[1-9])$/, '请输入正确价格']"
-                                   data-msg-required="必填">
+                            <input class="form-control" id="sell-retail" readonly>
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="sort" class="col-md-2 col-sm-3 control-label">类别：<span
-                                class="text-red">*</span></label>
+                        <label class="col-md-2 col-sm-3 control-label">小计：</label>
                         <div class="col-md-8 col-sm-7">
-                            <select id="sort" class="form-control" name="sort.id">
-                                <option th:each="sort : ${sortList}" th:value="${sort.id}"
-                                        th:text="${sort.name}"></option>
-                            </select>
+                            <input id="sell-total" class="form-control" readonly>
                         </div>
-                        <div class="validation-tip"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="warehouse" class="col-md-2 col-sm-3 control-label">仓库：<span
-                                class="text-red">*</span></label>
-                        <div class="col-md-8 col-sm-7">
-                            <select id="warehouse" class="form-control" name="warehouse.id">
-                                <option th:each="warehouse : ${warehouseList}" th:value="${warehouse.id}"
-                                        th:text="${warehouse.name}"></option>
-                            </select>
-                        </div>
-                        <div class="validation-tip"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="period" class="col-md-2 col-sm-3 control-label">有效期：<span class="text-red">*</span></label>
-                        <div class="col-md-8 col-sm-7">
-                            <input id="period" class="form-control" type="text" name="period" readonly="readonly"
-                                   data-rule="required" data-msg="必填">
-                        </div>
-                        <div class="validation-tip"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="origin" class="col-md-2 col-sm-3 control-label">产地：<span
-                                class="text-red">*</span></label>
-                        <div class="col-md-8 col-sm-7">
-                            <input id="origin" class="form-control" type="text" name="origin" data-rule="required"
-                                   data-msg="必填">
-                        </div>
-                        <div class="validation-tip"></div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button id="drug-save" type="button" class="btn btn-primary">保存</button>
+                <button id="" type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
 </div>
-<!--<button id="btn">打印</button>-->
 <!-- ./wrapper -->
 <script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
 <script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
@@ -270,18 +216,10 @@
         th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
 <script src="../../static/plugins/nice-validate/local/zh-CN.js"
         th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
-<script src="../../static/plugins/datepicker/bootstrap-datepicker.js"
-        th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
-<script src="../../static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"
-        th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-    /*var btn = document.getElementById("btn");
-    btn.onclick = function () {
-        //打印
-        window.print();
-    };*/
-
     $(function () {
+        var receiptForm = {};
+        var drugList = [];//要保存的药品列表
         /*======================== DataTable ===============================*/
         var drugTable = $("#drug-table").DataTable({
             "paging": false,
@@ -290,53 +228,6 @@
             "ordering": false,
             "info": false,
             "autoWidth": false
-        });
-        /*======================== 提示框 ===============================*/
-        $("#save-receipt").on("click", function () {
-            swal({
-                    title: "确定完成吗？",        //必填
-                    text: "",
-                    type: "info",       //warning、error、success、info、input
-                    allotEscapeKey: true,       //默认true,可以使用escape（空格）键
-                    //customClass:           //自定义样式
-                    allowOutsideClick: false,       //默认false，点击其他地方不可关闭
-                    showCancelButton: true,      //退出按钮
-                    showConfirmButton: true,    //确认按钮
-                    confirmButtonText: "确定",
-                    confirmButtonColor: "#AEDEF4",         //确认按钮颜色：默认#AEDEF4，必须为hex值
-                    cancelButtonText: "退出",
-                    closeOnConfirm: true,           //确定时关闭
-                    closeOnCancel: true,            //退出时关闭
-                    imageUrl: "",           //图片
-                    imageSize: "",          //大小    80x80  宽*高
-                    timer: null,        //多少ms自动关闭
-                    html: false,         //防止xss攻击。true：title和text可以使用html
-                    animation: true,        //动画 可选值true、false、pop、slide-from-top、slide-from-bottom
-                    inputType: "",          //文本类型：text、password等
-                    inputPlaceholder: null,       //文本框提示
-                    inputValue: null,
-                    showLoaderOnConfirm: true      //点击confirm时的加载动画;需要设置closeOnConfirm：false和下面的function
-                }
-                    /*, function(){
-                     setTimeout(function(){
-                     swal("Ajax request finished!");
-                     }, 2000);
-                     }
-                     );*/
-            );
-        });
-
-        /*========================= datetimepicker =================================*/
-        $("#period").datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true,
-            pickerPosition: "bottom-left",
-            startView: 2,
-            minViewMode: 0,
-            startDate: new Date(),
-            language: 'zh-CN'
-        }).on("changeDate", function (e) {
-            $(e.target).trigger("validate");
         });
 
         /*========================= nice validate ================================*/
@@ -351,19 +242,73 @@
             });
             var data = parsePurchase(purchaseObj);
             if (data) {
-                drugTable.row.add(parsePurchase(purchaseObj)).draw().node();
+                drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
+
+                var sort = {};//给sort重新赋值，因为是个实体，在controller中没取到
+                sort.id = purchaseObj['sort.id'];
+                purchaseObj.sort = sort;
+                var warehouse = {};
+                warehouse.id = purchaseObj['warehouse.id'];
+                purchaseObj.warehouse = warehouse;
+                drugList ? drugList[drugList.length] = purchaseObj : drugList.push(purchaseObj);//添加保存的药品数据
+
                 $("#drug-modal").modal("hide");
                 clearForm($('#drug-purchase-form'));
             }
-            /*$("#drug-modal").on("hidden.bs.modal", function() {
-                //$('#drug-purchase-form').validator('destroy');
-                clearForm($('#drug-purchase-form'));
-                //formValidator();    //重新加载验证
-            });*/
+
+        });
+
+        /*======================== 提示框 ===============================*/
+        $("#save-receipt").on("click", function () {
+            swal({
+                title: "确定完成吗？",        //必填
+                text: "",
+                type: "info",       //warning、error、success、info、input
+                allotEscapeKey: true,       //默认true,可以使用escape（空格）键
+                //customClass:           //自定义样式
+                allowOutsideClick: false,       //默认false，点击其他地方不可关闭
+                showCancelButton: true,      //退出按钮
+                showConfirmButton: true,    //确认按钮
+                confirmButtonText: "确定",
+                confirmButtonColor: "#AEDEF4",         //确认按钮颜色：默认#AEDEF4，必须为hex值
+                cancelButtonText: "退出",
+                closeOnConfirm: true,           //确定时关闭
+                closeOnCancel: true,            //退出时关闭
+                imageUrl: "",           //图片
+                imageSize: "",          //大小    80x80  宽*高
+                timer: null,        //多少ms自动关闭
+                html: false,         //防止xss攻击。true：title和text可以使用html
+                animation: true,        //动画 可选值true、false、pop、slide-from-top、slide-from-bottom
+                inputType: "",          //文本类型：text、password等
+                inputPlaceholder: null,       //文本框提示
+                inputValue: null,
+                showLoaderOnConfirm: true      //点击confirm时的加载动画;需要设置closeOnConfirm：false和下面的function
+            }, function (isConfirm) {
+                //console.log(isConfirm); true or false
+                if (isConfirm) {
+                    var task = {};
+                    task.id = /*[[${task.id}]]*/'task.id';
+                    task.content = $("#receiptContent").val();
+                    receiptForm.drugList = drugList;
+                    receiptForm.task = task;
+                    console.log(receiptForm);
+                    $.ajax({
+                        url: '/task/finish',
+                        type: 'post',
+                        contentType: 'application/json',
+                        data: JSON.stringify(receiptForm),
+                        success: function (data) {
+                            if (data.status == 1) {
+                                location.href = "/task";
+                            }
+                        }
+                    });
+                }
+            });
         });
     });
     function showModal() {
-        $("#drug-modal").modal("show");
+        $("#drug-sell-modal").modal("show");
     }
 
     //解析采购表单

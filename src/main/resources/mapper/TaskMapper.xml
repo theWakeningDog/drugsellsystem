@@ -6,7 +6,7 @@
     <sql id="taskSQL">
         task.id taskId, task.name taskName, task.supplier taskSupplier, task.customer taskCustomer, task.state taskState,
         task.level taskLevel, task.type taskType, task.executor taskExecutor, task.createUser taskCreateUser,
-        task.attachment taskAttachment, task.description taskDescription, task.createTime taskCreateTime,
+        task.attachment taskAttachment, task.description taskDescription, task.content taskContent, task.createTime taskCreateTime,
         task.completeTime taskCompleteTime, task.endTime taskEndTime, task.isDelete taskIsDelete
     </sql>
 
@@ -18,6 +18,7 @@
         <result property="level" column="taskLevel"/>
         <result property="attachment" column="taskAttachment"/>
         <result property="description" column="taskDescription"/>
+        <result property="content" column="taskContent"/>
         <result property="createTime" column="taskCreateTime"/>
         <result property="completeTime" column="taskCompleteTime"/>
         <result property="endTime" column="taskEndTime"/>
@@ -78,7 +79,7 @@
               select uuid()
        </selectKey>
         insert into task values (#{task.id}, #{task.name}, null, #{task.customer.id}, #{task.state}, #{task.type}, #{task.level},
-        #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.createTime}, #{task.completeTime},
+        #{task.executor.id}, #{task.createUser.id}, #{task.attachment}, #{task.description}, #{task.content}, #{task.createTime}, #{task.completeTime},
         #{task.endTime}, #{task.isDelete});
     </insert>
 
@@ -94,6 +95,7 @@
             <if test="task.createUser != null and task.createUser.id != null">createUser = #{task.createUser.id},</if>
             <if test="task.attachment != null">attachment = #{task.attachment},</if>
             <if test="task.description != null">description = #{task.description},</if>
+            <if test="task.content != null">content = #{task.content},</if>
             <if test="task.createTime != null">createTime = #{task.createTime},</if>
             <if test="task.completeTime != null">completeTime = #{task.completeTime},</if>
             <if test="task.endTime != null">endTime = #{task.endTime},</if>

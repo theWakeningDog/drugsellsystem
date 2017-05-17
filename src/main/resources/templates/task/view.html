@@ -69,7 +69,15 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">任务状态：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${task.state}">任务状态</span>
+                                <span class="col-md-9 cl-xs-8" th:if="${task.state != null}"
+                                      th:switch="${task.state.toString()}">
+                                    <span th:case="created" th:text="已创建"></span>
+                                    <span th:case="offed" th:text="已取消"></span>
+                                    <span th:case="allotted" th:text="已指派"></span>
+                                    <span th:case="finished" th:text="已完成"></span>
+                                    <span th:case="closed" th:text="已关闭"></span>
+                                    <span th:case="*" th:text="出现错误">错误</span>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">任务类型：</label>
@@ -272,7 +280,7 @@
     }
     //回执并完成
     function finishTask() {
-        location.href = "/task/finish?id=" + taskId;
+        location.href = "/task/receipt?id=" + taskId;
     }
     //取消
     function offTask() {

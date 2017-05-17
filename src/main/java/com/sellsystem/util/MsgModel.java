@@ -17,6 +17,8 @@ public class MsgModel<T> {
     }
 
     public MsgModel() {
+        this.status = SUCCESS;
+        this.message = "ok";
     }
 
     public MsgModel(String message, T data) {

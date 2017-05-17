@@ -26,9 +26,11 @@ public class Task {
     private User executor;
     //创建人
     private User createUser;
-    //附件：任务详情
+    //附件：任务详情（没用到）
     private ArrayList<String>  attachment = new ArrayList<>();
     private String description;
+    //任务完成的内容填写
+    private String content;
     private Date createTime;
     private Date completeTime;
     private Date endTime;
@@ -122,6 +124,14 @@ public class Task {
         this.description = description;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -159,18 +169,16 @@ public class Task {
         return "Task{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", supplier=" + supplier +
                 ", customer=" + customer +
                 ", state='" + state + '\'' +
                 ", type='" + type + '\'' +
                 ", level='" + level + '\'' +
                 ", executor=" + executor +
                 ", createUser=" + createUser +
-                ", attachment=" + attachment +
                 ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
                 ", createTime=" + createTime +
-                ", startTime=" + completeTime +
-                ", endTime=" + endTime +
+                ", completeTime=" + completeTime +
                 ", isDelete=" + isDelete +
                 '}';
     }

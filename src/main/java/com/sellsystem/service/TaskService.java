@@ -1,6 +1,7 @@
 package com.sellsystem.service;
 
 import com.github.pagehelper.PageInfo;
+import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
@@ -66,9 +67,10 @@ public interface TaskService {
     /**
      * 完成
      * @param task
+     * @param drugList
      * @return
      */
-    MsgModel finishTask(Task task);
+    MsgModel finishTask(Task task, List<Drug> drugList);
 
     /**
      * 关闭

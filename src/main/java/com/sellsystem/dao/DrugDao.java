@@ -29,7 +29,7 @@ public interface DrugDao {
      * @param drug
      * @return
      */
-    int create(Drug drug);
+    int create(@Param("drug") Drug drug);
 
     /**
      * 修改

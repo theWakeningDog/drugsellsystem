@@ -1,5 +1,6 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
@@ -10,15 +11,15 @@ import com.sellsystem.service.CustomerService;
 import com.sellsystem.service.SortService;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.service.WarehouseService;
+import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,19 +108,19 @@ public class TaskController {
      * @return
      */
     @GetMapping("/allot")
-    public String allotTask(Task task) {
+    public String allot(Task task) {
         taskService.allotTask(task);
         return "redirect:/task";
     }
 
     /**
-     * 完成
+     * 填写回执表单
      *
      * @param task
      * @return
      */
-    @GetMapping("/finish")
-    public String finishTask(Model model, Task task) {
+    @GetMapping("/receipt")
+    public String receipt(Model model, Task task) {
         model.addAttribute("task", taskService.getTask(task.getId()).getData());
         model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
@@ -127,15 +128,15 @@ public class TaskController {
     }
 
     /**
-     * 完成
+     * 完成,药品的相应变化
      *
-     * @param task
+     * @param receiptForm
      * @return
      */
-    @GetMapping("/confirm")
-    public String confirmFinishTask(Task task) {
-        taskService.finishTask(task);
-        return "redirect:/task";
+    @ResponseBody
+    @PostMapping("/finish")
+    public MsgModel finish(@RequestBody ReceiptForm receiptForm) {
+        return taskService.finishTask(receiptForm.getTask(), receiptForm.getDrugList());
     }
 
     /**
@@ -145,7 +146,7 @@ public class TaskController {
      * @return
      */
     @GetMapping("/close")
-    public String closeTask(Task task) {
+    public String close(Task task) {
         taskService.closeTask(task);
         return "redirect:/task";
     }
@@ -157,9 +158,30 @@ public class TaskController {
      * @return
      */
     @GetMapping("/off")
-    public String offTask(Task task) {
+    public String off(Task task) {
         taskService.offTask(task);
         return "redirect:/task";
     }
     /*============================任务流程结束======================================*/
+
+    public static class ReceiptForm {
+        private Task task;
+        private List<Drug> drugList = new ArrayList<>();
+
+        public Task getTask() {
+            return task;
+        }
+
+        public void setTask(Task task) {
+            this.task = task;
+        }
+
+        public List<Drug> getDrugList() {
+            return drugList;
+        }
+
+        public void setDrugList(List<Drug> drugList) {
+            this.drugList = drugList;
+        }
+    }
 }

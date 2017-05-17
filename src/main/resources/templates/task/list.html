@@ -202,8 +202,8 @@
                                        th:text="${task.name}">任务名称</a></td>
                                 <td><a href="../customer/view.html" th:href="@{/customer/view(customerId=${task.customer.id})}"
                                        th:text="${task.customer.name}">客户</a></td>
-                                <td th:text="${task.state}">
-                                    <span th:if="task.type != null" th:switch="${task.type.toString()}">
+                                <td>
+                                    <span th:if="${task.state != null}" th:switch="${task.state.toString()}">
                                         <span class="label label-info" th:case="created" th:text="已创建"></span>
                                         <span class="label label-default" th:case="offed" th:text="已取消"></span>
                                         <span class="label label-primary" th:case="allotted" th:text="已指派"></span>
