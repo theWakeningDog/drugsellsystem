@@ -164,8 +164,7 @@
                         <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="unit" class="col-md-2 col-sm-3 control-label">单位：<span
-                                class="text-red">*</span></label>
+                        <label for="unit" class="col-md-2 col-sm-3 control-label">单位：</label>
                         <div class="col-md-8 col-sm-7">
                             <select id="unit" class="form-control" name="unit" data-rule="required" data-msg="必填">
                                 <option value=""></option>
@@ -173,7 +172,6 @@
                                 <option value="瓶">瓶</option>
                             </select>
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
                         <label for="number" class="col-md-2 col-sm-3 control-label">数量：<span
@@ -207,26 +205,22 @@
                         <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="sort" class="col-md-2 col-sm-3 control-label">类别：<span
-                                class="text-red">*</span></label>
+                        <label for="sort" class="col-md-2 col-sm-3 control-label">类别：</label>
                         <div class="col-md-8 col-sm-7">
                             <select id="sort" class="form-control" name="sort.id">
                                 <option th:each="sort : ${sortList}" th:value="${sort.id}"
                                         th:text="${sort.name}"></option>
                             </select>
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label for="warehouse" class="col-md-2 col-sm-3 control-label">仓库：<span
-                                class="text-red">*</span></label>
+                        <label for="warehouse" class="col-md-2 col-sm-3 control-label">仓库：</label>
                         <div class="col-md-8 col-sm-7">
                             <select id="warehouse" class="form-control" name="warehouse.id">
                                 <option th:each="warehouse : ${warehouseList}" th:value="${warehouse.id}"
                                         th:text="${warehouse.name}"></option>
                             </select>
                         </div>
-                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
                         <label for="period" class="col-md-2 col-sm-3 control-label">有效期：<span class="text-red">*</span></label>
@@ -281,12 +275,12 @@
      //打印
      window.print();
      };*/
-
+    var drugTable;
+    var drugList = [];//要保存的药品列表
     $(function () {
         var receiptForm = {};
-        var drugList = [];//要保存的药品列表
         /*======================== DataTable ===============================*/
-        var drugTable = $("#drug-table").DataTable({
+        drugTable = $("#drug-table").DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
@@ -320,8 +314,11 @@
             });
             var data = parsePurchase(purchaseObj);
             if (data) {
-                drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
+                var row = drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
+                var id = new Date().getTime();
+                $(row).attr("dataId", id);//添加时间戳作为标志，不好
 
+                purchaseObj.id = id;
                 var sort = {};//给sort重新赋值，因为是个实体，在controller中没取到
                 sort.id = purchaseObj['sort.id'];
                 purchaseObj.sort = sort;
@@ -404,7 +401,7 @@
             purchaseArr.push(o.unit);
             purchaseArr.push('<input type="number" value="' + o.number + '">');
             purchaseArr.push(o.purchase);
-            purchaseArr.push('<input type="number" value="' + o.retail + '">');
+            purchaseArr.push(o.retail);
             sortList.forEach(function (value, index, array) {
                 //if (value.id == o["sort.id"] && purchaseArr.push(value.name)) return false;
                 return !(value.id == o["sort.id"] && purchaseArr.push(value.name));
@@ -415,7 +412,7 @@
             });
             purchaseArr.push(o.period);
             purchaseArr.push('<textarea rows="1">' + o.origin + '</textarea>');
-            purchaseArr.push('<a href="javascript:void(0);">删除</a>');
+            purchaseArr.push('<a href="javascript:void(0);" onclick="deleteRow(this)">删除</a>');
             return purchaseArr;
         }
     }
@@ -433,6 +430,18 @@
             else if (tag == 'select')
                 this.selectedIndex = 0;
         });
+    }
+
+    /*删除行数据*/
+    function deleteRow(ele) {
+        var id = $(ele).parents("tr").attr("dataid");
+        for (var i = 0; i < drugList.length; i++) {
+            if (drugList[i].id == id) {
+                drugList.splice(i, 1);
+            }
+        }
+        $(ele).parents("tr").addClass("selected");
+        drugTable.row('.selected').remove().draw( false );
     }
 
 </script>

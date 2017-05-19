@@ -23,6 +23,7 @@
     <!--nice validate-->
     <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -31,6 +32,16 @@
     <![endif]-->
 </head>
 <body>
+<style type="text/css">
+    .select2-container--default .select2-selection--single {border-radius: 0}
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
+</style>
 <div class="wrapper">
     <!-- Main content -->
     <section class="invoice">
@@ -85,7 +96,6 @@
                     <thead>
                     <tr>
                         <th>名称</th>
-                        <th>单位</th>
                         <th>数量</th>
                         <th>零售价</th>
                         <th>有效期</th>
@@ -148,23 +158,23 @@
                 <h4 class="modal-title">药品销售</h4>
             </div>
             <div class="modal-body">
-                <form id="drug-sell-form" role="form" class="form-horizontal">
+                <form id="drug-purchase-form" role="form" class="form-horizontal">
                     <div class="form-group">
                         <label for="sell-name" class="col-md-2 col-sm-3 control-label">名称：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <select id="sell-name" class="form-control" name="name" data-rule="required" data-msg="必填">
-
+                            <select id="sell-name" class="form-control" style="width: 100%" name="name" data-rule="required" data-msg="必填">
+                                <option value=""></option>
                             </select>
                         </div>
                         <div class="validation-tip"></div>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label class="col-md-2 col-sm-3 control-label">库存：</label>
                         <div class="col-md-8 col-sm-7">
-                            <input id="repertory" class="control-label" readonly>
+                            <input id="repertory" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label for="sell-number" class="col-md-2 col-sm-3 control-label">销售数量：<span
                                 class="text-red">*</span></label>
@@ -173,30 +183,31 @@
                                    data-rule="required; drugNumber" data-rule-drugNumber="[/^(([1-9]\d*))$/, '请输入正确数量']"
                                    data-msg-required="必填">
                         </div>
+                        <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 col-sm-3 control-label">有效期：</label>
                         <div class="col-md-8 col-sm-7">
-                            <input class="form-control" id="sell-period" readonly>
+                            <input class="form-control" id="sell-period" name="period" readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 col-sm-3 control-label">单价：</label>
                         <div class="col-md-8 col-sm-7">
-                            <input class="form-control" id="sell-retail" readonly>
+                            <input class="form-control" id="sell-retail" name="retail" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label class="col-md-2 col-sm-3 control-label">小计：</label>
                         <div class="col-md-8 col-sm-7">
                             <input id="sell-total" class="form-control" readonly>
                         </div>
-                    </div>
+                    </div>-->
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button id="" type="button" class="btn btn-primary">保存</button>
+                <button id="sell-drug-save" type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
@@ -216,12 +227,14 @@
         th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
 <script src="../../static/plugins/nice-validate/local/zh-CN.js"
         th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
 <script type="text/javascript" th:inline="javascript">
+    var drugTable;
+    var drugList = [];//要销售的药品列表
     $(function () {
         var receiptForm = {};
-        var drugList = [];//要保存的药品列表
         /*======================== DataTable ===============================*/
-        var drugTable = $("#drug-table").DataTable({
+        drugTable = $("#drug-table").DataTable({
             "paging": false,
             "lengthChange": false,
             "searching": false,
@@ -230,8 +243,55 @@
             "autoWidth": false
         });
 
+        /*========================= select2 ================================*/
+        $.ajax({
+            url: '/task/drugList',
+            type: 'get',
+            success: function (data) {
+                var itemList = [];
+                for (var i = 0; i < data.length; i++) {
+                    itemList[i] = {
+                        id: data[i].id,
+                        text: data[i].name,
+                        unit: data[i].unit,
+                        number: data[i].number,
+                        retail: data[i].retail,
+                        period: data[i].period
+                    };
+                }
+                $("#sell-name").select2({
+                    data: itemList,
+                    placeholder: "请选择",
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    }, // 自定义格式化防止xss注入
+                    minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                    formatResult: function formatRepo(repo) {
+                        return repo.text;
+                    }, // 函数用来渲染结果
+                    formatSelection: function formatRepoSelection(repo) {
+                        return repo.text;
+                    }, // 函数用于呈现当前的选择
+                    templateResult: formatState    //数据格式化
+                });
+            }
+        });
+
+        $("#sell-name").change(function () {
+            var drugs = /*[[${drugList}]]*/"{}";
+            for (var i = 0; i < drugs.length; i++) {
+                if ($("#sell-name option:selected").val() == drugs[i].id) {
+                    var selectOption = $("#sell-name option:selected");
+                    selectOption.attr("data-retail", drugs[i].retail);
+                    selectOption.attr("data-period", drugs[i].period);
+                }
+            }
+            $("#sell-retail").val($("#sell-name option:selected").attr("data-retail"));
+            $("#sell-period").val($("#sell-name option:selected").attr("data-period").substring(0, 10));
+        });
+
         /*========================= nice validate ================================*/
-        $("#drug-save").on("click", function () {
+        $("#sell-drug-save").on("click", function () {
             $("#drug-purchase-form").trigger("validate");
             if ($(".n-error").length > 0) {
                 return false;
@@ -242,7 +302,9 @@
             });
             var data = parsePurchase(purchaseObj);
             if (data) {
-                drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
+                var row = drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
+                var id = new Date().getTime();
+                $(row).attr("dataId", id);//添加时间戳作为标志，不好
 
                 var sort = {};//给sort重新赋值，因为是个实体，在controller中没取到
                 sort.id = purchaseObj['sort.id'];
@@ -252,7 +314,7 @@
                 purchaseObj.warehouse = warehouse;
                 drugList ? drugList[drugList.length] = purchaseObj : drugList.push(purchaseObj);//添加保存的药品数据
 
-                $("#drug-modal").modal("hide");
+                $("#drug-sell-modal").modal("hide");
                 clearForm($('#drug-purchase-form'));
             }
 
@@ -315,25 +377,17 @@
     function parsePurchase(o) {
         //o = o || {};
         if (o) {
-            var sortList = /*[[${sortList}]]*/"{'id':'','name':'sort'}";//处理类别
-            var warehouseList = /*[[${warehouseList}]]*/"{'id':'','name':'warehouse'}";//处理仓库
+            var drugs = /*[[${drugList}]]*/"{'id':'','name':'drug'}";//处理药品
             var purchaseArr = [];
-            purchaseArr.push(o.name);
-            purchaseArr.push(o.unit);
-            purchaseArr.push('<input type="number" value="' + o.number + '">');
-            purchaseArr.push(o.purchase);
-            purchaseArr.push('<input type="number" value="' + o.retail + '">');
-            sortList.forEach(function (value, index, array) {
-                //if (value.id == o["sort.id"] && purchaseArr.push(value.name)) return false;
-                return !(value.id == o["sort.id"] && purchaseArr.push(value.name));
-            });
-            warehouseList.forEach(function (warehouse, index, obj) {
-                //if (warehouse.id == o["warehouse.id"] && purchaseArr.push(warehouse.name)) return false;
-                return !(warehouse.id == o["warehouse.id"] && purchaseArr.push(warehouse.name));
-            });
+            for (var i = 0; i < drugs.length; i++) {
+                if (drugs[i].id == o.name) {
+                    purchaseArr.push(drugs[i].name);
+                }
+            }
+            purchaseArr.push(o.number);
+            purchaseArr.push(o.retail);
             purchaseArr.push(o.period);
-            purchaseArr.push('<textarea rows="1">' + o.origin + '</textarea>');
-            purchaseArr.push('<a href="javascript:void(0);">删除</a>');
+            purchaseArr.push('<a href="javascript:void(0);" onclick="deleteRow(this)">删除</a>');
             return purchaseArr;
         }
     }
@@ -351,6 +405,32 @@
             else if (tag == 'select')
                 this.selectedIndex = 0;
         });
+    }
+
+    //格式化select2
+    function formatState(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+            '<table><tr>' +
+            '<td><span style="font-weight: 700">' + state.text +
+            '</span><br/>库存：'+state.number + '&nbsp;&nbsp;单位：'+state.unit +
+            '</td></tr></table>'
+        );
+        return $state;
+    }
+
+    //删除行数据
+    function deleteRow(ele) {
+        var id = $(ele).parents("tr").attr("dataid");
+        for (var i = 0; i < drugList.length; i++) {
+            if (drugList[i].id == id) {
+                drugList.splice(i, 1);
+            }
+        }
+        $(ele).parents("tr").addClass("selected");
+        drugTable.row('.selected').remove().draw( false );
     }
 
 </script>

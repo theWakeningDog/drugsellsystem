@@ -18,6 +18,11 @@ public class DrugSearchModel extends PageSearchModel {
     //有效期
     private String periodTime;
 
+    public DrugSearchModel init() {
+        this.setPageSize(0);
+        return this;
+    }
+
     public String getName() {
         return name;
     }

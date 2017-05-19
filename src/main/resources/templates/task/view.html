@@ -38,7 +38,7 @@
                                 <button type="button" class="btn btn-primary" onclick="allotTask()">指派</button>
                                 <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
                             </span>
-                            <span th:case="allocated">
+                            <span th:case="allotted">
                                 <button type="button" class="btn btn-primary" onclick="finishTask()">回执并完成</button>
                                 <button type="button" class="btn btn-primary" onclick="allotTask()">转派</button>
                                 <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
@@ -280,7 +280,9 @@
     }
     //回执并完成
     function finishTask() {
-        location.href = "/task/receipt?id=" + taskId;
+        var taskType = /*[[${task.type}]]*/"购买";
+        var page = taskType == "购买";
+        location.href = "/task/receipt?id=" + taskId + "&page=" + page;
     }
     //取消
     function offTask() {

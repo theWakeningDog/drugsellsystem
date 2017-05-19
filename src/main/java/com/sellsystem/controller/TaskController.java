@@ -3,14 +3,8 @@ package com.sellsystem.controller;
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
-import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
-import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
-import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
-import com.sellsystem.service.CustomerService;
-import com.sellsystem.service.SortService;
-import com.sellsystem.service.TaskService;
-import com.sellsystem.service.WarehouseService;
+import com.sellsystem.entity.searchmodel.extend.*;
+import com.sellsystem.service.*;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,6 +31,8 @@ public class TaskController {
     private WarehouseService warehouseService;
     @Autowired
     private SortService sortService;
+    @Autowired
+    private DrugService drugService;
 
     /**
      * 列表
@@ -99,6 +95,15 @@ public class TaskController {
         return "/task/edit";
     }
 
+    @GetMapping("/delete")
+    public String delete(String ids) {
+        if (!StringUtils.isEmpty(ids)) {
+            List<String> idList = Arrays.asList(ids.split(","));
+            taskService.delete(idList);
+        }
+        return "redirect:/task";
+    }
+
     /*============================任务流程开始======================================*/
 
     /**
@@ -120,11 +125,19 @@ public class TaskController {
      * @return
      */
     @GetMapping("/receipt")
-    public String receipt(Model model, Task task) {
+    public String receipt(Model model, Task task, boolean page) {
         model.addAttribute("task", taskService.getTask(task.getId()).getData());
         model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
-        return "/task/receipt";
+        model.addAttribute("drugList", drugService.getList((new DrugSearchModel()).init()).getData().getList());
+        if (page) return "/task/receiptPurchase";
+        else return "/task/receiptSale";
+    }
+
+    @ResponseBody
+    @GetMapping("/drugList")
+    public List<Drug> drugList() {
+        return drugService.getList((new DrugSearchModel()).init()).getData().getList();
     }
 
     /**

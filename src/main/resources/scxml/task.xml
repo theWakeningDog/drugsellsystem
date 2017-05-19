@@ -7,7 +7,7 @@
     </state>
     <!--创建后可指派（已指派）、取消-->
     <state id="created">
-        <transition event="task_allot" target="allocated"/>
+        <transition event="task_allot" target="allotted"/>
         <transition event="task_off" target="offed"/>
     </state>
     <!--指派后可接受、可拒绝、可取消-->
@@ -17,13 +17,13 @@
         <transition event="task_off" target="offed"/>
     </state>-->
     <!--接受后可完成、可取消-->
-    <state id="allocated">
+    <state id="allotted">
         <transition event="task_finish" target="finished"/>
         <transition event="task_off" target="offed"/>
     </state>
     <!--拒绝后可指派（指派给别人）可取消-->
     <state id="refused">
-        <transition event="task_allot" target="allocated"/>
+        <transition event="task_allot" target="allotted"/>
         <transition event="task_off" target="offed"/>
     </state>
     <!--取消-->
