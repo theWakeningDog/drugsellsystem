@@ -1,5 +1,8 @@
 package com.sellsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -14,12 +17,13 @@ public class Drug {
     private String origin;
     //单位
     private String unit;
-    private int number;
+    private Integer number;
     //进价
     private Double purchase;
     //零售价
     private Double retail;
     //有效期
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date period;
     //类别
     private Sort sort;
@@ -70,11 +74,11 @@ public class Drug {
         this.unit = unit;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

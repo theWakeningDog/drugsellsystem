@@ -55,6 +55,9 @@
             <if test="taskSearchModel.createTime != null and taskSearchModel.createTime != ''">
               and task.createTime BETWEEN #{taskSearchModel.createTimeStart} AND #{taskSearchModel.createTimeEnd}
             </if>
+            <if test="taskSearchModel.customerId != null and taskSearchModel.customerId != ''">
+                and task.customer = #{taskSearchModel.customerId}
+            </if>
         </where>
         ORDER BY taskCreateTime DESC
     </select>

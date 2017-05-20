@@ -136,8 +136,8 @@
         <!-- /.row -->
         <div class="row">
             <div class="pull-right">
-                <button class="btn btn-default">取消并返回</button>
-                <button id="save-receipt" class="btn btn-primary">确认并完成</button>
+                <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 取消并返回</a>
+                <button id="save-receipt" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 确认并完成</button>
             </div>
         </div>
     </section>
@@ -269,6 +269,7 @@
         th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
 <script src="../../static/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"
         th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}"></script>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*var btn = document.getElementById("btn");
      btn.onclick = function () {
@@ -370,6 +371,7 @@
                     task.content = $("#receiptContent").val();
                     receiptForm.drugList = drugList;
                     receiptForm.task = task;
+                    receiptForm.type = true;//标志着这是购买
                     console.log(receiptForm);
                     $.ajax({
                         url: '/task/finish',

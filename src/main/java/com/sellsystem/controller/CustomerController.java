@@ -2,7 +2,9 @@ package com.sellsystem.controller;
 
 import com.sellsystem.entity.Customer;
 import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.CustomerService;
+import com.sellsystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private TaskService taskService;
 
     /**
      * 列表
@@ -45,6 +49,9 @@ public class CustomerController {
     @GetMapping("/view")
     public String view(Model model, String customerId) {
         model.addAttribute("customer", customerService.getCustomer(customerId).getData());
+        TaskSearchModel taskSearchModel = new TaskSearchModel();
+        taskSearchModel.setCustomerId(customerId);
+        model.addAttribute("taskList", taskService.getList(taskSearchModel.init()).getData().getList());
         return "customer/view";
     }
 

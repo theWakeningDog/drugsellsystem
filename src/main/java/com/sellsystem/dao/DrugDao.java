@@ -36,5 +36,5 @@ public interface DrugDao {
      * @param drug
      * @return
      */
-    int update(Drug drug);
+    int update(@Param("drug") Drug drug);
 }

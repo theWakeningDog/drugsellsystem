@@ -76,18 +76,18 @@
     <update id="update">
         update drug
         <set>
-            <if test="name != null">name = #{drug.name}</if>
-            <if test="origin != null">origin = #{drug.origin}</if>
-            <if test="unit != null">unit = #{drug.unit}</if>
-            <if test="number != null">number = #{drug.number}</if>
-            <if test="purchase != null">purchase = #{drug.purchase}</if>
-            <if test="retail != null">retail = #{drug.retail}</if>
-            <if test="period != null">period = #{drug.period}</if>
-            <if test="createTime != null">createTime = #{drug.createTime}</if>
-            <if test="remark != null">remark = #{drug.remark}</if>
-            <if test="period != null">period = #{drug.period}</if>
-            <if test="drug.sort != null and drug.sort.id != null">sortId = #{drug.sort.id}</if>
-            <if test="drug.warehouse != null and drug.warehouse.id != null">warehouseId = #{drug.warehouse.id}</if>
+            <if test="drug.name != null">name = #{drug.name},</if>
+            <if test="drug.origin != null">origin = #{drug.origin},</if>
+            <if test="drug.unit != null">unit = #{drug.unit},</if>
+            <if test="drug.number != null">number = #{drug.number},</if>
+            <if test="drug.purchase != null">purchase = #{drug.purchase},</if>
+            <if test="drug.retail != null">retail = #{drug.retail},</if>
+            <if test="drug.period != null">period = #{drug.period},</if>
+            <if test="drug.sort != null and drug.sort.id != null">sortId = #{drug.sort.id},</if>
+            <if test="drug.warehouse != null and drug.warehouse.id != null">warehouseId = #{drug.warehouse.id},</if>
+            <if test="drug.createTime != null">createTime = #{drug.createTime},</if>
+            <if test="drug.remark != null">remark = #{drug.remark}</if>
         </set>
+        where id = #{drug.id}
     </update>
 </mapper>

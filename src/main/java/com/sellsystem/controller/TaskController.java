@@ -1,19 +1,22 @@
 package com.sellsystem.controller;
 
 import com.sellsystem.entity.Drug;
-import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.*;
 import com.sellsystem.service.*;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +49,7 @@ public class TaskController {
         //搜索条件
         model.addAttribute("taskSearchModel", taskSearchModel);
         //分页数据
-        model.addAttribute("taskList", taskService.getList(taskSearchModel).getData().getList());
+        model.addAttribute("taskList", taskService.getList(taskSearchModel.init()).getData().getList());
         return "task/list";
     }
 
@@ -149,7 +152,7 @@ public class TaskController {
     @ResponseBody
     @PostMapping("/finish")
     public MsgModel finish(@RequestBody ReceiptForm receiptForm) {
-        return taskService.finishTask(receiptForm.getTask(), receiptForm.getDrugList());
+        return receiptForm.getType() ? taskService.finishPurchaseTask(receiptForm.getTask(), receiptForm.getDrugList()) : taskService.finishSaleTask(receiptForm.getTask(), receiptForm.getDrugList());
     }
 
     /**
@@ -177,9 +180,21 @@ public class TaskController {
     }
     /*============================任务流程结束======================================*/
 
-    public static class ReceiptForm {
+    /**
+     * 前端日期处理
+     * @param binder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   //true:允许输入空值，false:不能为空值
+    }
+
+        public static class ReceiptForm {
         private Task task;
         private List<Drug> drugList = new ArrayList<>();
+        private Boolean type = true;   //true:购买，false:销售
 
         public Task getTask() {
             return task;
@@ -195,6 +210,14 @@ public class TaskController {
 
         public void setDrugList(List<Drug> drugList) {
             this.drugList = drugList;
+        }
+
+        public Boolean getType() {
+            return type;
+        }
+
+        public void setType(Boolean type) {
+            this.type = type;
         }
     }
 }

@@ -12,6 +12,12 @@ public class TaskSearchModel extends PageSearchModel {
     private String level;
     private String executor;
     private String createTime;
+    private String customerId;
+
+    public TaskSearchModel init() {
+        this.setPageSize(0);
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -51,6 +57,14 @@ public class TaskSearchModel extends PageSearchModel {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     /**

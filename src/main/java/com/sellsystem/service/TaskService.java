@@ -65,12 +65,20 @@ public interface TaskService {
     MsgModel offTask(Task task);
 
     /**
-     * 完成
+     * 完成采购任务
      * @param task
      * @param drugList
      * @return
      */
-    MsgModel finishTask(Task task, List<Drug> drugList);
+    MsgModel finishPurchaseTask(Task task, List<Drug> drugList);
+
+    /**
+     * 销售任务
+     * @param task
+     * @param drugList
+     * @return
+     */
+    MsgModel finishSaleTask(Task task, List<Drug> drugList);
 
     /**
      * 关闭

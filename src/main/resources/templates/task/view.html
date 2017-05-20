@@ -242,34 +242,35 @@
 
     //数据格式化
     function formatMessageText(data) {
-        var urlHtmlTemp = "新的一谈加油";
-        /*if (data.action == "指派") {
-         urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
-         urlHtmlTemp += '把工单&nbsp;&nbsp;#' +  data.taskNo + '&nbsp;&nbsp;' + data.action + '给&nbsp;&nbsp;';
-         urlHtmlTemp += '<a href="/security/user/view/' + data.executorId + '">' + data.executorName + '</a>';
-         } else {
-         urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
-         urlHtmlTemp += data.action + '了工单&nbsp;&nbsp;#' + data.taskNo;
-         if(Object.keys(data.content).length > 0) {
-         if (data.content.updateType == "tRecord") {
-         urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
-         } else if (data.content.updateType == "tOther") {
-         urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
-         } else {
-         urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
-         }
-         //附件
-         if (data.attachments != "") {
-         urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
-         for (var i= 0; i < data.attachments.length; i++) {
-         urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
-         urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="'+data.attachments[i].url+'">';
-         urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
-         urlHtmlTemp +='</div><br>';
-         }
-         }
-         }
-         }*/
+        console.log(data);
+        var urlHtmlTemp = "";
+        if (data.action == "allotted") {
+            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += '把任务&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
+            urlHtmlTemp += '<a href="/security/user/view/' + data.executor.id + '">' + data.executor.name + '</a>';
+        } else {
+            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += data.action + '了工单&nbsp;&nbsp;#' + data.taskNo;
+            if (Object.keys(data.content).length > 0) {
+                if (data.content.updateType == "tRecord") {
+                    urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
+                } else if (data.content.updateType == "tOther") {
+                    urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
+                } else {
+                    urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
+                }
+                //附件
+                if (data.attachments != "") {
+                    urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
+                    for (var i = 0; i < data.attachments.length; i++) {
+                        urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
+                        urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="' + data.attachments[i].url + '">';
+                        urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
+                        urlHtmlTemp += '</div><br>';
+                    }
+                }
+            }
+        }
         return urlHtmlTemp;
     }
 

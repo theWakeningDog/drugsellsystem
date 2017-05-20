@@ -140,8 +140,8 @@
         <!-- /.row -->
         <div class="row">
             <div class="pull-right">
-                <button class="btn btn-default">取消并返回</button>
-                <button id="save-receipt" class="btn btn-primary">确认并完成</button>
+                <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 取消并返回</a>
+                <button id="save-receipt" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 确认并完成</button>
             </div>
         </div>
     </section>
@@ -160,10 +160,10 @@
             <div class="modal-body">
                 <form id="drug-purchase-form" role="form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="sell-name" class="col-md-2 col-sm-3 control-label">名称：<span
+                        <label for="sell-name" class="col-md-3 col-sm-3 control-label">名称：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <select id="sell-name" class="form-control" style="width: 100%" name="name" data-rule="required" data-msg="必填">
+                            <select id="sell-name" class="form-control" style="width: 100%" name="id" data-rule="required" data-msg="必填">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -176,7 +176,7 @@
                         </div>
                     </div>-->
                     <div class="form-group">
-                        <label for="sell-number" class="col-md-2 col-sm-3 control-label">销售数量：<span
+                        <label for="sell-number" class="col-md-3 col-sm-3 control-label">销售数量：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
                             <input id="sell-number" class="form-control" type="number" name="number" min="0"
@@ -186,13 +186,13 @@
                         <div class="validation-tip"></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 col-sm-3 control-label">有效期：</label>
+                        <label class="col-md-3 col-sm-3 control-label">有效期：</label>
                         <div class="col-md-8 col-sm-7">
                             <input class="form-control" id="sell-period" name="period" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 col-sm-3 control-label">单价：</label>
+                        <label class="col-md-3 col-sm-3 control-label">单价：</label>
                         <div class="col-md-8 col-sm-7">
                             <input class="form-control" id="sell-retail" name="retail" readonly>
                         </div>
@@ -228,6 +228,7 @@
 <script src="../../static/plugins/nice-validate/local/zh-CN.js"
         th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
 <script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     var drugTable;
     var drugList = [];//要销售的药品列表
@@ -353,6 +354,7 @@
                     task.content = $("#receiptContent").val();
                     receiptForm.drugList = drugList;
                     receiptForm.task = task;
+                    receiptForm.type = false;
                     console.log(receiptForm);
                     $.ajax({
                         url: '/task/finish',
@@ -380,7 +382,7 @@
             var drugs = /*[[${drugList}]]*/"{'id':'','name':'drug'}";//处理药品
             var purchaseArr = [];
             for (var i = 0; i < drugs.length; i++) {
-                if (drugs[i].id == o.name) {
+                if (drugs[i].id == o.id) {
                     purchaseArr.push(drugs[i].name);
                 }
             }

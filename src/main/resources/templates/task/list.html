@@ -38,7 +38,7 @@
 </style>
 <div class="row">
     <section class="content">
-        <div class="col-md-3">
+        <!--<div class="col-md-3">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">任务视图</h3>
@@ -55,13 +55,13 @@
                                 <span class="label label-danger pull-right">65</span>
                             </a>
                         </li>
-                        <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                        &lt;!&ndash;<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
                         <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                         <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                         </li>
-                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
+                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>&ndash;&gt;
                     </ul>
-                    <!--<ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
+                    &lt;!&ndash;<ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
                         <li>
                             &lt;!&ndash;th:attr这样可以自定义属性，下面两个都可以取到warehouseId&ndash;&gt;
                             <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}"
@@ -71,14 +71,14 @@
                                       th:text="${warehouse.drugNum}">12</span>
                             </a>
                         </li>
-                    </ul>-->
+                    </ul>&ndash;&gt;
                 </div>
-                <!-- /.box-body -->
+                &lt;!&ndash; /.box-body &ndash;&gt;
             </div>
-            <!-- /. box -->
-        </div>
+            &lt;!&ndash; /. box &ndash;&gt;
+        </div>-->
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             <form action="/task">
                 <input type="hidden" id="searchClosed" name="searchClosed" th:value="${taskSearchModel.searchClosed}">
                 <div th:class="${taskSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">

@@ -39,8 +39,8 @@ public class TaskServiceImpl implements TaskService {
     private DrugDao drugDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
-        String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
-        PageHelper.startPage(taskSearchModel.getPageNumber(), taskSearchModel.getPageSize(), orderBy);
+//        String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
+//        PageHelper.startPage(taskSearchModel.getPageNumber(), taskSearchModel.getPageSize(), orderBy);
         List<Task> taskList = taskDao.getList(taskSearchModel);
         PageInfo<Task> taskPageInfo = new PageInfo<>(taskList);
         return new MsgModel<>(taskPageInfo);
@@ -183,7 +183,7 @@ public class TaskServiceImpl implements TaskService {
      * @return
      */
     @Override
-    public MsgModel finishTask(Task task, List<Drug> drugList) {
+    public MsgModel finishPurchaseTask(Task task, List<Drug> drugList) {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
@@ -199,6 +199,41 @@ public class TaskServiceImpl implements TaskService {
             if (drugList.size() > 0) {
                 for (Drug drug : drugList) {
                     drugDao.create(drug);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.TASK_OPT_FAIL);
+        }
+        return msgModel;
+    }
+
+    /**
+     * 销售任务
+     * @param task
+     * @param drugList
+     * @return
+     */
+    @Override
+    public MsgModel finishSaleTask(Task task, List<Drug> drugList) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Task workTask = taskDao.getTask(task.getId());
+            task.setState(engine.getStateByEngine(
+                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.finish.getEvent()));
+            task.setCreateUser(workTask.getCreateUser());
+            task.setCompleteTime(DateUtil.getCurrentDayDate());
+            taskDao.update(task);
+
+            Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
+            recordDao.create(record);
+
+            if (drugList.size() > 0) {
+                for (Drug d : drugList) {
+                    Drug drug = drugDao.getDrug(d.getId());
+                    d.setNumber(drug.getNumber() - d.getNumber()); //修改一下数量
+                    drugDao.update(d);
                 }
             }
         } catch (Exception e) {
