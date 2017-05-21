@@ -15,4 +15,7 @@ public final class ClassConstants {
      */
     public static final int SUCCESS = 1;        //成功
     public static final int FAIL = 0;               //失败
+
+    //删除成功
+    public static final int successDelete = 1;
 }

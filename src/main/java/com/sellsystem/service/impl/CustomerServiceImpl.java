@@ -103,7 +103,12 @@ public class CustomerServiceImpl implements CustomerService {
     public MsgModel delete(List<String> customerIdList) {
         MsgModel msgModel = new MsgModel();
         try {
-            customerDao.delete(customerIdList);
+            //customerDao.delete(customerIdList);
+            for (String customerId : customerIdList) {
+                Customer customer = customerDao.getCustomer(customerId);
+                customer.setDel(ClassConstants.successDelete);
+                customerDao.update(customer);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             msgModel.setStatus(ClassConstants.FAIL);

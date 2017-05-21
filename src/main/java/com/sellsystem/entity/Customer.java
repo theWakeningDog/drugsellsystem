@@ -27,7 +27,7 @@ public class Customer {
     private BigDecimal latitude;
     private User createUser;
     //是否删除
-    private Boolean isDelete;
+    private Integer del;  //1：删除
     private Date createTime;
     private String remark;
 
@@ -127,12 +127,12 @@ public class Customer {
         this.createUser = createUser;
     }
 
-    public Boolean getDelete() {
-        return isDelete;
+    public Integer getDel() {
+        return del;
     }
 
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
+    public void setDel(Integer del) {
+        this.del = del;
     }
 
     public Date getCreateTime() {
@@ -166,7 +166,7 @@ public class Customer {
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", createUser=" + createUser +
-                ", isDelete=" + isDelete +
+                ", del=" + del +
                 ", createTime=" + createTime +
                 ", remark='" + remark + '\'' +
                 '}';

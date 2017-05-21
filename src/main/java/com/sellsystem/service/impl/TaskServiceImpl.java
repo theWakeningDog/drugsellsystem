@@ -114,7 +114,12 @@ public class TaskServiceImpl implements TaskService {
     public MsgModel delete(List<String> taskIdList) {
         MsgModel msgModel = new MsgModel();
         try {
-            taskDao.delete(taskIdList);
+            //taskDao.delete(taskIdList);
+            for (String taskId : taskIdList) {
+                Task task = taskDao.getTask(taskId);
+                task.setIsDelete(ClassConstants.successDelete);
+                taskDao.update(task);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             msgModel.setStatus(ClassConstants.FAIL);

@@ -1,5 +1,6 @@
 package com.sellsystem.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.sellsystem.dao.RecordDao;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
@@ -21,6 +22,7 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public List<Record> getList(RecordSearchModel recordSearchModel) {
+        PageHelper.startPage(recordSearchModel.getPageNumber(), recordSearchModel.getPageSize());
         return recordDao.getList(recordSearchModel);
     }
 }

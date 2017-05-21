@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
+
 /**
  * Created by zhangwei on 2017/3/17.
  */
@@ -70,11 +72,23 @@ public class CustomerController {
         return "redirect:/customer";
     }
 
+    /**
+     * 编辑
+     * @param model
+     * @param customerId
+     * @return
+     */
     @GetMapping("/edit")
     public String edit(Model model, String customerId) {
         if (!StringUtils.isEmpty(customerId)) {
             model.addAttribute("customer", customerService.getCustomer(customerId).getData());
         }
         return "/customer/edit";
+    }
+
+    @GetMapping("/delete")
+    public String delete(String ids) {
+        customerService.delete(Arrays.asList(ids.split(",")));
+        return "redirect:/customer";
     }
 }

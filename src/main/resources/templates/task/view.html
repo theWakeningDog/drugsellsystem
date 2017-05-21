@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>任务详情</title>
-    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
@@ -11,7 +11,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.css" th:href="@{/dist/css/AdminLTE.min.css}">
 </head>
 <body style="background: #ecf0f5">
 <style type="text/css">
@@ -112,13 +112,14 @@
                                 <span class="col-md-9 col-xs-8" th:text="${#dates.format(task.endTime, 'yyyy-MM-dd')}">山东省青岛市</span>
                             </div>-->
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">附件：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${task.attachment}">常温库</span>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">描述：</label>
                                 <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
                                       th:text="${task.description}">描述</span>
+                            </div>
+                            <div class="form-group" th:if="${task.state == 'finished' || task.state == 'closed'}">
+                                <label class="col-md-3 col-xs-4 control-label">内容：</label>
+                                <span class="col-md-9 cl-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
+                                      th:text="${task.content}">内容</span>
                             </div>
                         </div>
                     </div>
@@ -131,45 +132,49 @@
                 <div class="box-header with-border">
                     <h5 class="box-title">药品出入库记录</h5>
                 </div>
-                <div>
-                    <div class="tab-pane-wrap">
-                        <div class="col-md-12">
-                            <!-- The time line -->
-                            <ul id="timeline" class="timeline">
-                                <!-- timeline time label -->
-                                <li class="time-label">
-                                    <span id="last-time" class="bg-red">最近更新</span>
-                                </li>
-                            </ul>
-                            <div id="div-load-more" class="box-footer clearfix text-center"
-                                 style="border-top: 0; padding: 0 10px 10px 10px;">
-                                <a href="javascript:void(0);" class="uppercase" id="load-more">加载更多</a>
+                <div class="nav-tabs-custom">
+                    <div><!-- class="tab-content"-->
+                        <div class="tab-pane">
+                            <div class="tab-pane-wrap">
+                                <div class="col-md-12">
+                                    <!-- The time line -->
+                                    <ul id="timeline" class="timeline">
+                                        <!-- timeline time label -->
+                                        <li class="time-label">
+                                            <span id="last-time" class="bg-red">最近更新</span>
+                                        </li>
+                                    </ul>
+                                    <div id="div-load-more" class="box-footer clearfix text-center"
+                                         style="border-top: 0; padding: 0 10px 10px 10px;">
+                                        <a href="javascript:void(0);" class="uppercase" id="load-more">加载更多</a>
+                                    </div>
+                                    <div id="loading" class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay">
+                                                <i class="fa fa-refresh fa-spin"></i>
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                    <div id="noData" class="col-md-12" style="display: none;">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay text-center">
+                                                已经是最后一页了
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="loading" class="col-md-12">
-                        <div class="box box-solid">
-                            <div class="box-body">
-
-                            </div><!-- /.box-body -->
-                            <!-- Loading (remove the following to stop the loading)-->
-                            <div class="overlay">
-                                <i class="fa fa-refresh fa-spin"></i>
-                            </div>
-                            <!-- end loading -->
-                        </div><!-- /.box -->
-                    </div>
-                    <div id="noData" class="col-md-12" style="display: none;">
-                        <div class="box box-solid">
-                            <div class="box-body">
-
-                            </div><!-- /.box-body -->
-                            <!-- Loading (remove the following to stop the loading)-->
-                            <div class="overlay text-center">
-                                已经是最后一页了
-                            </div>
-                            <!-- end loading -->
-                        </div><!-- /.box -->
                     </div>
                 </div>
             </div>
@@ -201,7 +206,7 @@
         var url = "/record/list";
         $.get(url, {
             taskId: taskId,
-            pageNum: pageNumber,
+            pageNumber: pageNumber,
             pageSize: 10
         }, function (result) {
             renderTable(result);
@@ -228,7 +233,7 @@
                 tempHtml += '<i class="fa fa-envelope bg-blue"></i>';
                 tempHtml += '<div class="timeline-item">';
                 tempHtml += '<span class="time"><i class="fa fa-clock-o"></i>' + data[i].createTime + '</span>';
-                tempHtml += '<h5 class="timline-header">';
+                tempHtml += '<h5 class="timeline-header">';
                 tempHtml += formatMessageText(data[i]);
                 tempHtml += '</h5>';
                 tempHtml += ' <div class="timeline-body">';
@@ -242,34 +247,33 @@
 
     //数据格式化
     function formatMessageText(data) {
-        console.log(data);
         var urlHtmlTemp = "";
-        if (data.action == "allotted") {
+        if (data.action == "指派") {
             urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
             urlHtmlTemp += '把任务&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
             urlHtmlTemp += '<a href="/security/user/view/' + data.executor.id + '">' + data.executor.name + '</a>';
         } else {
-            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.userName + '</a>&nbsp;&nbsp;';
-            urlHtmlTemp += data.action + '了工单&nbsp;&nbsp;#' + data.taskNo;
-            if (Object.keys(data.content).length > 0) {
-                if (data.content.updateType == "tRecord") {
-                    urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
-                } else if (data.content.updateType == "tOther") {
-                    urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
-                } else {
-                    urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
-                }
-                //附件
-                if (data.attachments != "") {
-                    urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
-                    for (var i = 0; i < data.attachments.length; i++) {
-                        urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
-                        urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="' + data.attachments[i].url + '">';
-                        urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
-                        urlHtmlTemp += '</div><br>';
-                    }
-                }
-            }
+            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += data.action + '了任务&nbsp;&nbsp;' + data.task.name;
+            /*if (Object.keys(data.content).length > 0) {
+             if (data.content.updateType == "tRecord") {
+             urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
+             } else if (data.content.updateType == "tOther") {
+             urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
+             } else {
+             urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
+             }
+             //附件
+             if (data.attachments != "") {
+             urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
+             for (var i = 0; i < data.attachments.length; i++) {
+             urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
+             urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="' + data.attachments[i].url + '">';
+             urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
+             urlHtmlTemp += '</div><br>';
+             }
+             }
+             }*/
         }
         return urlHtmlTemp;
     }

@@ -8,7 +8,7 @@
         customer.type customerType, customer.province customerProvince,
         customer.city customerCity, customer.district customerDistrict, customer.address customerAddress,
         customer.longitude customerLongitude, customer.latitude customerLatitude,
-        customer.createUser customerCreateUser, customer.isDelete customerIsDelete,
+        customer.createUser customerCreateUser, customer.del customerDel,
         customer.createTime customerCreateTime, customer.remark customerRemark
     </sql>
 
@@ -23,7 +23,7 @@
         <result property="address" column="customerAddress"/>
         <result property="longitude" column="customerLongitude"/>
         <result property="latitude" column="customerLatitude"/>
-        <result property="isDelete" column="customerIsDelete"/>
+        <result property="del" column="customerDel"/>
         <result property="createTime" column="customerCreateTime"/>
         <result property="remark" column="customerRemark"/>
         <association property="createUser" column="customerCreateUser" resultMap="com.sellsystem.dao.UserDao.createUserResult"/>
@@ -35,6 +35,7 @@
         <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>
         from customer customer
         left join user createUser on customer.createUser = createUser.id
+        where customer.del = 0
     </select>
 
     <select id="getCustomer" resultMap="customerResult">
@@ -51,15 +52,15 @@
             select uuid()
         </selectKey>
         insert into customer values (#{customer.id}, #{customer.name}, #{customer.phone}, null, #{customer.type}, #{customer.province}, #{customer.city}, #{customer.district},
-        #{customer.address}, #{customer.longitude}, #{customer.latitude}, #{customer.createUser.id}, #{customer.isDelete}, #{customer.createTime}, #{customer.remark});
+        #{customer.address}, #{customer.longitude}, #{customer.latitude}, #{customer.createUser.id}, #{customer.del}, #{customer.createTime}, #{customer.remark});
     </insert>
 
     <update id="update">
-        update task
+        update customer
         <set>
-            <if test="customer.id != null">id = #{customer.id},</if>
             <if test="customer.name != null">name = #{customer.name},</if>
-            <if test="customer.phone != null">customer = #{customer.phone},</if>
+            <if test="customer.phone != null">phone = #{customer.phone},</if>
+            level = null,
             <if test="customer.type != null">type = #{customer.type},</if>
             <if test="customer.province != null">province = #{customer.province},</if>
             <if test="customer.city != null">city = #{customer.city},</if>
@@ -68,10 +69,11 @@
             <if test="customer.longitude != null">longitude = #{customer.longitude},</if>
             <if test="customer.latitude != null">latitude = #{customer.latitude},</if>
             <if test="customer.createUser != null and customer.createUser.id != null">createUser = #{customer.createUser.id},</if>
-            <if test="customer.isDelete != null">isDelete = #{customer.isDelete}</if>
+            <if test="customer.del != null">del = #{customer.del},</if>
             <if test="customer.createTime != null">createTime = #{customer.createTime},</if>
             <if test="customer.remark != null">remark = #{customer.remark}</if>
         </set>
+        where id = #{customer.id}
     </update>
 
     <delete id="delete">
