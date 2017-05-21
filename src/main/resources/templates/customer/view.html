@@ -28,10 +28,16 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}"
-                       class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                    <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}" class="btn btn-danger"><i
-                            class="fa fa-trash-o"></i> 删除</a>
+                    <span th:if="${customer.del == 0}">
+                        <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}"
+                           class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
+                        <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}"
+                           class="btn btn-danger"><i
+                                class="fa fa-trash-o"></i> 删除</a>
+                    </span>
+                    <span th:if="${customer.del == 1}">
+                        <span class="btn btn-danger">【已删除】</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -84,21 +90,31 @@
                                     <table id="task-table" class="table table-select  table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th>任务名称</th>
-                                            <th>任务状态</th>
-                                            <th>任务类型</th>
+                                            <th>名称</th>
+                                            <th>状态</th>
+                                            <th>类型</th>
                                             <th>紧急程度</th>
                                             <th>创建时间</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:if="${not #lists.isEmpty(taskList)}" th:each="task:${taskList}">
-                                                <td th:text="${task.name}">任务名称</td>
-                                                <td th:text="${task.state}">任务状态</td>
-                                                <td th:text="${task.type}">任务类型</td>
-                                                <td th:text="${task.level}">紧急程度</td>
-                                                <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">创建时间</td>
-                                            </tr>
+                                        <tr th:if="${not #lists.isEmpty(taskList)}" th:each="task:${taskList}">
+                                            <td th:text="${task.name}">任务名称</td>
+                                            <td>
+                                                <span th:if="${task.state != null}"
+                                                      th:switch="${task.state.toString()}">
+                                                    <span th:case="created" th:text="已创建"></span>
+                                                    <span th:case="offed" th:text="已取消"></span>
+                                                    <span th:case="allotted" th:text="已指派"></span>
+                                                    <span th:case="finished" th:text="已完成"></span>
+                                                    <span th:case="closed" th:text="已关闭"></span>
+                                                    <span th:case="*" th:text="出现错误">错误</span>
+                                                </span>
+                                            </td>
+                                            <td th:text="${task.type}">任务类型</td>
+                                            <td th:text="${task.level}">紧急程度</td>
+                                            <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">创建时间</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>

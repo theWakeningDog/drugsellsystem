@@ -31,8 +31,8 @@ public class DrugServiceImpl implements DrugService {
      * @return
      */
     public MsgModel<PageInfo<Drug>> getList(DrugSearchModel drugSearchModel) {
-        LinkedHashMap<String, Boolean> orderBy = drugSearchModel.getOrderBy();
-        PageHelper.startPage(drugSearchModel.getPageNumber(), drugSearchModel.getPageSize(), Sortable.getOrderByString(orderBy));
+//        LinkedHashMap<String, Boolean> orderBy = drugSearchModel.getOrderBy();
+//        PageHelper.startPage(drugSearchModel.getPageNumber(), drugSearchModel.getPageSize(), Sortable.getOrderByString(orderBy));
         List<Drug> drugList = drugDao.getList(drugSearchModel);
         PageInfo<Drug> drugPageInfo = new PageInfo<>(drugList);
         return  new MsgModel<>("", drugPageInfo);

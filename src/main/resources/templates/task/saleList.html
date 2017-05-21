@@ -184,7 +184,7 @@
                         <!-- /.pull-right -->
                     </div>
                     <div class="<!--table-responsive--> mailbox-messages">
-                        <table id="task-table" class="table table-striped table-bordered table-hover">
+                        <table id="sale-table" class="table table-striped table-bordered table-hover">
                             <thead>
                             <th><input type="checkbox" disabled></th>
                             <th>名称</th>
@@ -286,7 +286,7 @@
             }
         });
 
-        $("#task-table").dataTable({
+        $("#sale-table").dataTable({
             renderer: "bootstrap",
             paging: true, //是否显示分页
             info: true, //是否显示表格左下角的信息
@@ -299,7 +299,7 @@
             stateSave: false, //保存状态 - 在页面重新加载的时候恢复状态（页码等内容），慎用
             autoWidth: true, //控制Datatables是否自适应宽度   //scrollCollapse: true,
             deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
-            order: [6, "desc"], //设置可第几列以排序。是空的，可以去掉默认的排序（默认：第一列升序）
+            order: [5, "desc"], //设置可第几列以排序。是空的，可以去掉默认的排序（默认：第一列升序）
             "aoColumnDefs": [{"bSortable": false, "aTargets": [0]}],//设置不排序
             "sPaginationType": "full_numbers",
             "oLanguage": {

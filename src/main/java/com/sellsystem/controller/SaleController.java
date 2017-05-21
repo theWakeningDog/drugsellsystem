@@ -1,7 +1,9 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.Customer;
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Task;
+import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.extend.*;
 import com.sellsystem.service.*;
 import com.sellsystem.util.MsgModel;
@@ -36,6 +38,8 @@ public class SaleController {
     private SortService sortService;
     @Autowired
     private DrugService drugService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("")
     public String saleList(Model model, TaskSearchModel taskSearchModel) {
@@ -96,6 +100,26 @@ public class SaleController {
         }
         model.addAttribute("customerList", customerService.getList(new CustomerSearchModel()).getData().getList());
         return "/task/saleEdit";
+    }
+
+    /**
+     * 用户列表
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/user/list")
+    public List<User> userList() {
+        return userService.getList(new UserSearchModel().init()).getData().getList();
+    }
+
+    /**
+     * 客户列表
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/customer/list")
+    public List<Customer> customerList() {
+        return customerService.getList(new CustomerSearchModel().init()).getData().getList();
     }
 
     @GetMapping("/delete")

@@ -1,11 +1,10 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.Customer;
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
-import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
-import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
-import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
+import com.sellsystem.entity.User;
+import com.sellsystem.entity.searchmodel.extend.*;
 import com.sellsystem.service.*;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,8 @@ public class PurchaseController {
     private SortService sortService;
     @Autowired
     private DrugService drugService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 列表
@@ -102,10 +103,32 @@ public class PurchaseController {
     @GetMapping("/edit")
     public String edit(Model model, String taskId) {
         if (!StringUtils.isEmpty(taskId)) {
-            model.addAttribute("task", taskService.getTask(taskId).getData());
+            Task task = taskService.getTask(taskId).getData();
+            model.addAttribute("task", task);
         }
-        model.addAttribute("customerList", customerService.getList(new CustomerSearchModel()).getData().getList());
+//        model.addAttribute("customerList", customerService.getList(new CustomerSearchModel().init()).getData().getList());
+//        model.addAttribute("userList", userService.getList(new UserSearchModel().init()).getData().getList());
         return "/task/purchaseEdit";
+    }
+
+    /**
+     * 用户列表
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/user/list")
+    public List<User> userList() {
+        return userService.getList(new UserSearchModel().init()).getData().getList();
+    }
+
+    /**
+     * 客户列表
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/customer/list")
+    public List<Customer> customerList() {
+        return customerService.getList(new CustomerSearchModel().init()).getData().getList();
     }
 
     @GetMapping("/delete")

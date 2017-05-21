@@ -182,7 +182,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * 完成,药品处理
+     * 采购完成,药品添加处理
      *
      * @param task
      * @return
@@ -203,6 +203,7 @@ public class TaskServiceImpl implements TaskService {
 
             if (drugList.size() > 0) {
                 for (Drug drug : drugList) {
+                    drug.setCreateTime(new Date());
                     drugDao.create(drug);
                 }
             }
@@ -285,7 +286,7 @@ public class TaskServiceImpl implements TaskService {
         record.setCreateUser(ShiroUtils.getUser());
         record.setAction(action);
         record.setTask(task);
-        record.setCreateTime(DateUtil.getCurrentDayDate());
+        record.setCreateTime(new Date());
         return record;
     }
 

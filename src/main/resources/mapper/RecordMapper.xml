@@ -35,6 +35,7 @@
         LEFT JOIN user createUser ON record.createUser = createUser.id
         LEFT JOIN user user ON record.executor = user.id
         WHERE record.task = #{recordSearchModel.taskId}
+        order by record.createTime desc
     </select>
 
     <insert id="create">

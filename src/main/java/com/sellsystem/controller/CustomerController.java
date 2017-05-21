@@ -38,7 +38,7 @@ public class CustomerController {
         //搜索条件
         model.addAttribute("customerSearchModel", customerSearchModel);
         //分页数据
-        model.addAttribute("customerList", customerService.getList(customerSearchModel).getData().getList());
+        model.addAttribute("customerList", customerService.getList(customerSearchModel.init()).getData().getList());
         return "customer/list";
     }
 

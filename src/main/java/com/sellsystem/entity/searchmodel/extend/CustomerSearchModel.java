@@ -12,7 +12,11 @@ public class CustomerSearchModel extends PageSearchModel {
     private String createTime;
 
     public CustomerSearchModel() {
-        super.setPageSize(0);
+    }
+
+    public CustomerSearchModel init() {
+        this.setPageSize(0);
+        return this;
     }
 
     public String getName() {

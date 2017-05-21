@@ -50,6 +50,7 @@
                 #{drugSearchModel.periodTimeEnd}
             </if>
         </where>
+        order by drug.createTime desc
     </select>
 
     <select id="getDrug" parameterType="java.lang.String" resultMap="drugResult">

@@ -32,8 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public MsgModel<PageInfo<Customer>> getList(CustomerSearchModel customerSearchModel) {
-        String orderBy = Sortable.getOrderByString(customerSearchModel.getOrderBy());
-        PageHelper.startPage(customerSearchModel.getPageNumber(), customerSearchModel.getPageSize(), orderBy);
+//        String orderBy = Sortable.getOrderByString(customerSearchModel.getOrderBy());
+//        PageHelper.startPage(customerSearchModel.getPageNumber(), customerSearchModel.getPageSize(), orderBy);
         List<Customer> customerList = customerDao.getList(customerSearchModel);
         PageInfo<Customer> customerPageInfo = new PageInfo<>(customerList);
         return new MsgModel<>(customerPageInfo);

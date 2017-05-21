@@ -63,22 +63,20 @@
                             <div class="col-md-8 col-sm-7">
                                 <select id="customer" name="customer.id" style="width: 100%" data-rule="required" data-msg="必填">
                                     <option value=""></option>
-                                    <span  th:each="customer : ${customerList}">
-                                        <option th:value="${customer.id}" th:text="${customer.name}">客户</option>
-                                    </span>
+                                    <option th:if="${task != null}" th:value="${task.customer.id}" selected th:text="${task.customer.name}"></option>
                                 </select>
                             </div>
                             <div class="col-md-offset-8 validation-tip"></div>
                         </div>
-                        <!--<div class="form-group">
-                            <label for="type" class="col-md-2 col-sm-3 control-label">任务类型：</label>
+                        <div class="form-group">
+                            <label for="executor" class="col-md-2 col-sm-3 control-label">负责人：</label>
                             <div class="col-md-8 col-sm-7">
-                                <select class="form-control" id="type" name="type">
-                                    <option value="购买">购买</option>
-                                    <option value="销售" th:selected="${task != null && task.type == '销售'}">销售</option>
+                                <select class="form-control" id="executor" name="executor.id" style="width: 100%" data-rule="required" data-msg="必填">
+                                    <option value=""></option>
+                                    <option th:if="${task != null}" th:value="${task.executor.id}" selected th:text="${task.executor.name}"></option>
                                 </select>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="form-group">
                             <label for="level" class="col-md-2 col-sm-3 control-label">紧急程度：</label>
                             <div class="col-md-8 col-sm-7">
@@ -115,12 +113,97 @@
         th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
 <script src="../../static/plugins/nice-validate/local/zh-CN.js" th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
 <script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
-<script type="text/javascript">
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script type="text/javascript" th:inline="javascript">
     $(function () {
-        $("#customer").select2({
-            placeholder: "请选择客户"
+        $.ajax({
+            url: '/purchase/customer/list',
+            type: 'get',
+            success: function (data) {
+                var itemList = [];
+                for (var i = 0; i < data.length; i++) {
+                    itemList[i] = {
+                        id: data[i].id,
+                        text: data[i].name,
+                        phone: data[i].phone,
+                        address: data[i].province + data[i].city + data[i].district + data[i].address
+                    };
+                }
+                $("#customer").select2({
+                    data: itemList,
+                    placeholder: "请选择客户",
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    }, // 自定义格式化防止xss注入
+                    minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                    formatResult: function formatRepo(repo) {
+                        return repo.text;
+                    }, // 函数用来渲染结果
+                    formatSelection: function formatRepoSelection(repo) {
+                        return repo.text;
+                    }, // 函数用于呈现当前的选择
+                    templateResult: formatCustomerState    //数据格式化
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/purchase/user/list',
+            type: 'get',
+            success: function (data) {
+                var itemList = [];
+                for (var i = 0; i < data.length; i++) {
+                    itemList[i] = {
+                        id: data[i].id,
+                        text: data[i].name,
+                        phone: data[i].account
+                    };
+                }
+                $("#executor").select2({
+                    data: itemList,
+                    placeholder: "请选择负责人",
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    }, // 自定义格式化防止xss注入
+                    minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                    formatResult: function formatRepo(repo) {
+                        return repo.text;
+                    }, // 函数用来渲染结果
+                    formatSelection: function formatRepoSelection(repo) {
+                        return repo.text;
+                    }, // 函数用于呈现当前的选择
+                    templateResult: formatState    //数据格式化
+                });
+            }
         });
     });
+
+    function formatCustomerState(state) {
+        console.log(state);
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+            '<table><tr>' +
+            '<td><span style="font-weight: 700">' + state.text +
+            '</span><br/>手机号：'+state.phone + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地址：' + state.address +
+            '</td></tr></table>'
+        );
+        return $state;
+    }
+    //格式化select2
+    function formatState(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+            '<table><tr>' +
+            '<td><span style="font-weight: 700">' + state.text +
+            '</span><br/>手机号：'+state.phone +
+            '</td></tr></table>'
+        );
+        return $state;
+    }
 
 </script>
 </body>

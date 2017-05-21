@@ -30,7 +30,7 @@
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
                     <a href="edit.html" th:href="@{/sale/edit(taskId=${task.id})}" class="btn btn-primary"><i
                             class="fa fa-edit"></i> 编辑</a>
-                    <a href="saleList.html" th:href="@{/sale/delete(taskId=${task.id})}" class="btn btn-danger"><i
+                    <a href="saleList.html" th:href="@{/sale/delete(ids=${task.id})}" class="btn btn-danger"><i
                             class="fa fa-trash-o"></i> 删除</a>
                     <div class="pull-right">
                         <span th:switch="${task.state.toString()}">
@@ -66,6 +66,10 @@
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">联系方式：</label>
                                 <span class="col-md-9 col-xs-8" th:text="${task.customer.phone}">联系方式</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">地址：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${task.customer.province} + ${task.customer.city} + ${task.customer.district} + ${task.customer.address}">地址</span>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">任务状态：</label>
