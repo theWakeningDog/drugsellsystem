@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title th:if="${task == null}">采购新建</title>
-    <title th:if="${task != null && task.id != null}">采购修改</title>
+    <title th:if="${task == null}">新增采购订单</title>
+    <title th:if="${task != null && task.id != null}">修改采购订单</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
