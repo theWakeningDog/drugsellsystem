@@ -357,13 +357,13 @@
                     receiptForm.type = false;
                     console.log(receiptForm);
                     $.ajax({
-                        url: '/task/finish',
+                        url: '/sale/finish',
                         type: 'post',
                         contentType: 'application/json',
                         data: JSON.stringify(receiptForm),
                         success: function (data) {
                             if (data.status == 1) {
-                                location.href = "/task";
+                                location.href = "/sale";
                             }
                         }
                     });

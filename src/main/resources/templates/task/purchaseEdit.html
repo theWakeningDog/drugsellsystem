@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${task == null}">采购新建</title>
+    <title th:if="${task != null && task.id != null}">采购修改</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+    <!--nice validate-->
+    <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
+          th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
+</head>
+<style type="text/css">
+    body {background: #ecf0f5}
+    .form-control {padding: 4px 4px 6px; font-size: 12px; height: 30px; margin-bottom: 2px;}
+    .control-label, .form-control {white-space: nowrap; overflow: hidden;}
+    .select2-container--default .select2-selection--single {border-radius: 0}
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
+</style>
+<body>
+<div class="row">
+    <section class="content">
+        <div class="col-md-12">
+            <form role="form" class="form-horizontal" action="purchaseList.html" th:action="@{/purchase/save}" method="post">
+                <input type="hidden" name="type" value="购买"/>
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <div class="btn-group">
+                            <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 保存</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-success">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="name" class="col-md-2 col-sm-3 control-label">采购名称<span
+                                    class="text-red">*</span>：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <input type="text" class="form-control" id="name" name="name"
+                                       th:value="${task != null ? task.name : ''}" data-rule="required" data-msg="必填">
+                            </div>
+                            <div class="col-sm-2 validation-tip"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer" class="col-md-2 col-sm-3 control-label">客户<span
+                                    class="text-red">*</span>：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <select id="customer" name="customer.id" style="width: 100%" data-rule="required" data-msg="必填">
+                                    <option value=""></option>
+                                    <span  th:each="customer : ${customerList}">
+                                        <option th:value="${customer.id}" th:text="${customer.name}">客户</option>
+                                    </span>
+                                </select>
+                            </div>
+                            <div class="col-md-offset-8 validation-tip"></div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="type" class="col-md-2 col-sm-3 control-label">任务类型：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <select class="form-control" id="type" name="type">
+                                    <option value="购买">购买</option>
+                                    <option value="销售" th:selected="${task != null && task.type == '销售'}">销售</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="level" class="col-md-2 col-sm-3 control-label">紧急程度：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <select class="form-control" id="level" name="level">
+                                    <option value="中">中</option>
+                                    <option value="高" th:selected="${task != null && task.level == '高'}">高</option>
+                                    <option value="低" th:selected="${task != null && task.level == '低'}">低</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="attachment" class="col-md-2 col-sm-3 control-label">附件：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <textarea class="form-control" id="attachment" name="attachment"
+                                          th:value="${task != null ? task.attachment : ''}"></textarea>
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label for="description" class="col-md-2 col-sm-3 control-label">描述：</label>
+                            <div class="col-md-8 col-sm-7">
+                                <textarea class="form-control" id="description" name="description"
+                                          th:value="${task != null ? task.description : ''}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script src="../../static/plugins/nice-validate/jquery.validator.js"
+        th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script src="../../static/plugins/nice-validate/local/zh-CN.js" th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#customer").select2({
+            placeholder: "请选择客户"
+        });
+    });
+
+</script>
+</body>
+</html>

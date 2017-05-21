@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>采购详情</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.css" th:href="@{/dist/css/AdminLTE.min.css}">
+</head>
+<body style="background: #ecf0f5">
+<style type="text/css">
+    /*当屏幕不小于768px时，span的padding-top为7px*/
+    @media screen and (min-width: 768px) {
+        .form-group > span {
+            padding-top: 7px;
+        }
+    }
+</style>
+<div class="row">
+    <section class="content">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+                    <a href="edit.html" th:href="@{/purchase/edit(taskId=${task.id})}" class="btn btn-primary"><i
+                            class="fa fa-edit"></i> 编辑</a>
+                    <a href="saleList.html" th:href="@{/purchase/delete(taskId=${task.id})}" class="btn btn-danger"><i
+                            class="fa fa-trash-o"></i> 删除</a>
+                    <div class="pull-right">
+                        <span th:switch="${task.state.toString()}">
+                            <span th:case="created">
+                                <button type="button" class="btn btn-primary" onclick="allotTask()">指派</button>
+                                <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
+                            </span>
+                            <span th:case="allotted">
+                                <button type="button" class="btn btn-primary" onclick="finishTask()">回执并完成</button>
+                                <button type="button" class="btn btn-primary" onclick="allotTask()">转派</button>
+                                <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
+                            </span>
+                            <span th:case="finished">
+                                <button type="button" class="btn btn-primary" onclick="closeTask()">关闭</button>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title" th:text="${task.name}">任务名称</h3>
+                </div>
+                <form role="form">
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">客户：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${task.customer.name}">客户</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">联系方式：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${task.customer.phone}">联系方式</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">任务状态：</label>
+                                <span class="col-md-9 cl-xs-8" th:if="${task.state != null}"
+                                      th:switch="${task.state.toString()}">
+                                    <span th:case="created" th:text="已创建"></span>
+                                    <span th:case="offed" th:text="已取消"></span>
+                                    <span th:case="allotted" th:text="已指派"></span>
+                                    <span th:case="finished" th:text="已完成"></span>
+                                    <span th:case="closed" th:text="已关闭"></span>
+                                    <span th:case="*" th:text="出现错误">错误</span>
+                                </span>
+                            </div>
+                            <!--<div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">任务类型：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${task.type}">任务类型</span>
+                            </div>-->
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">紧急程度：</label>
+                                <span class="col-md-9 cl-xs-8" th:text="${task.level}">紧急程度</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">处理人：</label>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${task.executor != null ? task.executor.name : ''}">处理人</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
+                                <span class="col-md-9 cl-xs-8"
+                                      th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2020-10-31</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">创建人：</label>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${task.createUser != null ? task.createUser.name : ''}">创建人</span>
+                            </div>
+                            <!--<div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">开始日期：</label>
+                                <span class="col-md-9 col-xs-8"
+                                      th:text="${#dates.format(task.startTime, 'yyyy-MM-dd')}">山东省青岛市</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">结束日期：</label>
+                                <span class="col-md-9 col-xs-8" th:text="${#dates.format(task.endTime, 'yyyy-MM-dd')}">山东省青岛市</span>
+                            </div>-->
+                            <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">描述：</label>
+                                <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
+                                      th:text="${task.description}">描述</span>
+                            </div>
+                            <div class="form-group" th:if="${task.state == 'finished' || task.state == 'closed'}">
+                                <label class="col-md-3 col-xs-4 control-label">内容：</label>
+                                <span class="col-md-9 cl-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
+                                      th:text="${task.content}">内容</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h5 class="box-title">药品出入库记录</h5>
+                </div>
+                <div class="nav-tabs-custom">
+                    <div><!-- class="tab-content"-->
+                        <div class="tab-pane">
+                            <div class="tab-pane-wrap">
+                                <div class="col-md-12">
+                                    <!-- The time line -->
+                                    <ul id="timeline" class="timeline">
+                                        <!-- timeline time label -->
+                                        <li class="time-label">
+                                            <span id="last-time" class="bg-red">最近更新</span>
+                                        </li>
+                                    </ul>
+                                    <div id="div-load-more" class="box-footer clearfix text-center"
+                                         style="border-top: 0; padding: 0 10px 10px 10px;">
+                                        <a href="javascript:void(0);" class="uppercase" id="load-more">加载更多</a>
+                                    </div>
+                                    <div id="loading" class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay">
+                                                <i class="fa fa-refresh fa-spin"></i>
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                    <div id="noData" class="col-md-12" style="display: none;">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay text-center">
+                                                已经是最后一页了
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var taskId = /*[[${task.id}]]*/ '任务id';
+    $(function () {
+        loadTimeLine();
+        $("#load-more").click(function () {
+            loadTimeLine();
+        });
+    });
+    var pageNumber = 1;
+    function showLoading() {
+        $('#loading').show()
+    }
+    function hideLoading() {
+        $('#loading').hide()
+    }
+    function loadTimeLine() {
+        $("#div-load-more").hide();
+        showLoading();
+        //异步加载时间轴信息
+        var url = "/record/list";
+        $.get(url, {
+            taskId: taskId,
+            pageNumber: pageNumber,
+            pageSize: 10
+        }, function (result) {
+            renderTable(result);
+            pageNumber += 1;
+            hideLoading();
+            $("#div-load-more").show();
+        });
+    }
+    //最后一页
+    function showNone() {
+        $('#noData').show();
+        setTimeout("$('#noData').hide()", 2000);
+    }
+    //时间轴数据
+    function renderTable(data) {
+        if (data == undefined || data.length == 0) {
+            showNone();
+            return;
+        }
+        var tempHtml = "";
+        for (var i = 0; i < data.length; i++) {
+            if (data.length > 0) {
+                tempHtml += '<li>';
+                tempHtml += '<i class="fa fa-envelope bg-blue"></i>';
+                tempHtml += '<div class="timeline-item">';
+                tempHtml += '<span class="time"><i class="fa fa-clock-o"></i>' + data[i].createTime + '</span>';
+                tempHtml += '<h5 class="timeline-header">';
+                tempHtml += formatMessageText(data[i]);
+                tempHtml += '</h5>';
+                tempHtml += ' <div class="timeline-body">';
+                tempHtml += '</div>';
+                tempHtml += '</div>';
+                tempHtml += '</li>';
+            }
+        }
+        $("#timeline").append(tempHtml);
+    }
+
+    //数据格式化
+    function formatMessageText(data) {
+        var urlHtmlTemp = "";
+        if (data.action == "指派") {
+            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += '把任务&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
+            urlHtmlTemp += '<a href="/security/user/view/' + data.executor.id + '">' + data.executor.name + '</a>';
+        } else {
+            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += data.action + '了任务&nbsp;&nbsp;' + data.task.name;
+            /*if (Object.keys(data.content).length > 0) {
+             if (data.content.updateType == "tRecord") {
+             urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;
+             } else if (data.content.updateType == "tOther") {
+             urlHtmlTemp += '&nbsp;&nbsp;其他：&nbsp;&nbsp;' + data.content.updateContent;
+             } else {
+             urlHtmlTemp += '&nbsp;&nbsp;工作内容：&nbsp;&nbsp;' + data.content.updateContent;
+             }
+             //附件
+             if (data.attachments != "") {
+             urlHtmlTemp += '&nbsp;&nbsp;附件：&nbsp;&nbsp;<br>';
+             for (var i = 0; i < data.attachments.length; i++) {
+             urlHtmlTemp += '<div class="btn-group" style="margin-top: 2px;">';
+             urlHtmlTemp += '<a type="button" class="btn btn-default btn-sm" href="' + data.attachments[i].url + '">';
+             urlHtmlTemp += '<span class="fa fa-paperclip"></span>&nbsp;&nbsp;' + data.attachments[i].filename + '</a>';
+             urlHtmlTemp += '</div><br>';
+             }
+             }
+             }*/
+        }
+        return urlHtmlTemp;
+    }
+
+    /* =======================任务流程开始==================================  */
+    //指派、转派
+    function allotTask() {
+        location.href = "/purchase/allot?id=" + taskId;
+    }
+    //回执并完成
+    function finishTask() {
+        var taskType = /*[[${task.type}]]*/"购买";
+        var page = taskType == "购买";
+        location.href = "/purchase/receipt?id=" + taskId + "&page=" + page;
+    }
+    //取消
+    function offTask() {
+        location.href = "/purchase/off?id=" + taskId;
+    }
+    //关闭
+    function closeTask() {
+        location.href = "/purchase/close?id=" + taskId;
+    }
+    /* =======================任务流程结束==================================  */
+</script>
+</body>
+</html>

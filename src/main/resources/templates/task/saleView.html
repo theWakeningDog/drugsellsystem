@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>任务详情</title>
+    <title>销售详情</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
@@ -28,9 +28,9 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <a href="edit.html" th:href="@{/task/edit(taskId=${task.id})}" class="btn btn-primary"><i
+                    <a href="edit.html" th:href="@{/sale/edit(taskId=${task.id})}" class="btn btn-primary"><i
                             class="fa fa-edit"></i> 编辑</a>
-                    <a href="list.html" th:href="@{/task/delete(taskId=${task.id})}" class="btn btn-danger"><i
+                    <a href="saleList.html" th:href="@{/sale/delete(taskId=${task.id})}" class="btn btn-danger"><i
                             class="fa fa-trash-o"></i> 删除</a>
                     <div class="pull-right">
                         <span th:switch="${task.state.toString()}">
@@ -79,10 +79,10 @@
                                     <span th:case="*" th:text="出现错误">错误</span>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">任务类型：</label>
                                 <span class="col-md-9 col-xs-8" th:text="${task.type}">任务类型</span>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">紧急程度：</label>
                                 <span class="col-md-9 cl-xs-8" th:text="${task.level}">紧急程度</span>
@@ -281,21 +281,21 @@
     /* =======================任务流程开始==================================  */
     //指派、转派
     function allotTask() {
-        location.href = "/task/allot?id=" + taskId;
+        location.href = "/sale/allot?id=" + taskId;
     }
     //回执并完成
     function finishTask() {
         var taskType = /*[[${task.type}]]*/"购买";
         var page = taskType == "购买";
-        location.href = "/task/receipt?id=" + taskId + "&page=" + page;
+        location.href = "/sale/receipt?id=" + taskId + "&page=" + page;
     }
     //取消
     function offTask() {
-        location.href = "/task/off?id=" + taskId;
+        location.href = "/sale/off?id=" + taskId;
     }
     //关闭
     function closeTask() {
-        location.href = "/task/close?id=" + taskId;
+        location.href = "/sale/close?id=" + taskId;
     }
     /* =======================任务流程结束==================================  */
 </script>

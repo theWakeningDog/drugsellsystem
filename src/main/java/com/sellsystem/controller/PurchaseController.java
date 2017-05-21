@@ -2,7 +2,10 @@ package com.sellsystem.controller;
 
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Task;
-import com.sellsystem.entity.searchmodel.extend.*;
+import com.sellsystem.entity.searchmodel.extend.CustomerSearchModel;
+import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
+import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.service.*;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +26,8 @@ import java.util.List;
  * Created by zhangwei on 2017/3/17.
  */
 @Controller
-@RequestMapping("/task")
-public class TaskController {
+@RequestMapping("/purchase")
+public class PurchaseController {
 
     @Autowired
     private TaskService taskService;
@@ -45,25 +48,32 @@ public class TaskController {
      * @return
      */
     @GetMapping("")
-    public String list(Model model, TaskSearchModel taskSearchModel) {
+    public String purchaseList(Model model, TaskSearchModel taskSearchModel) {
         //搜索条件
         model.addAttribute("taskSearchModel", taskSearchModel);
         //分页数据
-        model.addAttribute("taskList", taskService.getList(taskSearchModel.init()).getData().getList());
-        return "task/list";
+        List<Task> purchaseTaskList = new ArrayList<>();
+        List<Task> taskList = taskService.getList(taskSearchModel.init()).getData().getList();
+        for (Task t : taskList) {
+            if ("购买".equals(t.getType())) {
+                purchaseTaskList.add(t);
+            }
+        }
+        model.addAttribute("taskList", purchaseTaskList);
+        return "task/purchaseList";
     }
 
     /**
-     * 详情
+     * 采购详情
      *
      * @param model
      * @param taskId
      * @return
      */
     @GetMapping("/view")
-    public String view(Model model, String taskId) {
+    public String purchaseView(Model model, String taskId) {
         model.addAttribute("task", taskService.getTask(taskId).getData());
-        return "task/view";
+        return "task/purchaseView";
     }
 
     /**
@@ -79,7 +89,7 @@ public class TaskController {
         } else {
             taskService.create(task);
         }
-        return "redirect:/task";
+        return "redirect:/purchase";
     }
 
     /**
@@ -95,7 +105,7 @@ public class TaskController {
             model.addAttribute("task", taskService.getTask(taskId).getData());
         }
         model.addAttribute("customerList", customerService.getList(new CustomerSearchModel()).getData().getList());
-        return "/task/edit";
+        return "/task/purchaseEdit";
     }
 
     @GetMapping("/delete")
@@ -104,7 +114,7 @@ public class TaskController {
             List<String> idList = Arrays.asList(ids.split(","));
             taskService.delete(idList);
         }
-        return "redirect:/task";
+        return "redirect:/purchase";
     }
 
     /*============================任务流程开始======================================*/
@@ -118,7 +128,7 @@ public class TaskController {
     @GetMapping("/allot")
     public String allot(Task task) {
         taskService.allotTask(task);
-        return "redirect:/task";
+        return "redirect:/purchase";
     }
 
     /**
@@ -164,7 +174,7 @@ public class TaskController {
     @GetMapping("/close")
     public String close(Task task) {
         taskService.closeTask(task);
-        return "redirect:/task";
+        return "redirect:/purchase";
     }
 
     /**
@@ -176,7 +186,7 @@ public class TaskController {
     @GetMapping("/off")
     public String off(Task task) {
         taskService.offTask(task);
-        return "redirect:/task";
+        return "redirect:/purchase";
     }
     /*============================任务流程结束======================================*/
 

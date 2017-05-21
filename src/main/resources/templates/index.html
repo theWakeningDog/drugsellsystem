@@ -249,22 +249,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
                 <!--<li class="active"><a href="/login/home" data-key="1"><i class="fa fa-link"></i> <span>首页</span></a></li>-->
-                <li><a href="/drug" data-key="1"><i class="fa fa-link"></i> <span>药品管理</span></a></li>
+                <li><a href="/drug" data-key="1"><i class="fa fa-link"></i> <span>库存管理</span></a></li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-link"></i>
-                        <span>Multilevel</span>
+                        <span>采购管理</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/warehouse" data-key="2">库存</a></li>
-                        <li><a href="/task" data-key="3">任务</a></li>
+                        <li><a href="/purchase" data-key="2">采购列表</a></li>
+                        <li><a href="/purchase/edit" data-key="3">采购新建</a></li>
                     </ul>
                 </li>
-                <li><a href="/task" data-key="4"><i class="fa fa-link"></i>任务管理</a></li>
-                <li><a href="/customer" data-key="5"><i class="fa fa-link"></i>客户管理</a></li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>销售管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/sale" data-key="4">销售列表</a></li>
+                        <li><a href="/sale/edit" data-key="5">销售新建</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>客户管理</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/custoemr" data-key="6">客户列表</a></li>
+                        <li><a href="/customer/edit" data-key="7">客户新建</a></li>
+                    </ul>
+                </li>
+                <!--<li><a href="/task" data-key="4"><i class="fa fa-link"></i>任务管理</a></li>-->
+                <!--<li><a href="/customer" data-key="6"><i class="fa fa-link"></i>客户管理</a></li>-->
             </ul>
             <!-- /.sidebar-menu -->
         </section>
