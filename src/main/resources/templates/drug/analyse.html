@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>药品分析</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+</head>
+<body style="background: #ecf0f5">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 100%;height:400px;"></div>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script src="../../static/plugins/echarts/echarts.js" th:src="@{/plugins/echarts/echarts.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var drugList = /*[[${drugList}]]*/"药品数量少于30";           //传递过来的list
+    var drugName = [];
+    var drugNumber = [];
+    for (var i = 0; i < drugList.length; i++) {
+        drugName.push(drugList[i].name);
+        drugNumber.push(drugList[i].number);
+    }
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '药品库存预警'
+        },
+        tooltip: {},
+        legend: {
+            data:['库存量']
+        },
+        xAxis: {
+            name: "药品名称",
+            data: drugName          //名称【数组】
+        },
+        yAxis: {
+            name: "剩余数量"
+        },
+        series: [{
+            name: '剩余数量',
+            type: 'bar',
+            data: drugNumber        //数量【数组】
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    myChart.on("click", function (params) {
+        console.log(params);
+        drugList.forEach(function (item, index, obj) {
+            console.log(item);
+            if (index == params.dataIndex) {
+                console.log(item.id);
+                window.location.href = "/drug/view?drugId=" + item.id;
+            }
+        })
+    });
+</script>
+</body>
+</html>

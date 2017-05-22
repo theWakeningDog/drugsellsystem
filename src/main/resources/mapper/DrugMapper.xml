@@ -49,6 +49,7 @@
                 and drugSearchModel.periodTime between #{drugSearchModel.periodTimeStart} and
                 #{drugSearchModel.periodTimeEnd}
             </if>
+            and drug.number > 0
         </where>
         order by drug.createTime desc
     </select>
@@ -91,4 +92,17 @@
         </set>
         where id = #{drug.id}
     </update>
+
+    <select id="getDrugLessThan30" resultMap="drugResult">
+        SELECT
+        <include refid="drugSQL"/>,
+        <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
+        FROM
+        drug drug
+        LEFT JOIN sort sort ON drug.sort = sort.id
+        LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
+        where  30 >= drug.number
+    </select>
+
 </mapper>

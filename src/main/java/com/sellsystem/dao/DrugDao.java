@@ -37,4 +37,10 @@ public interface DrugDao {
      * @return
      */
     int update(@Param("drug") Drug drug);
+
+    /**
+     * 获取数量少于30的药品
+     * @return
+     */
+    List<Drug> getDrugLessThan30();
 }

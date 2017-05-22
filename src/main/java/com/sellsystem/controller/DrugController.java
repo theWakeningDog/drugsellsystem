@@ -90,5 +90,9 @@ public class DrugController {
         return "/drug/edit";
     }
 
-
+    @GetMapping("/analyse")
+    public String analyse(Model model) {
+        model.addAttribute("drugList", drugService.getDrugLessThan30());
+        return "/drug/analyse";
+    }
 }

@@ -253,11 +253,11 @@
     function formatMessageText(data) {
         var urlHtmlTemp = "";
         if (data.action == "指派") {
-            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += '<a href="/user/view?userId=' + data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
             urlHtmlTemp += '把任务&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
-            urlHtmlTemp += '<a href="/security/user/view/' + data.executor.id + '">' + data.executor.name + '</a>';
+            urlHtmlTemp += '<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>';
         } else {
-            urlHtmlTemp += '<a href="/security/user/view/' + data.userId + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += '<a href="/user/view?userId=' +  data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
             urlHtmlTemp += data.action + '了任务&nbsp;&nbsp;' + data.task.name;
             /*if (Object.keys(data.content).length > 0) {
              if (data.content.updateType == "tRecord") {

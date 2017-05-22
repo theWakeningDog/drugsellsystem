@@ -82,4 +82,14 @@ public class DrugServiceImpl implements DrugService {
         }
         return msgModel;
     }
+
+    /**
+     * 获取数量少于30的药品
+     * @return
+     */
+    @Override
+    public List<Drug> getDrugLessThan30() {
+        return drugDao.getDrugLessThan30();
+    }
+
 }

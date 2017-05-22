@@ -33,7 +33,10 @@
 </head>
 <body>
 <style type="text/css">
-    .select2-container--default .select2-selection--single {border-radius: 0}
+    .select2-container--default .select2-selection--single {
+        border-radius: 0
+    }
+
     .select2-container .select2-selection--single {
         height: 34px
     }
@@ -123,7 +126,7 @@
                 </div>
             </div>
             <!-- /.col -->
-            <div class="col-xs-6">
+            <!--<div class="col-xs-6">
                 <p class="lead">合计</p>
 
                 <div class="table-responsive">
@@ -134,16 +137,16 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div>-->
             <!-- /.col -->
+            <div class="col-xs-6" style="margin-top: 30px">
+                <div class="pull-right">
+                    <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 取消并返回</a>
+                    <button id="save-receipt" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 确认并完成</button>
+                </div>
+            </div>
         </div>
         <!-- /.row -->
-        <div class="row">
-            <div class="pull-right">
-                <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 取消并返回</a>
-                <button id="save-receipt" class="btn btn-primary"><i class="fa fa-arrow-up"></i> 确认并完成</button>
-            </div>
-        </div>
     </section>
     <!-- /.content -->
 </div>
@@ -163,7 +166,8 @@
                         <label for="sell-name" class="col-md-3 col-sm-3 control-label">名称：<span
                                 class="text-red">*</span></label>
                         <div class="col-md-8 col-sm-7">
-                            <select id="sell-name" class="form-control" style="width: 100%" name="id" data-rule="required" data-msg="必填">
+                            <select id="sell-name" class="form-control" style="width: 100%" name="id"
+                                    data-rule="required" data-msg="必填">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -232,6 +236,7 @@
 <script type="text/javascript" th:inline="javascript">
     var drugTable;
     var drugList = [];//要销售的药品列表
+    var selectedDrugNum; //选中的药品的库存数量
     $(function () {
         var receiptForm = {};
         /*======================== DataTable ===============================*/
@@ -285,10 +290,15 @@
                     var selectOption = $("#sell-name option:selected");
                     selectOption.attr("data-retail", drugs[i].retail);
                     selectOption.attr("data-period", drugs[i].period);
+                    selectedDrugNum = drugs[i].number;
                 }
             }
             $("#sell-retail").val($("#sell-name option:selected").attr("data-retail"));
             $("#sell-period").val($("#sell-name option:selected").attr("data-period").substring(0, 10));
+        });
+
+        $("#sell-number").change(function () {
+            $(this).val() > selectedDrugNum && $(this).val(selectedDrugNum);
         });
 
         /*========================= nice validate ================================*/
@@ -303,9 +313,33 @@
             });
             var data = parsePurchase(purchaseObj);
             if (data) {
-                var row = drugTable.row.add(parsePurchase(purchaseObj)).draw().node();//绘制到界面
-                var id = new Date().getTime();
-                $(row).attr("dataId", id);//添加时间戳作为标志，不好
+                var id = data.slice(-1).toString();
+                var flag;//判断 有没有相同的id(tr的dataid )
+                var selectItem = "";
+                $("tbody tr").each(function (index, item) {
+                    /*console.log(index + "=========" + $(item).attr("dataid"));
+                     console.log("id =====" + id);*/
+                    if ($(item).attr("dataid") == id) {
+                        flag = true;
+                        selectItem = $(item);
+                        return false;
+                    } else {
+                        flag = false;
+                    }
+                });
+
+                if (flag) {
+                    var selDrugNumber = parseInt(selectItem.find("td:eq(1)").text()) + parseInt(data.slice(1, 2).toString());
+                    if (selDrugNumber <= selectedDrugNum) {
+                        //如果 数量小于等于库存
+                        selectItem.find("td:eq(1)").text(selDrugNumber);
+                    } else {
+                        selectItem.find("td:eq(1)").text(selectedDrugNum);
+                    }
+                } else {
+                    var row = drugTable.row.add(data).draw().node();//绘制到界面
+                    $(row).attr("dataId", id);
+                }
 
                 var sort = {};//给sort重新赋值，因为是个实体，在controller中没取到
                 sort.id = purchaseObj['sort.id'];
@@ -313,7 +347,29 @@
                 var warehouse = {};
                 warehouse.id = purchaseObj['warehouse.id'];
                 purchaseObj.warehouse = warehouse;
-                drugList ? drugList[drugList.length] = purchaseObj : drugList.push(purchaseObj);//添加保存的药品数据
+                //drugList ? drugList[drugList.length] = purchaseObj : drugList.push(purchaseObj);//添加保存的药品数据
+
+                if (drugList) {
+                    var flag2 = true;
+                    drugList.forEach(function (item, index, obj) {
+                        /*console.log(item);
+                         console.log(purchaseObj);*/
+                        if (item.id == purchaseObj.id) {
+                            var selNumber = parseInt(item.number) + parseInt(purchaseObj.number);
+                            if (selNumber <= selectedDrugNum) {
+                                drugList[index].number = selNumber;
+                            } else {
+                                drugList[index].number = selectedDrugNum;
+                            }
+                            flag2 = false;
+                        }
+                    });
+                    if (flag2) {
+                        drugList[drugList.length] = purchaseObj;
+                    }
+                } else {
+                    drugList.push(purchaseObj);
+                }
 
                 $("#drug-sell-modal").modal("hide");
                 clearForm($('#drug-purchase-form'));
@@ -390,6 +446,7 @@
             purchaseArr.push(o.retail);
             purchaseArr.push(o.period);
             purchaseArr.push('<a href="javascript:void(0);" onclick="deleteRow(this)">删除</a>');
+            purchaseArr.push(o.id);
             return purchaseArr;
         }
     }
@@ -417,7 +474,7 @@
         var $state = $(
             '<table><tr>' +
             '<td><span style="font-weight: 700">' + state.text +
-            '</span><br/>库存：'+state.number + '&nbsp;&nbsp;单位：'+state.unit +
+            '</span><br/>库存：' + state.number + '&nbsp;&nbsp;单位：' + state.unit +
             '</td></tr></table>'
         );
         return $state;
@@ -432,7 +489,7 @@
             }
         }
         $(ele).parents("tr").addClass("selected");
-        drugTable.row('.selected').remove().draw( false );
+        drugTable.row('.selected').remove().draw(false);
     }
 
 </script>

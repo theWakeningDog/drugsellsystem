@@ -5,6 +5,8 @@ import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.util.MsgModel;
 
+import java.util.List;
+
 /**
  * Created by zhangwei on 2017/3/18.
  */
@@ -37,5 +39,11 @@ public interface DrugService {
      * @return
      */
     MsgModel update(Drug drug);
+
+    /**
+     * 获取数量少于30的药品
+     * @return
+     */
+    List<Drug> getDrugLessThan30();
 }
 
