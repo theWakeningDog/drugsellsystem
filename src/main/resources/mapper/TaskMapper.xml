@@ -58,6 +58,9 @@
             <if test="taskSearchModel.customerId != null and taskSearchModel.customerId != ''">
                 and task.customer = #{taskSearchModel.customerId}
             </if>
+            <if test="taskSearchModel.executor != null and taskSearchModel.executor != ''">
+                and task.executor = #{taskSearchModel.executor}
+            </if>
             and task.isDelete = 0
         </where>
         ORDER BY taskCreateTime DESC

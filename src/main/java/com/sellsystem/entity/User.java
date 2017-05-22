@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class User {
     private String id;
+    private String no;
     private String name;
     private String account;
     private String password;
@@ -21,7 +22,7 @@ public class User {
     private BigDecimal latitude;
     private Date createTime;
     private String remark;
-    private Boolean isDelete;
+    private Integer delete;
     private String salt = "8d78869f470951332959580424d4bf4f";            //加密密码的盐
     private List<Role> roleList = new ArrayList<>();           //舍弃，用于测试shiro
 
@@ -31,6 +32,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public String getName() {
@@ -113,12 +122,12 @@ public class User {
         this.remark = remark;
     }
 
-    public Boolean getDelete() {
-        return isDelete;
+    public Integer getDelete() {
+        return delete;
     }
 
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
+    public void setDelete(Integer delete) {
+        this.delete = delete;
     }
 
     public String getSalt() {
@@ -149,16 +158,18 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", no='" + no + '\'' +
                 ", name='" + name + '\'' +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
                 ", age=" + age +
+                ", tel='" + tel + '\'' +
                 ", email='" + email + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", createTime=" + createTime +
                 ", remark='" + remark + '\'' +
-                ", isDelete=" + isDelete +
+                ", delete=" + delete +
                 ", salt='" + salt + '\'' +
                 ", roleList=" + roleList +
                 '}';

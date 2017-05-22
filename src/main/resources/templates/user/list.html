@@ -1,10 +1,295 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>用户</title>
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- icheck -->
+    <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css" th:href="@{/plugins/iCheck/flat/blue.css}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css"
+          th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css"
+          th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
 </head>
-<body>
-用户界面
+<body style="background: #ecf0f5;">
+<style type="text/css">
+    .select2-container--default .select2-selection--single {
+        border-radius: 0
+    }
+
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
+</style>
+<div class="row">
+    <section class="content">
+        <!-- /.col -->
+        <div class="col-md-12">
+            <form action="/user">
+                <input type="hidden" id="searchClosed" name="searchClosed" th:value="${userSearchModel.searchClosed}">
+                <div th:class="${userSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
+                    <div class="box-header with-border">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input class="form-control criteria" name="keyword"
+                                       th:value="${userSearchModel.keyword}" placeholder="请输入客户名称">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary">搜索</button>
+                                    <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
+                                            data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
+                                                                                      th:class="${userSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="box-body">
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px;">客户类型：</span>
+                                </span>
+                                <select class="form-control" name="type"> &lt;!&ndash; th:switch="${taskSearchModel.type}"&ndash;&gt;
+                                    <option value="">请选择</option>&lt;!&ndash;th:case="购买" th:selected="selected"&ndash;&gt;
+                                    <option value="销售商" th:selected="${customerSearchModel.type == '销售商'}">销售商</option>
+                                    <option value="顾客" th:selected="${customerSearchModel.type == '顾客'}">顾客</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-group">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px">创建时间：</span>
+                                </span>
+                                <input class="form-control" id="daterange-btn" name="createTime" readonly
+                                       th:value="${customerSearchModel.createTime}">
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </form>
+            <div class="box box-primary">
+                <div class="box-body with-border">
+                    <a href="edit.html" class="btn btn-primary" th:href="@{/customer/edit}"><i
+                            class="fa fa-plus"></i> 新建</a>
+                    <Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>
+                </div>
+            </div>
+            <div class="box box-success">
+                <!--<div class="box-header with-border">
+                    <div class="box-tools pull-right">
+                        <div class="has-feedback">
+                            <input type="text" class="form-control" placeholder="Search Mail">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </div>
+                    &lt;!&ndash; /.box-tools &ndash;&gt;
+                </div>-->
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="mailbox-controls">
+                        <!-- Check all button -->
+                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
+                                class="fa fa-check-square-o"></i></button>
+                        <div class="btn-group">
+                            <button type="button" id="delete" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                        </div>
+                        <!-- /.btn-group -->
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <!--<div class="pull-right">
+                            1-50/200
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                            &lt;!&ndash; /.btn-group &ndash;&gt;
+                        </div>-->
+                        <!-- /.pull-right -->
+                    </div>
+                    <div class="<!--table-responsive--> mailbox-messages">
+                        <table id="user-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <th><input type="checkbox" disabled></th>
+                            <th>用户编号</th>
+                            <th>用户名称</th>
+                            <th>账号</th>
+                            <!-- <th>客户级别</th> -->
+                            <th>年龄</th>
+                            <th>邮箱</th>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${userList}">
+                                <td><input type="checkbox" class="icheck-user" th:attr="userId=${user.id}"></td>
+                                <td><a href="view.html" th:href="@{/user/view(userId=${user.id})}"
+                                       th:text="${user.no}">编号</a></td>
+                                <td th:text="${user.name}">名称</td>
+                                <td th:text="${user.account}">联系方式</td>
+                                <!-- <td th:text="${customer.level}">级别</td> -->
+                                <td th:text="${user.age}">类型</td>
+                                <td th:text="${user.email}">创建时间</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- /.table -->
+                    </div>
+                    <!-- /.mail-box-messages -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+    </section>
+</div>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<!-- DataTables -->
+<script src="../../static/plugins/datatables/jquery.dataTables.min.js"
+        th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script src="../../static/plugins/datatables/dataTables.bootstrap.min.js"
+        th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<script src="../../static/dist/js/app.js" th:src="@{/dist/js/app.js}"></script>
+<script src="../../static/plugins/iCheck/icheck.js" th:src="@{/plugins/iCheck/icheck.js}"></script>
+<!-- date-range-picker -->
+<script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
+<script src="../../static/plugins/daterangepicker/daterangepicker.js"
+        th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
+<script type="text/javascript" th:inline="text">
+    $(function () {
+        //iCheck的点击事件
+        $('.mailbox-messages input[type="checkbox"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
+        //Enable check and uncheck all functionality
+        $(".checkbox-toggle").click(function () {
+            var clicks = $(this).data('clicks');
+            if (clicks) {
+                //Uncheck all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+                $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+            } else {
+                //Check all checkboxes
+                $(".mailbox-messages input[type='checkbox']").iCheck("check");
+                $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+            }
+            $(this).data("clicks", !clicks);
+        });
+
+        $("#delete").click(function () {
+            var ids = "";
+            $(".icheck-user").each(function (index, value) {
+                if($(this).is(':checked')) {
+                    console.log(index);
+                    console.log(value);
+                    console.log($(this).attr("userid"));
+                    ids += $(this).attr("userid") + ",";
+                }
+            });
+            if (ids == "") {
+                alert("请选择删除需要数据");
+            } else {
+                window.location.href="/user/delete?ids=" + ids;
+            }
+        });
+
+        $("#user-table").dataTable({
+            renderer: "bootstrap",
+            paging: true, //是否显示分页
+            info: true, //是否显示表格左下角的信息
+            lengthChange: false, //是否允许用户改变表格每页显示的记录数
+            ordering: true, //是否允许Datatables开启排序
+            scrollX: true, //设置水平滚动
+            scrollY: false,
+            iDisplayLength: 10,
+            searching: false, //是否允许Datatables开启本地搜索
+            stateSave: false, //保存状态 - 在页面重新加载的时候恢复状态（页码等内容），慎用
+            autoWidth: true, //控制Datatables是否自适应宽度   //scrollCollapse: true,
+            deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
+            order: [1, "desc"], //设置可第几列以排序。是空的，可以去掉默认的排序（默认：第一列升序）
+            "aoColumnDefs": [{"bSortable": false, "aTargets": [0]}],//设置不排序
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "抱歉， 没有找到",
+                "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty": "没有数据",
+                "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+                "sZeroRecords": "没有检索到数据",
+                "sSearch": "名称:",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "前一页",
+                    "sNext": "后一页",
+                    "sLast": "尾页"
+                }
+            }
+        });
+
+        //控制高级搜索框是否展开
+        $("#btn-advance").click(function () {
+            if ($(this).children("i").attr("class") == "fa fa-plus") {
+                $("#searchClosed").val(false);
+            } else {
+                $("#searchClosed").val(true);
+            }
+        });
+
+        $('#daterange-btn').daterangepicker({
+                format: 'YYYY-MM-DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
+                //startDate: moment().subtract(29, 'days'),
+                //endDate: moment(),
+                "opens": "left",    //位置，left、center、right
+                autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
+                locale: {
+                    applyLabel: '确定',
+                    cancelLabel: '取消',
+                    daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+                    monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+                }
+            },
+            function (start, end) {
+                //$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));//下面重新绑定了函数用于显示，因此这句没用了
+            }
+        );
+        //用on绑定函数，点击确定时，显示数据
+        $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+        });
+        //用on绑定函数，点击取消时，清空数据
+        $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+        });
+//        $('#daterange-btn').daterangepicker({
+//            format: 'YYYY/MM/DD',
+//            locale: {
+//                applyLabel: '确定',
+//                cancelLabel: '取消',
+//                fromLabel: '开始',
+//                toLabel: '结束',
+//                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+//                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
+//            }
+//        });
+    });
+</script>
 </body>
 </html>

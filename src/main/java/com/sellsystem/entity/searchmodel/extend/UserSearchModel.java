@@ -7,8 +7,18 @@ import com.sellsystem.entity.searchmodel.PageSearchModel;
  */
 public class UserSearchModel extends PageSearchModel {
 
+    private String keyword;
+
     public UserSearchModel init() {
         this.setPageSize(0);
         return this;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

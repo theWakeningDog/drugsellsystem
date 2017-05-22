@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>客户详情</title>
+    <title>用户详情</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
@@ -28,14 +28,13 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                    <span th:if="${customer.del == 0}">
-                        <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}"
+                    <span th:if="${user.delete == 0}">
+                        <a href="edit.html" th:href="@{/user/edit(userId=${user.id})}"
                            class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                        <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}"
-                           class="btn btn-danger"><i
-                                class="fa fa-trash-o"></i> 删除</a>
+                        <a href="list.html" th:href="@{/user/delete(ids=${user.id})}"
+                           class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
                     </span>
-                    <span th:if="${customer.del == 1}">
+                    <span th:if="${user.delete == 1}">
                         <span class="btn btn-danger">【已删除】</span>
                     </span>
                 </div>
@@ -44,40 +43,41 @@
         <div class="col-md-6">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title" th:text="${customer.name}">客户名称</h3>
+                    <h3 class="box-title" th:text="${user.name}">客户名称</h3>
                 </div>
                 <form role="form">
                     <div class="box-body">
                         <div class="form-horizontal">
                             <div class="form-group">
+                                <label class="col-md-3 col-xs-4 control-label">编号：</label>
+                                <span class="col-md-9 cl-xs-8" th:text="${user.no}">编号</span>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">联系方式：</label>
-                                <span class="col-md-9 col-xs-8" th:text="${customer.phone}">联系方式</span>
+                                <span class="col-md-9 col-xs-8" th:text="${user.account}">联系方式</span>
                             </div>
+
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">客户类型：</label>
-                                <span class="col-md-9 cl-xs-8" th:text="${customer.type}">客户状态</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">客户地址：</label>
+                                <label class="col-md-3 col-xs-4 control-label">年龄：</label>
                                 <span class="col-md-9 col-xs-8"
-                                      th:text="${customer.province + '-' + customer.city + '-' + customer.district  + '-' + customer.address}">任务类型</span>
+                                      th:text="${user.age}">年龄</span>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">创建人：</label>
+                                <label class="col-md-3 col-xs-4 control-label">邮箱：</label>
                                 <span class="col-md-9 col-xs-8"
-                                      th:text="${customer.createUser != null ? customer.createUser.name : ''}">创建人</span>
+                                      th:text="${user.email}">邮箱</span>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 col-xs-4 control-label">创建日期：</label>
-                                <span class="col-md-9 col-xs-8"
-                                      th:text="${#dates.format(customer.createTime, 'yyyy-MM-dd')}">山东省青岛市</span>
+                                <label class="col-md-3 col-xs-4 control-label">备注：</label>
+                                <span class="col-md-9 col-xs-8" style="height: 70px; overflow: auto; padding-right: 0"
+                                      th:text="${user.remark}">备注</span>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="nav-tabs-custom ">
@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </section>
 </div>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>

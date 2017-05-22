@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public MsgModel<PageInfo<User>> getList(UserSearchModel userSearchModel) {
-        String orderBy = Sortable.getOrderByString(userSearchModel.getOrderBy());
-        PageHelper.startPage(userSearchModel.getPageNumber(), userSearchModel.getPageSize(), orderBy);
+//        String orderBy = Sortable.getOrderByString(userSearchModel.getOrderBy());
+//        PageHelper.startPage(userSearchModel.getPageNumber(), userSearchModel.getPageSize(), orderBy);
         List<User> userList = userDao.getList(userSearchModel);
         PageInfo<User> userPageInfo = new PageInfo<>(userList);
         return new MsgModel<>(userPageInfo);
@@ -105,7 +105,12 @@ public class UserServiceImpl implements UserService {
     public MsgModel delete(List<String> userIdList) {
         MsgModel msgModel = new MsgModel();
         try {
-            userDao.delete(userIdList);
+            //userDao.delete(userIdList);
+            userIdList.forEach(id -> {
+                User user = userDao.getUser(id);
+                user.setDelete(ClassConstants.successDelete);
+                userDao.update(user);
+            });
         } catch (Exception e) {
             e.printStackTrace();
             msgModel.setStatus(ClassConstants.FAIL);

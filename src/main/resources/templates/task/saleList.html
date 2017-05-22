@@ -137,7 +137,9 @@
                                 <span class="input-group-btn">
                                     <span class="btn span-default" style="cursor: default; width: 90px">负责人：</span>
                                 </span>
-                                <select class="form-control" id="executor" name="executor" style="width:100%"></select>
+                                <select class="form-control" id="executor" name="executor" style="width:100%">
+                                    <option th:if="${selectUser != null}" th:value="${selectUser.id}" th:text="${selectUser.name}" selected></option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -368,7 +370,7 @@
         //select2选择处理人
         $("#executor").select2({
             ajax: {
-                url: "",
+                url: "/purchase/user/list",
                 dataType: "json",
                 delay: 250,
                 data: function (params) {
@@ -381,7 +383,7 @@
                     //返回的数据需要组成{id:"", text:""}的格式,想要自定义视图，就要自定义数据格式
                     var itemList = [];
                     for (var i = 0; i < data.length; i++) {
-                        itemList.push({id: data[i].id, text: data[i].name, phone: data[i].tel})
+                        itemList.push({id: data[i].id, text: data[i].name, phone: data[i].account})
                     }
                     return {results: itemList};
                 },
@@ -414,8 +416,8 @@
         var mobile = state.mobile || "";
         var $state = $(
             '<table><tr>' +
-            '<td style="padding-right:10px"><img style="width:40px;height:40px;" src="' + headerImg + '" class="img-flag" /></td>' +
-            '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + mobile +
+            '<td><img src="/images/userhead.png" width="50px" height="50px"/> </td>' +
+            '<td><span style="font-weight: 700">' + state.text + "</span><br/>手机号：" + state.phone +
             '</td></tr></table>'
         );
         return $state;

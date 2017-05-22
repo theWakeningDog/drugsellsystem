@@ -31,7 +31,7 @@
                     <span th:if="${customer.del == 0}">
                         <a href="edit.html" th:href="@{/customer/edit(customerId=${customer.id})}"
                            class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
-                        <a href="list.html" th:href="@{/customer/delete(customerId=${customer.id})}"
+                        <a href="list.html" th:href="@{/customer/delete(ids=${customer.id})}"
                            class="btn btn-danger"><i
                                 class="fa fa-trash-o"></i> 删除</a>
                     </span>

@@ -4,12 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.UserDao">
     <sql id="createUserSQL">
-        createUser.id createUserId, createUser.name createUserName, createUser.account createUserAccount, createUser.password createUserPassword,
+        createUser.id createUserId, createUser.no createUserNo, createUser.name createUserName, createUser.account createUserAccount, createUser.password createUserPassword,
         createUser.age createUserAge, createUser.email createUserEmail, createUser.longitude createUserLongitude,
-        createUser.latitude createUserLatitude, createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.isDelete createUserIsDelete
+        createUser.latitude createUserLatitude, createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.delete createUserDelete
     </sql>
     <resultMap id="createUserResult" type="User">
         <id property="id" column="createUserId"/>
+        <result property="no" column="createUserNo"/>
         <result property="name" column="createUserName"/>
         <result property="account" column="createUserAccount"/>
         <result property="password" column="createUserPassword"/>
@@ -19,15 +20,16 @@
         <result property="latitude" column="createUserLatitude"/>
         <result property="createTime" column="createUserCreateTime"/>
         <result property="remark" column="createUserRemark"/>
-        <result property="isDelete" column="createUserIsDelete"/>
+        <result property="delete" column="createUserDelete"/>
     </resultMap>
 
     <sql id="userSQL">
-        user.id userId, user.name userName, user.account userAccount, user.password userPassword, user.age userAge, user.email userEmail,
-        user.longitude userLongitude, user.latitude userLatitude,user.createTime userCreateTime, user.remark userRemark, user.isDelete userIsDelete
+        user.id userId, user.no userNo, user.name userName, user.account userAccount, user.password userPassword, user.age userAge, user.email userEmail,
+        user.longitude userLongitude, user.latitude userLatitude,user.createTime userCreateTime, user.remark userRemark, user.delete userDelete
     </sql>
     <resultMap id="userResult" type="User">
         <id property="id" column="userId"/>
+        <result property="no" column="userNo"/>
         <result property="name" column="userName"/>
         <result property="account" column="userAccount"/>
         <result property="password" column="userPassword"/>
@@ -37,13 +39,21 @@
         <result property="latitude" column="userLatitude"/>
         <result property="createTime" column="userCreateTime"/>
         <result property="remark" column="userRemark"/>
-        <result property="isDelete" column="userIsDelete"/>
+        <result property="delete" column="userDelete"/>
     </resultMap>
 
     <select id="getList" resultMap="userResult">
         select
         <include refid="userSQL"/>
         from user user
+        <where>
+            <if test="userSearchModel.keyword != null and userSearchModel.keyword != ''">
+                <bind name="keyword" value="'%' + userSearchModel.getKeyword() + '%'"/>
+                name like #{keyword}
+                or account like #{keyword}
+            </if>
+            and user.`delete` = 0
+        </where>
     </select>
 
     <select id="getUser" resultMap="userResult">
@@ -64,25 +74,27 @@
         <selectKey keyProperty="user.id" resultType="java.lang.String" order="BEFORE">
             select uuid()
         </selectKey>
-        insert into user values (#{user.id}, #{user.name}, #{user.account} #{user.password}, #{user.age},
-        #{user.email}, #{user.longitude}, #{user.latitude}, #{user.createTime}, #{user.remark}, #{user.isDelete});
+        insert into user values (#{user.id}, #{user.no} #{user.name}, #{user.account} #{user.password}, #{user.age},
+        #{user.email}, #{user.longitude}, #{user.latitude}, #{user.createTime}, #{user.remark}, #{user.delete});
     </insert>
 
     <update id="update">
-        update task
+        update user
         <set>
-            <if test="user.id != null">id = #{user.id},</if>
-            <if test="user.name != null">name = #{user.name},</if>
-            <if test="user.account != null">account = #{user.account},</if>
+            <if test="user.no != null">`no` = #{user.no},</if>
+            <if test="user.name != null">`name` = #{user.name},</if>
+            <if test="user.account != null">`account` = #{user.account},</if>
             <if test="user.password != null">password = #{user.password},</if>
             <if test="user.age != null">age = #{user.age},</if>
+            tel = null,
             <if test="user.email != null">email = #{user.email},</if>
             <if test="user.longitude != null">longitude = #{user.longitude},</if>
             <if test="user.latitude != null">latitude = #{user.latitude},</if>
+            <if test="user.remark != null">remark = #{user.remark},</if>
             <if test="user.createTime != null">createTime = #{user.createTime},</if>
-            <if test="user.remark != null">remark = #{user.remark}</if>
-            <if test="user.isDelete != null">isDelete = #{user.isDelete}</if>
+            <if test="user.delete != null">`delete` = #{user.delete}</if>
         </set>
+        where id = #{user.id}
     </update>
 
     <delete id="delete">

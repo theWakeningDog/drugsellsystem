@@ -54,6 +54,9 @@ public class SaleController {
             }
         }
         model.addAttribute("taskList", saleTaskList);
+        //搜索的user
+        User user = userService.getUser(taskSearchModel.getExecutor()).getData();
+        model.addAttribute("selectUser", user);
         return "task/saleList";
     }
 

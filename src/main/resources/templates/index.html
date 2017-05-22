@@ -302,7 +302,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li><a href="/customer/edit" data-key="7">新增客户</a></li>
                     </ul>
                 </li>
-                <!--<li><a href="/task" data-key="4"><i class="fa fa-link"></i>任务管理</a></li>-->
+                <li><a href="/user" data-key="9"><i class="fa fa-link"></i>用户管理</a></li>
                 <!--<li><a href="/customer" data-key="6"><i class="fa fa-link"></i>客户管理</a></li>-->
             </ul>
             <!-- /.sidebar-menu -->
@@ -424,7 +424,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
                     mainHeight = controlSidebar.height() - 40 + "px";
                     //创建新TAB的title
-                    title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i>' + spanTitle;
+                    title = '<li role="presentation" style="margin-top: 3px" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab"><i class="fa fa-bookmark"></i>' + spanTitle;
                     //是否允许关闭
                     if (options.close) {
                         title += ' <span class="tab_close" tabclose="' + id + '">&nbsp;×</span></i>';

@@ -61,6 +61,9 @@ public class PurchaseController {
             }
         }
         model.addAttribute("taskList", purchaseTaskList);
+        //搜索的user
+        User user = userService.getUser(taskSearchModel.getExecutor()).getData();
+        model.addAttribute("selectUser", user);
         return "task/purchaseList";
     }
 
@@ -117,8 +120,8 @@ public class PurchaseController {
      */
     @ResponseBody
     @GetMapping("/user/list")
-    public List<User> userList() {
-        return userService.getList(new UserSearchModel().init()).getData().getList();
+    public List<User> userList(UserSearchModel userSearchModel) {
+        return userService.getList(userSearchModel.init()).getData().getList();
     }
 
     /**
