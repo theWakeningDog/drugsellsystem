@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>仓库设置</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- icheck -->
+    <link rel="stylesheet" href="../../static/plugins/iCheck/flat/blue.css" th:href="@{/plugins/iCheck/flat/blue.css}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css"
+          th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css"
+          th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+</head>
+<body>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-3 leftMenu">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">系统设置</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="/setting/cost/serviceType"><i class="fa fa-envelope-o"></i>仓库设置</a></li>
+                        <li><a href="/setting/cost/serviceContent"><i class="fa fa-envelope-o"></i>类别设置</a></li>
+                    </ul>
+                </div><!-- /.box-body -->
+            </div><!-- /. box -->
+        </div><!-- /.col -->
+        <div class="col-xs-9">
+            <div class="col-xs-12">
+                <div class="box box-solid">
+                    <div class="box-body no-padding">
+                        <table id="data_table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="border-bottom: 0px">序号</th>
+                                <th style="border-bottom: 0px">名称</th>
+                                <th style="border-bottom: 0px">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="data_boday">
+                            <!--<c:forEach items="${serviceUnits}" var="unit" varStatus="flag">
+                                <tr>
+                                    <td width="10%">${flag.index+1}</td>
+                                    <td>${unit}</td>
+                                    <td width="20%">
+                                        <span title="编辑" class="glyphicon glyphicon-pencil edit index"></span>
+                                        <span title="删除" class="glyphicon glyphicon-remove delete index"></span>
+                                        <span title="上移" class="glyphicon glyphicon-arrow-up up index"></span>
+                                        <span title="下移" class="glyphicon glyphicon-arrow-down down index"></span>
+                                    </td>
+                                </tr>
+                            </c:forEach>-->
+
+                            </tbody>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+            <div class="col-xs-12">
+                <div class="input-group input-group-sm">
+                    <input id="type" name="type" type="text" class="form-control" placeholder="同时添加多个以逗号（英文）分隔">
+                    <span class="input-group-btn">
+                          <button class="btn btn-info btn-flat" type="button" onclick="add();">保存</button>
+                    </span>
+                </div>
+            </div>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</section>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script>
+    var is_edit = false;
+    var td_edit = undefined;
+    $(function(){
+        event();
+    });
+    function add(){
+        if(is_edit){
+            var val = $("#type").val();
+            $(td_edit).html(val);
+            is_edit = false;
+            setData();
+            $("#type").val("");
+            return;
+        }
+        var trs = $("#data_boday").find("tr");
+        var contentsStr = $("#type").val();
+        var contents = contentsStr.split(",");
+        console.log(contents);
+        contents.forEach(function (content,index) {
+            if(content){
+                var tr_html = '<tr style="display: table-row;vertical-align: inherit;border-color: inherit;">' +
+                    '<td width="10%">'+(trs.length+1+index)+'</td>' +
+                    '<td>'+content+'</td>' +
+                    '<td width="20%"> ' +
+                    '<span title="编辑" class="glyphicon glyphicon-pencil edit index"></span>&nbsp;' +
+                    '<span title="删除" class="glyphicon glyphicon-remove delete index"></span>&nbsp;' +
+                    '<span title="上移" class="glyphicon glyphicon-arrow-up up index"></span>&nbsp;' +
+                    '<span title="下移" class="glyphicon glyphicon-arrow-down down index"></span>' +
+                    '</td>' +
+                    '</tr>';
+                $("#data_boday").append(tr_html)
+            }
+        });
+        $("#type").val("");
+        event();
+        setData();
+    }
+    function setData(){
+        parent.httpPost( "/setting/cost/serviceUnit/save",{data:getData()},false,function (data) {
+            if(data.status){
+                parent.dd_alert("保存成功");
+            }
+        });
+
+    }
+    function getData(){
+        var trs = $("#data_boday").find("tr");
+        var data = [];
+        for(var i=0;i<trs.length;i++){
+            var tr = trs[i];
+            var tds = $(tr).find("td");
+            var td = tds[1];
+            data[i]= $(td).html();
+        }
+        return data;
+    }
+    function event(){
+        //新增
+        var delBts = $(".delete");
+        delBts.off("click");
+        delBts.on("click",function(){
+            $(this).parent().parent().remove();
+            setData();
+        });
+        //修改
+        var editBts = $(".edit");
+        editBts.off("click");
+        editBts.on("click",function () {
+            var tr = $(this).parent().parent();
+            var td = $(tr).find("td")[1];
+            var val = $(td).html();
+            $("#type").val(val);
+            is_edit = true;
+            td_edit = td;
+        });
+        //上移
+        var upBts = $(".up");
+        upBts.off("click");
+        upBts.on("click",function(){
+            var tr1 = $(this).parent().parent();
+            var tr2 = $(tr1).prev();
+            var td1 = $(tr1).find("td")[1];
+            var td2 = $(tr2).find("td")[1];
+            //交换值
+            var td1v = $(td1).html();
+            var td2v = $(td2).html();
+            $(td1).html(td2v);
+            $(td2).html(td1v);
+
+            setData();
+        });
+        //下移
+        var downBts = $(".down");
+        downBts.off("click");
+        downBts.on("click",function(){
+            var tr1 = $(this).parent().parent();
+            var tr2 = $(tr1).next();
+            var td1 = $(tr1).find("td")[1];
+            var td2 = $(tr2).find("td")[1];
+            //交换值
+            var td1v = $(td1).html();
+            var td2v = $(td2).html();
+            $(td1).html(td2v);
+            $(td2).html(td1v);
+
+            setData();
+        })
+    }
+</script>
+</body>
+</html>
