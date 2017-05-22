@@ -34,13 +34,13 @@
                             class="fa fa-trash-o"></i> 删除</a>
                     <div class="pull-right">
                         <span th:switch="${task.state.toString()}">
-                            <span th:case="created">
+                            <!--<span th:case="created">
                                 <button type="button" class="btn btn-primary" onclick="allotTask()">指派</button>
                                 <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
-                            </span>
+                            </span>-->
                             <span th:case="allotted">
                                 <button type="button" class="btn btn-primary" onclick="finishTask()">回执并完成</button>
-                                <button type="button" class="btn btn-primary" onclick="allotTask()">转派</button>
+                                <!--<button type="button" class="btn btn-primary" onclick="allotTask()">转派</button>-->
                                 <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
                             </span>
                             <span th:case="finished">

@@ -142,11 +142,11 @@ public class SaleController {
      * @param task
      * @return
      */
-    @GetMapping("/allot")
-    public String allot(Task task) {
-        taskService.allotTask(task);
-        return "redirect:/sale";
-    }
+//    @GetMapping("/allot")
+//    public String allot(Task task) {
+//        taskService.allotTask(task);
+//        return "redirect:/sale";
+//    }
 
     /**
      * 填写回执表单

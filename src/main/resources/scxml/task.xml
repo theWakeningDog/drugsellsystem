@@ -3,7 +3,7 @@
        version="1.0"
        initialstate="create">
     <state id="create">
-        <transition event="task_create" target="created"/>
+        <transition event="task_create" target="allotted"/>
     </state>
     <!--创建后可指派（已指派）、取消-->
     <state id="created">

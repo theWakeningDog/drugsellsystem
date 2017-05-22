@@ -151,11 +151,11 @@ public class PurchaseController {
      * @param task
      * @return
      */
-    @GetMapping("/allot")
-    public String allot(Task task) {
-        taskService.allotTask(task);
-        return "redirect:/purchase";
-    }
+//    @GetMapping("/allot")
+//    public String allot(Task task) {
+//        taskService.allotTask(task);
+//        return "redirect:/purchase";
+//    }
 
     /**
      * 填写回执表单

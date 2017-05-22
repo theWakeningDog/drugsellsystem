@@ -208,7 +208,7 @@
                                     <span th:if="${task.state != null}" th:switch="${task.state.toString()}">
                                         <span class="label label-info" th:case="created" th:text="已创建"></span>
                                         <span class="label label-default" th:case="offed" th:text="已取消"></span>
-                                        <span class="label label-primary" th:case="allotted" th:text="已指派"></span>
+                                        <span class="label label-info" th:case="allotted" th:text="已指派"></span>
                                         <span class="label label-primary" th:case="finished" th:text="已完成"></span>
                                         <span class="label label-default" th:case="closed" th:text="已关闭"></span>
                                         <span class="label label-danger" th:case="*" th:text="出现错误">错误</span>
