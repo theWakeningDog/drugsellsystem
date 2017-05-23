@@ -5,6 +5,7 @@ import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.util.MsgModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,12 @@ public interface WarehouseService {
      * @return
      */
     public MsgModel<PageInfo<Map<?, ?>>> getList(WarehouseSearchModel warehouseSearchModel);
+
+    /**
+     * 列表
+     * @return
+     */
+    MsgModel<PageInfo<Warehouse>> getWList();
 
     /**
      * 详情
@@ -46,4 +53,11 @@ public interface WarehouseService {
      * @return
      */
     public MsgModel delete(String warehouseId);
+
+    /**
+     * 批量创建
+     * @param data
+     * @return
+     */
+    MsgModel createW(ArrayList<String> data);
 }

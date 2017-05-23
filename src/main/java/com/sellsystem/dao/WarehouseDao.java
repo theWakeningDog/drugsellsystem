@@ -2,6 +2,7 @@ package com.sellsystem.dao;
 
 import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -30,14 +31,14 @@ public interface WarehouseDao {
      * @param warehouse
      * @return
      */
-    int create(Warehouse warehouse);
+    int create(@Param("warehouse") Warehouse warehouse);
 
     /**
      * 修改
      * @param warehouse
      * @return
      */
-    int update(Warehouse warehouse);
+    int update(@Param("warehouse") Warehouse warehouse);
 
     /**
      * 删除
@@ -45,4 +46,6 @@ public interface WarehouseDao {
      * @return
      */
     int delete(String warehouseId);
+
+    List<Warehouse> getWList();
 }

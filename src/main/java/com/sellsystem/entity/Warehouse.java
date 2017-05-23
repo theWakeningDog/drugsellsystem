@@ -14,6 +14,8 @@ public class Warehouse {
     private Date createTime;
     private String remark;
     private List<Drug> drugList = new ArrayList<>();
+    private Integer orders;
+    private Integer del = 0;
 
     public String getId() {
         return id;
@@ -53,5 +55,34 @@ public class Warehouse {
 
     public void setDrugList(List<Drug> drugList) {
         this.drugList = drugList;
+    }
+
+    public Integer getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Integer orders) {
+        this.orders = orders;
+    }
+
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
+
+    @Override
+    public String toString() {
+        return "Warehouse{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", createTime=" + createTime +
+                ", remark='" + remark + '\'' +
+                ", drugList=" + drugList +
+                ", orders=" + orders +
+                ", del=" + del +
+                '}';
     }
 }

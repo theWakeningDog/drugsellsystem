@@ -24,7 +24,7 @@
 <body style="background: #ecf0f5">
 <div class="row">
     <section class="content">
-        <div class="col-md-3">
+        <!--<div class="col-md-3">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">所属仓库</h3>
@@ -41,15 +41,15 @@
                                 <span class="label label-danger pull-right" th:text="${drugAllNum}">65</span>
                             </a>
                         </li>
-                        <!--<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                        &lt;!&ndash;<li><a href="javascript:"><i class="fa fa-envelope-o"></i> Sent</a></li>
                         <li><a href="javascript:"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                         <li><a href="javascript:"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
                         </li>
-                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>-->
+                        <li><a href="javascript:"><i class="fa fa-trash-o"></i> Trash</a></li>&ndash;&gt;
                     </ul>
                     <ul class="nav nav-pills nav-stacked ul-active" th:each="warehouse,stat : ${warehouseList}">
                         <li>
-                            <!--th:attr这样可以自定义属性，下面两个都可以取到warehouseId-->
+                            &lt;!&ndash;th:attr这样可以自定义属性，下面两个都可以取到warehouseId&ndash;&gt;
                             <a href="javascript:" th:value="${warehouse.id}" th:attr="warehouseId=${warehouse.id}"
                                onclick='chooseWarehouse(this)'>
                                 <i class="fa fa-inbox"></i> <span th:text="${warehouse.name}">Inbox</span>
@@ -59,12 +59,12 @@
                         </li>
                     </ul>
                 </div>
-                <!-- /.box-body -->
+                &lt;!&ndash; /.box-body &ndash;&gt;
             </div>
-            <!-- /. box -->
-        </div>
+            &lt;!&ndash; /. box &ndash;&gt;
+        </div>-->
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             <form action="/drug">
                 <input type="hidden" id="searchClosed" name="searchClosed" th:value="${drugSearchModel.searchClosed}">
                 <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
@@ -151,8 +151,8 @@
                             <th>零售价(元)</th>
                             <th>药品类别</th>
                             <!--<th>药品产地</th>-->
+                            <th>所属仓库</th>
                             <th>有效期</th>
-                            <!--<th>所属仓库</th>-->
                             </thead>
                             <tbody>
                             <tr th:each="drug : ${drugList}">
@@ -165,11 +165,10 @@
                                 <td th:text="${drug.number}">100</td>
                                 <td th:text="${drug.retail}">120</td>
                                 <!--/sort/view?sortId=-->
-                                <td><a href="../sort/view.html" th:href="@{/sort/view(sortId=${drug.sort.id})}"
-                                       th:text="${drug.sort.name}">中药</a></td>
+                                <td  th:text="${drug.sort.name}">中药</td>
                                 <!--<td th:text="${drug.origin}">广州白云山制药</td>-->
+                                <td th:text="${drug.warehouse.name}">常温库</td>
                                 <td th:text="${#dates.format(drug.period, 'yyyy-MM-dd')}">2028-10-23</td>
-                                <!--<td><a th:href="@{/warehouse/view(warehouseId=${drug.warehouse.id})}" th:text="${drug.warehouse.name}">常温库</a></td>-->
                             </tr>
                             </tbody>
                         </table>

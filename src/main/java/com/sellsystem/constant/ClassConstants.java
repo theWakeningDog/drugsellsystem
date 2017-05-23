@@ -18,4 +18,10 @@ public final class ClassConstants {
 
     //删除成功
     public static final int successDelete = 1;
+
+    //仓库
+    public static final String WAREHOUSE_OPT_FAIL = "操作失败";
+
+    //类别
+    public static final String SORT_OPT_FAIL = "操作失败";
 }

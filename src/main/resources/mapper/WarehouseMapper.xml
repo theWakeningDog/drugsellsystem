@@ -4,15 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.WarehouseDao">
     <sql id="warehouseSQL">
-        warehouse.id warehouseId, warehouse.name warehouseName,
-        warehouse.createTime warehouseCreateTime, warehouse.remark warehouseRemark
+        warehouse.id warehouseId, warehouse.name warehouseName, warehouse.orders warehouseOrders,
+        warehouse.createTime warehouseCreateTime, warehouse.remark warehouseRemark, warehouse.del warehouseDel
     </sql>
 
     <resultMap id="warehouseResult" type="Warehouse">
         <id property="id" column="warehouseId"/>
         <result property="name" column="warehouseName"/>
+        <result property="orders" column="warehouseOrders"/>
         <result property="createTime" column="warehouseCreateTime"/>
         <result property="remark" column="warehouseRemark"/>
+        <result property="del" column="warehouseDel"/>
         <result property="drugNum" column="drugNum"/>
     </resultMap>
     <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
@@ -20,10 +22,14 @@
 
     <select id="getList" resultType="java.util.Map">
         SELECT
-            warehouse.id, warehouse.name, warehouse.createTime, warehouse.remark, COUNT(drug.id) drugNum
+            warehouse.id, warehouse.name, warehouse.orders, warehouse.createTime, warehouse.remark, warehouse.del, COUNT(drug.id) drugNum
         FROM warehouse warehouse
         LEFT JOIN drug drug ON warehouse.id = drug.warehouse
         GROUP BY warehouse.id
+    </select>
+
+    <select id="getWList" resultMap="warehouseResult">
+        select * from warehouse where del = 0 order by orders
     </select>
 
     <insert id="create">
@@ -31,14 +37,17 @@
             SELECT uuid() FROM dual
         </selectKey>
         insert into warehouse values
-        (#{warehouse.id}, #{warehouse.name}, #{warehouse.createTime}, #{warehouse.remark});
+        (#{warehouse.id}, #{warehouse.name}, #{warehouse.orders}, #{warehouse.remark}, #{warehouse.createTime}, #{warehouse.del});
     </insert>
 
     <update id="update">
         update warehouse
         <set>
-            <if test="warehouse.name != null">name = #{warehouse.name}</if>
-            <if test="warehouse.remark != null">remark = #{warehouse.remark}</if>
+            <if test="warehouse.name != null">name = #{warehouse.name},</if>
+            <if test="warehouse.orders != null">orders = #{warehouse.orders},</if>
+            <if test="warehouse.remark != null">remark = #{warehouse.remark},</if>
+            <if test="warehouse.createTime != null">createTime = #{warehouse.createTime},</if>
+            <if test="warehouse.del != null">del = #{warehouse.del}</if>
         </set>
         where id = #{warehouse.id}
     </update>

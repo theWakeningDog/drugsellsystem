@@ -4,18 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sellsystem.dao.SortDao">
     <sql id="sortSQL">
-        sort.id sortId, sort.name sortName, sort.pid sortPid,
-        sort.createTime sortCreateTime, sort.remark sortRemark
+        sort.id sortId, sort.name sortName, sort.pid sortPid,sort.orders sortOrders,
+        sort.createTime sortCreateTime, sort.remark sortRemark, sort.del sortDel
     </sql>
     <resultMap id="sortResult" type="Sort">
         <id property="id" column="sortId"/>
         <result property="name" column="sortName"/>
         <result property="pid" column="sortPid"/>
+        <result property="orders" column="sortOrders"/>
         <result property="createTime" column="sortCreateTime"/>
         <result property="remark" column="sortRemark"/>
+        <result property="del" column="sortDel"/>
     </resultMap>
 
     <select id="getList" resultMap="sortResult">
-        select <include refid="sortSQL"/> from sort
+        select <include refid="sortSQL"/> from sort where del = 0 order by orders
     </select>
+
+    <insert id="create">
+        <selectKey keyProperty="sort.id" resultType="java.lang.String" order="BEFORE">
+            SELECT uuid() FROM dual
+        </selectKey>
+        insert into sort values
+        (#{sort.id}, #{sort.name}, #{sort.pid}, #{sort.orders}, #{sort.createTime}, #{sort.remark}, #{sort.del});
+    </insert>
+
+    <update id="update">
+        update sort
+        <set>
+            <if test="sort.name != null">name = #{sort.name},</if>
+            <if test="sort.pid != null">pid = #{sort.pid},</if>
+            <if test="sort.orders != null">orders = #{sort.orders},</if>
+            <if test="sort.createTime != null">createTime = #{sort.createTime},</if>
+            <if test="sort.remark != null">remark = #{sort.remark},</if>
+            <if test="sort.del != null">del = #{sort.del}</if>
+        </set>
+        where id = #{sort.id}
+    </update>
 </mapper>

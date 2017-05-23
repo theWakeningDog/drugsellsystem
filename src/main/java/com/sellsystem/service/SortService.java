@@ -3,6 +3,7 @@ package com.sellsystem.service;
 import com.sellsystem.entity.Sort;
 import com.sellsystem.util.MsgModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,4 +16,6 @@ public interface SortService {
      * @return
      */
     MsgModel<List<Sort>> listSort();
+
+    MsgModel createS(ArrayList<String> data);
 }

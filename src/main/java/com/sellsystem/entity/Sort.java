@@ -12,6 +12,8 @@ public class Sort {
     private String pid;
     private Date createTime;
     private String remark;
+    private Integer orders;
+    private Integer del = 0;
 
     public String getId() {
         return id;
@@ -51,5 +53,34 @@ public class Sort {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Integer getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Integer orders) {
+        this.orders = orders;
+    }
+
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
+
+    @Override
+    public String toString() {
+        return "Sort{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", pid='" + pid + '\'' +
+                ", createTime=" + createTime +
+                ", remark='" + remark + '\'' +
+                ", orders=" + orders +
+                ", del=" + del +
+                '}';
     }
 }

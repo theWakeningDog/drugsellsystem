@@ -1,6 +1,7 @@
 package com.sellsystem.dao;
 
 import com.sellsystem.entity.Sort;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,4 +14,17 @@ public interface SortDao {
      * @return
      */
     List<Sort> getList();
+
+    /**
+     * 新建
+     * @param sort
+     */
+    void create(@Param("sort") Sort sort);
+
+    /**
+     * 修改
+     * @param sort
+     * @return
+     */
+    int update(@Param("sort") Sort sort);
 }

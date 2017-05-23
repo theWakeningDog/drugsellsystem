@@ -37,6 +37,7 @@
         <div class="col-md-12">
             <form role="form" class="form-horizontal" action="purchaseList.html" th:action="@{/purchase/save}" method="post">
                 <input type="hidden" name="type" value="购买"/>
+                <input type="hidden" th:if="${task != null}" name="id" th:value="${task.id}"/>
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">
@@ -128,7 +129,8 @@
                         id: data[i].id,
                         text: data[i].name,
                         phone: data[i].phone,
-                        address: data[i].province + data[i].city + data[i].district + data[i].address
+                        address: data[i].province + data[i].city + data[i].district + data[i].address,
+                        type: data[i].type
                     };
                 }
                 $("#customer").select2({
@@ -188,7 +190,7 @@
         var $state = $(
             '<table><tr>' +
             '<td><span style="font-weight: 700">' + state.text +
-            '</span><br/>手机号：'+state.phone + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地址：' + state.address +
+            '</span><br/>手机号：' + state.phone + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型：' + state.type + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地址：' + state.address +
             '</td></tr></table>'
         );
         return $state;

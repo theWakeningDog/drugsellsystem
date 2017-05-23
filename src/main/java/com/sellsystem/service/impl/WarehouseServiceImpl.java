@@ -13,6 +13,7 @@ import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 列表
+     *
      * @param warehouseSearchModel
      * @return
      */
@@ -40,8 +42,17 @@ public class WarehouseServiceImpl implements WarehouseService {
         return new MsgModel<>(warehousePageInfo);
     }
 
+    public MsgModel<PageInfo<Warehouse>> getWList() {
+//        String orderBy = Sortable.getOrderByString(warehouseSearchModel.getOrderBy());
+//        PageHelper.startPage(warehouseSearchModel.getPageNumber(), warehouseSearchModel.getPageSize(), orderBy);
+        List<Warehouse> warehouseList = warehouseDao.getWList();
+        PageInfo warehousePageInfo = new PageInfo<>(warehouseList);
+        return new MsgModel<>(warehousePageInfo);
+    }
+
     /**
      * 详情
+     *
      * @param warehouseId
      * @return
      */
@@ -51,6 +62,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * 新增
+     *
      * @param warehouse
      * @return
      */
@@ -65,11 +77,12 @@ public class WarehouseServiceImpl implements WarehouseService {
             msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("新增失败");
         }
-        return  msgModel;
+        return msgModel;
     }
 
     /**
      * 修改
+     *
      * @param warehouse
      * @return
      */
@@ -82,11 +95,12 @@ public class WarehouseServiceImpl implements WarehouseService {
             msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("修改失败");
         }
-        return  msgModel;
+        return msgModel;
     }
 
     /**
      * 删除
+     *
      * @param warehouseId
      * @return
      */
@@ -98,6 +112,36 @@ public class WarehouseServiceImpl implements WarehouseService {
             e.printStackTrace();
             msgModel.setStatus(ClassConstants.FAIL);
             msgModel.setMessage("删除失败");
+        }
+        return msgModel;
+    }
+
+    /**
+     * 批量创建
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    public MsgModel createW(ArrayList<String> data) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            List<Warehouse> wList = warehouseDao.getWList();
+            for (Warehouse w : wList) {
+                w.setDel(ClassConstants.successDelete);
+                warehouseDao.update(w);
+            }
+            for (int i = 0; i < data.size(); i++) {
+                Warehouse w = new Warehouse();
+                w.setName(data.get(i));
+                w.setOrders(i);
+                w.setCreateTime(new Date());
+                warehouseDao.create(w);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.WAREHOUSE_OPT_FAIL);
         }
         return msgModel;
     }
