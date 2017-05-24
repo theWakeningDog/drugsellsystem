@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>药品分析</title>
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../static/dist/css/font-awesome.min.css"
+          th:href="@{/dist/css/font-awesome.min.css}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../../static/plugins/daterangepicker/daterangepicker.css"
+          th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+</head>
+<body style="background: #ecf0f5">
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 leftMenu">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">药品分析</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="/saleRecord/profit"><i class="fa fa-envelope-o"></i> 利润分析</a>
+                        </li>
+                        <li><a href="/drug/analyse"><i class="fa fa-envelope-o"></i> 药品预警</a></li>
+                    </ul>
+                </div><!-- /.box-body -->
+            </div><!-- /. box -->
+        </div><!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <div class="btn-group">
+                        药品利润
+                    </div>
+                    <form action="/drug/profit">
+                        <div class="col-md-6 col-sm-6 form-group pull-right">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn span-default" style="cursor: default; width: 90px">请选择时间：</span>
+                                </span>
+                                <input class="form-control" id="daterange-btn" name="createTime" readonly
+                                th:value="${saleProfitSearchModel.createTime}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                <div id="main" style="width: 100%;height:500px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script src="../../static/plugins/echarts/echarts.js" th:src="@{/plugins/echarts/echarts.js}"></script>
+<!-- date-range-picker -->
+<script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
+<script src="../../static/plugins/daterangepicker/daterangepicker.js"
+        th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var saleProfitList = /*[[${saleProfitList}]]*/"";           //传递过来的list
+    var dateArr = [];//日期数组
+    var profitArr = [];
+    saleProfitList.forEach(function (item, index, obj) {
+        dateArr.push(item.createTime.substring(0,10));
+        profitArr.push(item.profit);
+    });
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var colors = ['#5793f3', '#d14a61', '#675bba'];
+
+
+    option = {
+        color: colors,
+
+        tooltip: {
+            trigger: 'none',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        grid: {
+            top: 70,
+            bottom: 50
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            console.log(params);
+//                            return '利润  ' + params.value
+//                                + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                            return '利润  ' + params.seriesData[0].data;
+                        }
+                    }
+                },
+                //data: ["2016-1", "2016-2", "2016-3", "2016-4", "2016-5", "2016-6", "2016-7", "2016-8", "2016-9", "2016-10", "2016-11", "2016-12"]
+                data: dateArr
+            },
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                axisLine: {
+                    onZero: false,
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisPointer: {
+                    label: {
+                        formatter: function (params) {
+                            return "";
+//                            return '销售利润  ' + params.value;
+//                               + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                        }
+                    }
+                },
+                //data: ["2015-1", "2015-2", "2015-3", "2015-4", "2015-5", "2015-6", "2015-7", "2015-8", "2015-9", "2015-10", "2015-11", "2015-12"]
+                data: dateArr
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name:'销售利润',
+                type:'line',
+                smooth: true,
+                //data: [3.9, 5.9, 11.1, 18.7, 48.3, 69.2, 231.6, 46.6, 55.4, 18.4, 10.3, 0.7]
+                data: profitArr
+            }
+        ]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    $('#daterange-btn').daterangepicker({
+            format: 'YYYY-MM-DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
+            //startDate: moment().subtract(29, 'days'),
+            //endDate: moment(),
+            "opens": "left",    //位置，left、center、right
+            autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
+            ranges: {//列表
+                '今天': [moment(), moment()],
+                //'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '最近7天': [moment().subtract(6, 'days'), moment()],
+                '最近30天': [moment().subtract(29, 'days'), moment()],
+                //'本月': [moment().startOf('month'), moment().endOf('month')],
+                //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                '最近3个月': [moment().subtract(3, 'month').startOf('month'), moment()]
+            },
+            locale: {
+                applyLabel: '确定',
+                cancelLabel: '取消',
+                daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+                customRangeLabel: '自定义'
+            }
+        },
+        function (start, end) {
+            //$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));//下面重新绑定了函数用于显示，因此这句没用了
+        }
+    );
+    //用on绑定函数，点击确定时，显示数据
+    $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+        $("form").submit();
+    });
+    //用on绑定函数，点击取消时，清空数据
+    $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
+    });
+
+    $('#daterange-btn').on("change", function () {
+        console.log($(this).val());
+    })
+</script>
+</body>
+</html>

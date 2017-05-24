@@ -14,8 +14,35 @@
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
 </head>
 <body style="background: #ecf0f5">
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 100%;height:400px;"></div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 leftMenu">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">药品分析</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="/saleRecord/profit"><i class="fa fa-envelope-o"></i> 利润分析</a>
+                        </li>
+                        <li class="active"><a href="/drug/analyse"><i class="fa fa-envelope-o"></i> 药品预警</a></li>
+                    </ul>
+                </div><!-- /.box-body -->
+            </div><!-- /. box -->
+        </div><!-- /.col -->
+        <div class="col-md-9">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <div class="btn-group">
+                        药品库存预警
+                    </div>
+                </div>
+                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                <div id="main" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
 <script src="../../static/plugins/echarts/echarts.js" th:src="@{/plugins/echarts/echarts.js}"></script>
 <script type="text/javascript" th:inline="javascript">
@@ -32,11 +59,11 @@
     // 指定图表的配置项和数据
     var option = {
         title: {
-            text: '药品库存预警'
+            text: ''
         },
         tooltip: {},
         legend: {
-            data:['库存量']
+            data: ['库存量']
         },
         xAxis: {
             name: "药品名称",

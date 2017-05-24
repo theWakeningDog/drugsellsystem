@@ -3,19 +3,22 @@ package com.sellsystem.controller;
 import com.sellsystem.entity.Drug;
 import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
+import com.sellsystem.entity.searchmodel.extend.SaleProfitSearchModel;
 import com.sellsystem.entity.searchmodel.extend.WarehouseSearchModel;
 import com.sellsystem.service.DrugService;
+import com.sellsystem.service.SaleProfitService;
+import com.sellsystem.service.SaleRecordService;
 import com.sellsystem.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 药品
@@ -29,6 +32,10 @@ public class DrugController {
     private DrugService drugService;
     @Autowired
     private WarehouseService warehouseService;
+    @Autowired
+    private SaleRecordService saleRecordService;
+    @Autowired
+    private SaleProfitService saleProfitService;
 
     /**
      * 列表
@@ -95,4 +102,12 @@ public class DrugController {
         model.addAttribute("drugList", drugService.getDrugLessThan30());
         return "/drug/analyse";
     }
+
+    @GetMapping("/profit")
+    public String profit(Model model, SaleProfitSearchModel saleProfitSearchModel) {
+        model.addAttribute("saleProfitSearchModel", saleProfitSearchModel);
+        model.addAttribute("saleProfitList", saleProfitService.getList(saleProfitSearchModel));
+        return "/drug/profit";
+    }
+
 }

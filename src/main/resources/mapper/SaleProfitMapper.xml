@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.SaleProfitDao">
+    <sql id="saleProfitSQL">
+        saleProfit.id saleProfitId, saleProfit.profit profit,saleProfit.createTime saleProfitCreateTime
+    </sql>
+
+    <resultMap id="saleProfitResult" type="SaleProfit">
+        <id property="id" column="saleProfitId"/>
+        <result property="profit" column="saleProfit"/>
+        <result property="createTime" column="saleProfitCreateTime"/>
+    </resultMap>
+
+    <select id="getList" resultMap="saleProfitResult">
+        select
+        <include refid="saleProfitSQL"/>
+        from sale_profit saleProfit
+        <where>
+            <if test="saleProfitSearchModel.createTime != null and saleProfitSearchModel.createTime != ''">
+                and saleProfit.createTime BETWEEN #{saleProfitSearchModel.createTimeStart} AND #{saleProfitSearchModel.createTimeEnd}
+            </if>
+        </where>
+        order by createTime
+    </select>
+
+    <insert id="create">
+        <selectKey keyProperty="saleProfit.id" resultType="java.lang.String" order="BEFORE">
+            select uuid()
+        </selectKey>
+        insert into sale_profit values (#{saleProfit.id},  #{saleProfit.profit}, #{saleProfit.createTime});
+    </insert>
+
+    <update id="update">
+        update sale_profit
+        <set>
+            <if test="saleProfit.profit != null">profit = ${saleProfit.profit},</if>
+            <if test="saleProfit.createTime != null">createTime = ${saleProfit.createTime}</if>
+        </set>
+        where id = #{saleProfit.id}
+    </update>
+
+</mapper>

@@ -2,13 +2,11 @@ package com.sellsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sellsystem.dao.DrugDao;
-import com.sellsystem.dao.RecordDao;
-import com.sellsystem.dao.SaleRecordDao;
-import com.sellsystem.dao.TaskDao;
+import com.sellsystem.dao.*;
 import com.sellsystem.entity.*;
 import com.sellsystem.entity.enumerate.TaskEventEnum;
 import com.sellsystem.entity.searchmodel.Sortable;
+import com.sellsystem.entity.searchmodel.extend.SaleProfitSearchModel;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.service.TaskService;
 import com.sellsystem.shiro.ShiroUtils;
@@ -37,6 +35,8 @@ public class TaskServiceImpl implements TaskService {
     private DrugDao drugDao;
     @Autowired
     private SaleRecordDao saleRecordDao;
+    @Autowired
+    private SaleProfitDao saleProfitDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
 //        String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
@@ -240,9 +240,30 @@ public class TaskServiceImpl implements TaskService {
                     //销售记录
                     SaleRecord saleRecord = new SaleRecord();
                     saleRecord.setDrug(d);
-                    saleRecord.setNumber(d.getNumber());
+                    saleRecord.setSaleNumber(d.getNumber());
                     saleRecord.setSaleDate(new Date());
                     saleRecordDao.create(saleRecord);
+
+                    Drug drugFormDB = drugDao.getDrug(d.getId());
+                    //添加利润
+                    boolean flag = true;
+                    List<SaleProfit> saleProfitList = saleProfitDao.getList(new SaleProfitSearchModel());
+                    if (null != saleProfitList && saleProfitList.size() > 0) {
+                        for (SaleProfit saleProfit : saleProfitList) {
+                            if (DateUtil.getCurrentDay().equals(DateUtil.dateToString(saleProfit.getCreateTime()))) {
+                                saleProfit.setProfit(saleProfit.getProfit() + d.getNumber() * (drugFormDB.getRetail() - drugFormDB.getPurchase()));
+                                saleProfit.setCreateTime(null);
+                                saleProfitDao.update(saleProfit);
+                                flag = false;
+                            }
+                        }
+                    }
+                    if (flag) {
+                        SaleProfit saleProfit = new SaleProfit();
+                        saleProfit.setProfit(d.getNumber() * (drugFormDB.getRetail() - drugFormDB.getPurchase()));
+                        saleProfit.setCreateTime(new Date());
+                        saleProfitDao.create(saleProfit);
+                    }
 
 
                     Drug drug = drugDao.getDrug(d.getId());

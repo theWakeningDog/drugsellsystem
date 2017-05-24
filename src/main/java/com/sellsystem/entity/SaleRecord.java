@@ -9,7 +9,7 @@ import java.util.Date;
 public class SaleRecord {
     private String id;
     private Drug drug;
-    private Integer number;
+    private Integer saleNumber;
     private Date saleDate;
 
     public String getId() {
@@ -28,12 +28,12 @@ public class SaleRecord {
         this.drug = drug;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getSaleNumber() {
+        return saleNumber;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setSaleNumber(Integer saleNumber) {
+        this.saleNumber = saleNumber;
     }
 
     public Date getSaleDate() {
@@ -49,7 +49,7 @@ public class SaleRecord {
         return "SaleRecord{" +
                 "id='" + id + '\'' +
                 ", drug=" + drug +
-                ", number=" + number +
+                ", saleNumber=" + saleNumber +
                 ", saleDate=" + saleDate +
                 '}';
     }
