@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.SaleRecordDao">
+    <sql id="saleRecordSQL">
+        sale.id saleId, sale.number saleNumber, sale.saleDate saleDate
+    </sql>
+
+    <resultMap id="saleRecordResult" type="SaleRecord">
+        <id property="id" column="saleId"/>
+        <result property="number" column="saleNumber"/>
+        <result property="saleDate" column="saleDate"/>
+        <association property="drug" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
+    </resultMap>
+
+    <select id="getList" resultMap="saleRecordResult">
+        select
+        <include refid="saleRecordSQL"/>,
+        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+        from sale_record sale
+        left join drug drug on sale.drug = drug.id
+    </select>
+
+    <insert id="create">
+        <selectKey keyProperty="saleRecord.id" resultType="java.lang.String" order="BEFORE">
+            select uuid()
+        </selectKey>
+        insert into sale_record values (#{saleRecord.id}, #{saleRecord.drug.id}, #{saleRecord.number}, #{saleRecord.saleDate});
+    </insert>
+
+    <delete id="delete">
+        delete from sale_record where id in
+        <foreach collection="customerIdList" item="customerId" index="index" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
+</mapper>

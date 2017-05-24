@@ -4,11 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.dao.DrugDao;
 import com.sellsystem.dao.RecordDao;
+import com.sellsystem.dao.SaleRecordDao;
 import com.sellsystem.dao.TaskDao;
-import com.sellsystem.entity.Drug;
-import com.sellsystem.entity.Record;
-import com.sellsystem.entity.Task;
-import com.sellsystem.entity.User;
+import com.sellsystem.entity.*;
 import com.sellsystem.entity.enumerate.TaskEventEnum;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
@@ -37,6 +35,8 @@ public class TaskServiceImpl implements TaskService {
     private RecordDao recordDao;
     @Autowired
     private DrugDao drugDao;
+    @Autowired
+    private SaleRecordDao saleRecordDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
 //        String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
@@ -237,6 +237,14 @@ public class TaskServiceImpl implements TaskService {
 
             if (drugList.size() > 0) {
                 for (Drug d : drugList) {
+                    //销售记录
+                    SaleRecord saleRecord = new SaleRecord();
+                    saleRecord.setDrug(d);
+                    saleRecord.setNumber(d.getNumber());
+                    saleRecord.setSaleDate(new Date());
+                    saleRecordDao.create(saleRecord);
+
+
                     Drug drug = drugDao.getDrug(d.getId());
                     d.setNumber(drug.getNumber() - d.getNumber()); //修改一下数量
                     drugDao.update(d);
