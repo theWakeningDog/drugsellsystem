@@ -6,6 +6,7 @@ import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.util.MsgModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangwei on 2017/3/18.
@@ -45,5 +46,11 @@ public interface DrugService {
      * @return
      */
     List<Drug> getDrugLessThan30();
+
+    /**
+     * 获得某个类别的所有药品
+     * @return
+     */
+    List<Map<?, ?>> getSumBySort();
 }
 

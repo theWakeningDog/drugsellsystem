@@ -25,7 +25,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="/saleRecord/profit"><i class="fa fa-envelope-o"></i> 利润分析</a>
                         </li>
-                        <li class="active"><a href="/drug/analyse"><i class="fa fa-envelope-o"></i> 药品预警</a></li>
+                        <li class="active"><a href="/drug/analyse"><i class="fa fa-envelope-o"></i> 药品分析</a></li>
                     </ul>
                 </div><!-- /.box-body -->
             </div><!-- /. box -->
@@ -34,11 +34,23 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <div class="btn-group">
-                        药品库存预警
+                        库存预警
                     </div>
                 </div>
                 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
                 <div id="main" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+
+        <div class="col-md-offset-3 col-md-9">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <div class="btn-group">
+                        药品类别统计
+                    </div>
+                </div>
+                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                <div id="main2" style="width: 100%;height:500px"></div>
             </div>
         </div>
     </div>
@@ -91,6 +103,90 @@
             }
         })
     });
+
+
+
+    //饼图
+    var sortSumList = /*[[${sortSumList}]]*/"某种类别的药品总数";
+    var drugSum = 0;
+    sortSumList.forEach(function (item, index, obj) {
+        drugSum += item.value;
+    });
+    var chart2 = echarts.init(document.getElementById('main2'));
+    option2= {
+        backgroundColor: '#fff',
+
+        title: {
+            text: '药品总数：' + drugSum,
+            left: 'center',
+            top: 20,
+            textStyle: {
+                color: '#000'
+            }
+        },
+
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+                colorLightness: [0, 1]
+            }
+        },
+        series : [
+            {
+                name:'来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '50%'],
+//                data:[
+//                    {value:335, name:'直接访问'},
+//                    {value:310, name:'邮件营销'},
+//                    {value:274, name:'联盟广告'},
+//                    {value:235, name:'视频广告'},
+//                    {value:400, name:'搜索引擎'}
+//                ].sort(function (a, b) { return a.value - b.value; }),
+                data: sortSumList.sort(function (a, b) { return a.value - b.value; }),
+                roseType: 'radius',
+                label: {
+                    normal: {
+                        textStyle: {
+                            color: '#333'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        lineStyle: {
+                            color: '#555'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#c23531',
+                        shadowBlur: 200,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+
+                animationType: 'scale',
+                animationEasing: 'elasticOut',
+                animationDelay: function (idx) {
+                    return Math.random() * 200;
+                }
+            }
+        ]
+    };
+    chart2.setOption(option2);
 </script>
 </body>
 </html>

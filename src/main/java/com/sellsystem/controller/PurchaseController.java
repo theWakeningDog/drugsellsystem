@@ -166,7 +166,7 @@ public class PurchaseController {
     @GetMapping("/receipt")
     public String receipt(Model model, Task task, boolean page) {
         model.addAttribute("task", taskService.getTask(task.getId()).getData());
-        model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData().getList());
+        model.addAttribute("warehouseList", warehouseService.getWList().getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
         model.addAttribute("drugList", drugService.getList((new DrugSearchModel()).init()).getData().getList());
         if (page) return "/task/receiptPurchase";

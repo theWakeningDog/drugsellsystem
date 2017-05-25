@@ -5,6 +5,7 @@ import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangwei on 2017/3/4/004.
@@ -12,7 +13,7 @@ import java.util.List;
 public interface DrugDao {
 
     /**
-     * 别表
+     * 列表
      * @return
      */
     List<Drug> getList(@Param("drugSearchModel") DrugSearchModel drugSearchModel);
@@ -43,4 +44,10 @@ public interface DrugDao {
      * @return
      */
     List<Drug> getDrugLessThan30();
+
+    /**
+     * 获得每种类别的总数
+     * @return
+     */
+    List<Map<?, ?>> getSumBySort();
 }

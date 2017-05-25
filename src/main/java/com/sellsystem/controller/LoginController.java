@@ -26,7 +26,12 @@ public class LoginController {
 
     @RequestMapping(value="/login",method= RequestMethod.GET)
     public String login(){
-        return "login";
+        return "/login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "/register";
     }
 
     // 登录提交地址和applicationontext-shiro.xml配置的loginurl一致。 (配置文件方式的说法)
@@ -37,7 +42,7 @@ public class LoginController {
         //shiroLoginFailure:shiro异常类全类名
         String exception = (String) request.getAttribute("shiroLoginFailure");
         System.out.println("---------------------exception：" + exception);
-        String msg = "2929";
+        String msg = "";
         if (null != exception) {
             if (UnknownAccountException.class.getName().equals(exception)) {
                 msg = "UnknownAccountException---->账号不存在";

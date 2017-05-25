@@ -17,7 +17,7 @@ import java.util.Map;
  * 既然是使用 Filter 一般也就能猜到，是通过URL规则来进行过滤和权限校验，所以我们需要定义一系列关于URL的规则和访问权限。
  * Created by zhangwei on 2017/4/25.
  */
-//@Configuration
+@Configuration
 public class DrugShiroConfiguration {
 
     /**
@@ -45,7 +45,12 @@ public class DrugShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //过滤链定义，从上往下顺序执行，一般将/**放在最下边。这里需要注意
         //<！--authc:所有url都必须认知通过才可以访问；anon:所有url都可以匿名访问-->
-        filterChainDefinitionMap.put("static/**", "anon");
+//        filterChainDefinitionMap.put("classpath:/static", "anon");
+        filterChainDefinitionMap.put("/bootstrap/**", "anon");
+        filterChainDefinitionMap.put("/dist/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/plugins/**", "anon");
 
         //--------------------------- "/login"，登陆是不能忽略的，否则的话是不会执行realm的---------------------------------------
        // filterChainDefinitionMap.put("/login", "anon");

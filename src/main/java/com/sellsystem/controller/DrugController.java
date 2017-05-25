@@ -100,6 +100,7 @@ public class DrugController {
     @GetMapping("/analyse")
     public String analyse(Model model) {
         model.addAttribute("drugList", drugService.getDrugLessThan30());
+        model.addAttribute("sortSumList", drugService.getSumBySort ());
         return "/drug/analyse";
     }
 

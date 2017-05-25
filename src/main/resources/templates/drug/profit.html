@@ -190,7 +190,7 @@
         }
     );
     //用on绑定函数，点击确定时，显示数据
-    $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
+    $('#daterange-btn').on('ap ply.daterangepicker', function (ev, picker) {
         $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
         $("form").submit();
     });

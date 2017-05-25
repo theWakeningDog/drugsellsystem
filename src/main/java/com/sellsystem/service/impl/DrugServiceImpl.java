@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangwei on 2017/3/4/004.
@@ -90,6 +91,11 @@ public class DrugServiceImpl implements DrugService {
     @Override
     public List<Drug> getDrugLessThan30() {
         return drugDao.getDrugLessThan30();
+    }
+
+    @Override
+    public List<Map<?, ?>> getSumBySort() {
+        return drugDao.getSumBySort();
     }
 
 }

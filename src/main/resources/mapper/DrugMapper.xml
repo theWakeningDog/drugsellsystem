@@ -105,4 +105,8 @@
         where  30 >= drug.number
     </select>
 
+    <select id="getSumBySort" resultType="java.util.Map">
+        SELECT SUM(drug.number) `value`, sort.name name FROM `drug` drug left join sort sort on drug.sort = sort.id group by sort.name
+    </select>
+
 </mapper>
