@@ -52,4 +52,10 @@ public interface UserDao {
      * @return
      */
     int delete(@Param("userIdList") List<String> userIdList);
+
+    /**
+     * 获得创建时间最大的人
+     * @return
+     */
+    User getMaxTimeUser();
 }

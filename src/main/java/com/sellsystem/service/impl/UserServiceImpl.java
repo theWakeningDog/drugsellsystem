@@ -8,10 +8,12 @@ import com.sellsystem.entity.User;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.UserSearchModel;
 import com.sellsystem.service.UserService;
+import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +70,17 @@ public class UserServiceImpl implements UserService {
         MsgModel msgModel = new MsgModel();
         try {
             user.setCreateTime(new Date());
+            User u = userDao.getMaxTimeUser();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+            if (null != u) {
+                if (sdf.format(u.getCreateTime()).equals(sdf.format(DateUtil.getCurrentDayDate()))) {
+                    user.setNo(String.valueOf(Integer.parseInt(u.getNo()) + 1));
+                } else {
+                    user.setNo(sdf.format(DateUtil.getCurrentDay()) + "001");
+                }
+            } else {
+                user.setNo(sdf.format(DateUtil.getCurrentDay()) + "001");
+            }
             userDao.create(user);
             msgModel.setData(user.getId());
         } catch (Exception e) {

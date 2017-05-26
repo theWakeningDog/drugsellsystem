@@ -74,8 +74,8 @@
         <selectKey keyProperty="user.id" resultType="java.lang.String" order="BEFORE">
             select uuid()
         </selectKey>
-        insert into user values (#{user.id}, #{user.no} #{user.name}, #{user.account} #{user.password}, #{user.age},
-        #{user.email}, #{user.longitude}, #{user.latitude}, #{user.createTime}, #{user.remark}, #{user.delete});
+        insert into user values (#{user.id}, #{user.no}, #{user.name}, #{user.account}, #{user.password}, #{user.age}, #{user.tel},
+        #{user.email}, #{user.longitude}, #{user.latitude}, #{user.remark}, #{user.createTime}, #{user.delete});
     </insert>
 
     <update id="update">
@@ -96,6 +96,10 @@
         </set>
         where id = #{user.id}
     </update>
+
+    <select id="getMaxTimeUser" resultType="user">
+        select * from user where createTime = (select max(createTime) from user)
+    </select>
 
     <delete id="delete">
         delete from user where id in

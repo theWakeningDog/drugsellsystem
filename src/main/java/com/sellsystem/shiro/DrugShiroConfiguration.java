@@ -51,6 +51,7 @@ public class DrugShiroConfiguration {
         filterChainDefinitionMap.put("/images/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/plugins/**", "anon");
+        filterChainDefinitionMap.put("/register", "anon");
 
         //--------------------------- "/login"，登陆是不能忽略的，否则的话是不会执行realm的---------------------------------------
        // filterChainDefinitionMap.put("/login", "anon");

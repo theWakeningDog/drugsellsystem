@@ -1,7 +1,10 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.User;
+import com.sellsystem.service.UserService;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,6 +22,9 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = {"/","/index"})
     public String index(){
         return "/index";
@@ -32,6 +38,18 @@ public class LoginController {
     @GetMapping("/register")
     public String register() {
         return "/register";
+    }
+
+    @PostMapping("/register")
+    public String register(User user, Map map) {
+        User u = userService.getUserByAccount(user.getAccount()).getData();
+        if (null == u) {
+        userService.create(user);
+        return "redirect:/login";
+        } else {
+            map.put("msg", "该账号已注册");
+            return "/register";
+        }
     }
 
     // 登录提交地址和applicationontext-shiro.xml配置的loginurl一致。 (配置文件方式的说法)
@@ -68,4 +86,5 @@ public class LoginController {
         model.addAttribute("login", "login in  project");
         return "home";
     }
+
 }
