@@ -44,7 +44,11 @@
                                 <button type="button" class="btn btn-primary" onclick="offTask()">取消</button>
                             </span>
                             <span th:case="finished">
+                                <button type="button" class="btn btn-primary" onclick="watchDetail()">查看采购明细</button>
                                 <button type="button" class="btn btn-primary" onclick="closeTask()">关闭</button>
+                            </span>
+                            <span th:case="closed">
+                                <button type="button" class="btn btn-primary" onclick="watchDetail()">查看采购明细</button>
                             </span>
                         </span>
                     </div>
@@ -300,6 +304,10 @@
     //关闭
     function closeTask() {
         location.href = "/purchase/close?id=" + taskId;
+    }
+    //查看明细
+    function watchDetail() {
+        location.href = "/purchase/detail?taskId=" + taskId;
     }
     /* =======================任务流程结束==================================  */
 </script>

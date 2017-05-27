@@ -328,11 +328,15 @@
                 var warehouse = {};
                 warehouse.id = purchaseObj['warehouse.id'];
                 purchaseObj.warehouse = warehouse;
-                var createUser = {}, customer = {};
+
+                var createUser = {}, customer = {}, task = {};
                 createUser.id = /*[[${task.executor.id}]]*/"负责人id";
                 customer.id = /*[[${task.customer.id}]]*/"客户id";
+                task.id = /*[[${task.id}]]*/"任务id";
                 purchaseObj.createUser = createUser;
                 purchaseObj.customer = customer;
+                purchaseObj.task = task;
+
                 drugList ? drugList[drugList.length] = purchaseObj : drugList.push(purchaseObj);//添加保存的药品数据
 
                 $("#drug-modal").modal("hide");

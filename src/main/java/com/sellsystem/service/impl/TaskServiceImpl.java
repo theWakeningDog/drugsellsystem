@@ -66,7 +66,6 @@ public class TaskServiceImpl implements TaskService {
     public MsgModel<String> create(Task task) {
         MsgModel msgModel = new MsgModel();
         try {
-            //先把user定死
             task.setCreateUser(ShiroUtils.getUser());
             task.setState(engine.getStateByEngine(ClassConstants.ENGINE_FILE, task.getState(), TaskEventEnum.create.getEvent()));
             task.setCreateTime(new Date());
@@ -142,11 +141,11 @@ public class TaskServiceImpl implements TaskService {
             task.setState(engine.getStateByEngine(
                     ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.allot.getEvent()));
             task.setCreateUser(workTask.getCreateUser());
-            task.setExecutor(this.getUser());
+            task.setExecutor(ShiroUtils.getUser());
             taskDao.update(task);
 
             Record record = this.createRecord(task, TaskEventEnum.allot.getValue());
-            record.setExecutor(this.getUser());
+            record.setExecutor(ShiroUtils.getUser());
             recordDao.create(record);
         } catch (Exception e) {
             e.printStackTrace();
@@ -304,6 +303,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
+     * 获得与任务相关的销售单或采购单列表
+     * @param taskId
+     * @return
+     */
+    @Override
+    public List<Drug> getDrugByTask(String taskId) {
+        return drugDao.getDrugByTask(taskId);
+    }
+
+    /**
      * 生成record
      *
      * @param task
@@ -317,12 +326,5 @@ public class TaskServiceImpl implements TaskService {
         record.setTask(task);
         record.setCreateTime(new Date());
         return record;
-    }
-
-    //假的，需要修改
-    private User getUser() {
-        User user = new User();
-        user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
-        return user;
     }
 }

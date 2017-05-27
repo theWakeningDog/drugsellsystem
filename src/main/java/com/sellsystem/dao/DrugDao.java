@@ -19,6 +19,13 @@ public interface DrugDao {
     List<Drug> getList(@Param("drugSearchModel") DrugSearchModel drugSearchModel);
 
     /**
+     * 通过任务id获得采购单或销售单列表
+     * @param taskId
+     * @return
+     */
+    List<Drug> getDrugByTask(@Param("taskId") String taskId);
+
+    /**
      * 详情
      * @param drugId
      * @return

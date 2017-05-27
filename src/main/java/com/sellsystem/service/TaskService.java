@@ -86,4 +86,11 @@ public interface TaskService {
      * @return
      */
     MsgModel closeTask(Task task);
+
+    /**
+     * 获得与任务相关的销售单或采购单列表
+     * @param taskId
+     * @return
+     */
+    List<Drug> getDrugByTask(String taskId);
 }

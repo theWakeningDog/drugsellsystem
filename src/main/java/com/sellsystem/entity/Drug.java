@@ -33,8 +33,12 @@ public class Drug {
     private String commonName;//舍弃
     private Date createTime;
     private String remark;
+    //负责人
     private User createUser;
+    //供药商
     private Customer customer;
+    //所关联的任务
+    private Task task;
 
     public String getId() {
         return id;
@@ -164,6 +168,14 @@ public class Drug {
         this.customer = customer;
     }
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     @Override
     public String toString() {
         return "Drug{" +
@@ -183,6 +195,7 @@ public class Drug {
                 ", remark='" + remark + '\'' +
                 ", createUser=" + createUser +
                 ", customer=" + customer +
+                ", task=" + task +
                 '}';
     }
 }

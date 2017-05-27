@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * 任务
  * Created by zhangwei on 2017/3/17.
  */
-public class Task {
+public class Task implements Serializable {
     public static final String sellType = "销售";
     public static final String buyType = "购买";
     private String id;
