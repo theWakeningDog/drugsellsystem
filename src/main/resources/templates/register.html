@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
     <!-- iCheck -->
     <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
+    <!--sweetalert-->
+    <link rel="stylesheet" href="../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,7 +85,7 @@
                 Google+</a>-->
         </div>
 
-        <a href="login.html" class="text-center">返回</a>
+        <a href="javascript:" onclick="back()" class="text-center">返回</a>
     </div>
     <!-- /.form-box -->
 </div>
@@ -109,11 +112,10 @@
 
     var msg = /*[[${msg}]]*/"该账号已经注册！";
     if (msg) {
-//        swal({
-//            title: msg,
-//            type: "error"
-//        });
-        alert(msg);
+        swal({
+            title: msg,
+            type: "error"
+        });
     }
 
     function checkSubmit() {
@@ -127,18 +129,21 @@
             password.length >= 6 && password.length <= 16) {
             return true;
         } else if (!(phoneReg.test(phone))) {
-            console.log(phone);
-            alert("手机号不正确");
+            swal("手机号不正确", "", "warning");
             return false;
         } else if (!(emailReg.test(email))) {
-            alert("邮箱不正确");
+            swal("邮箱不正确", "", "warning");
             return false;
         } else if (password != confirm || password.length < 6 || password.length > 16) {
-            alert("请输入正确的密码");
+            swal("请确认密码", "", "warning");
             return false;
         } else {
             return false;
         }
+    }
+
+    function back() {
+        window.history.back();
     }
 </script>
 </body>

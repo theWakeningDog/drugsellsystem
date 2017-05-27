@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.List;
  * 登录用户
  * Created by zhangwei on 2017/3/4/004.
  */
-public class User {
+public class User implements Serializable {
     private String id;
     private String no;
     private String name;
@@ -22,7 +23,7 @@ public class User {
     private BigDecimal latitude;
     private Date createTime;
     private String remark;
-    private Integer delete;
+    private Integer delete = 0;
     private String salt = "8d78869f470951332959580424d4bf4f";            //加密密码的盐
     private List<Role> roleList = new ArrayList<>();           //舍弃，用于测试shiro
 

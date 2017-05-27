@@ -16,13 +16,15 @@ import java.util.List;
 public class ShiroUtils {
 
 	public static User getUser() {
-		//ShiroPrincipal principal = getPrincipal();
-		//return principal.getUser();
-		/*Subject subject = getSubject();
-		return (User)subject.getPrincipal();*/
-		User user = new User();
+//		ShiroPrincipal principal = getPrincipal();
+//		return principal.getUser();
+//		Subject subject = getSubject();
+//		return (User)subject.getPrincipal();
+		/*User user = new User();
 		user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
-		return user;
+		return user;*/
+		Subject subject = getSubject();
+		return (User) subject.getPrincipal();
 	}
 
 	public static Subject getSubject(){
@@ -36,7 +38,8 @@ public class ShiroUtils {
 	public static ShiroPrincipal getPrincipal() {
 		Subject subject = getSubject();
 		Object o = subject.getPrincipal();
-		return (ShiroPrincipal)subject.getPrincipal();
+		//return (ShiroPrincipal)subject.getPrincipal();
+		return new ShiroPrincipal((User) subject.getPrincipal());
 	}
 
 	public static String getName() {

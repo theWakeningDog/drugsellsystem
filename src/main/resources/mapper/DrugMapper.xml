@@ -23,17 +23,23 @@
         <association property="sort" column="drugSort" resultMap="com.sellsystem.dao.SortDao.sortResult"/>
         <association property="warehouse" column="drugWarehouse"
                      resultMap="com.sellsystem.dao.WarehouseDao.warehouseResult"/>
+        <association property="createUser" resultMap="com.sellsystem.dao.UserDao.createUserResult"/>
+        <association property="customer" resultMap="com.sellsystem.dao.CustomerDao.customerResult"/>
     </resultMap>
 
     <select id="getList" resultMap="drugResult">
         SELECT
         <include refid="drugSQL"/>,
         <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
-        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>
         FROM
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
+        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN customer customer on customer.id = drug.customer
         <where>
             <if test="drugSearchModel.name != null">
                 <bind name="namePattern" value="'%' + drugSearchModel.getName() + '%'"/>
@@ -58,11 +64,15 @@
         SELECT
         <include refid="drugSQL"/>,
         <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
-        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>
         FROM
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
+        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN customer customer on customer.id = drug.customer
         WHERE drug.id = #{drugId}
     </select>
 
@@ -72,7 +82,7 @@
         </selectKey>
         insert into drug values (#{drug.id}, #{drug.name}, #{drug.origin}, #{drug.unit}, #{drug.number},
         #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.createTime},
-        #{drug.remark});
+        #{drug.remark}, #{drug.createUser.id}, #{drug.customer.id});
     </insert>
 
     <update id="update">
@@ -88,7 +98,9 @@
             <if test="drug.sort != null and drug.sort.id != null">sortId = #{drug.sort.id},</if>
             <if test="drug.warehouse != null and drug.warehouse.id != null">warehouseId = #{drug.warehouse.id},</if>
             <if test="drug.createTime != null">createTime = #{drug.createTime},</if>
-            <if test="drug.remark != null">remark = #{drug.remark}</if>
+            <if test="drug.remark != null">remark = #{drug.remark},</if>
+            <if test="drug.createUser != null and drug.createUser.id != null">createUser = #{drug.createUser},</if>
+            <if test="drug.customer != null and drug.customer.id != null">customer = #{drug.customer}</if>
         </set>
         where id = #{drug.id}
     </update>

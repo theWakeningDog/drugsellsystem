@@ -254,11 +254,11 @@
         var urlHtmlTemp = "";
         if (data.action == "指派") {
             urlHtmlTemp += '<a href="/user/view?userId=' + data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
-            urlHtmlTemp += '把任务&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
+            urlHtmlTemp += '把采购单&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
             urlHtmlTemp += '<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>';
         } else {
             urlHtmlTemp += '<a href="/user/view?userId=' +  data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
-            urlHtmlTemp += data.action + '了任务&nbsp;&nbsp;' + data.task.name;
+            urlHtmlTemp += data.action + '了采购单&nbsp;&nbsp;' + data.task.name;
             /*if (Object.keys(data.content).length > 0) {
              if (data.content.updateType == "tRecord") {
              urlHtmlTemp += '&nbsp;&nbsp;备注：&nbsp;&nbsp;' + data.content.updateContent;

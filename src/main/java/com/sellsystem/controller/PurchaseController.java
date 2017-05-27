@@ -40,6 +40,8 @@ public class PurchaseController {
     private DrugService drugService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SystemService systemService;
 
     /**
      * 列表
@@ -169,6 +171,7 @@ public class PurchaseController {
         model.addAttribute("warehouseList", warehouseService.getWList().getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
         model.addAttribute("drugList", drugService.getList((new DrugSearchModel()).init()).getData().getList());
+        model.addAttribute("unitList", systemService.get().getValArr());
         if (page) return "/task/receiptPurchase";
         else return "/task/receiptSale";
     }

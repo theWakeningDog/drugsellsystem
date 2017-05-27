@@ -33,6 +33,8 @@ public class Drug {
     private String commonName;//舍弃
     private Date createTime;
     private String remark;
+    private User createUser;
+    private Customer customer;
 
     public String getId() {
         return id;
@@ -146,10 +148,27 @@ public class Drug {
         this.remark = remark;
     }
 
+    public User getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(User createUser) {
+        this.createUser = createUser;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
         return "Drug{" +
                 "id='" + id + '\'' +
+                ", no='" + no + '\'' +
                 ", name='" + name + '\'' +
                 ", origin='" + origin + '\'' +
                 ", unit='" + unit + '\'' +
@@ -159,8 +178,11 @@ public class Drug {
                 ", period=" + period +
                 ", sort=" + sort +
                 ", warehouse=" + warehouse +
+                ", commonName='" + commonName + '\'' +
                 ", createTime=" + createTime +
                 ", remark='" + remark + '\'' +
+                ", createUser=" + createUser +
+                ", customer=" + customer +
                 '}';
     }
 }

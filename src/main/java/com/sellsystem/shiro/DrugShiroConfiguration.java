@@ -1,5 +1,6 @@
 package com.sellsystem.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -24,6 +25,7 @@ public class DrugShiroConfiguration {
      * anon:所有url都都可以匿名访问;
      * authc: 需要认证才能进行访问;
      * user:配置记住我或认证通过可以访问
+     *
      * @param securityManager
      * @return
      */
@@ -54,7 +56,7 @@ public class DrugShiroConfiguration {
         filterChainDefinitionMap.put("/register", "anon");
 
         //--------------------------- "/login"，登陆是不能忽略的，否则的话是不会执行realm的---------------------------------------
-       // filterChainDefinitionMap.put("/login", "anon");
+        // filterChainDefinitionMap.put("/login", "anon");
 
         //配置退出过滤器，其中的具体退出逻辑shiro已经实现了
         filterChainDefinitionMap.put("/logout", "logout");
@@ -68,6 +70,7 @@ public class DrugShiroConfiguration {
 
     /**
      * securityManager:shiro的核心
+     *
      * @return
      */
     @Bean
@@ -96,6 +99,7 @@ public class DrugShiroConfiguration {
     /**
      * 凭证匹配器
      * （由于密码校验交给shiro的SimpleAuthenticationInfo进行处理了，所以我们需要修改下doGetAuthenticationInfo的代码）
+     *
      * @return
      */
     @Bean
@@ -109,6 +113,7 @@ public class DrugShiroConfiguration {
     /**
      * 开启shiro aop注解支持
      * 使用代理方式；所以需要开启代码支持
+     *
      * @param securityManager
      * @return
      */
@@ -124,6 +129,7 @@ public class DrugShiroConfiguration {
      * 需要注入对应的其他的实体类中:
      * 1、安全管理器：SecurityManager
      * 可见securityManager是整个shiro的核心；
+     *
      * @return
      */
     @Bean
@@ -134,5 +140,13 @@ public class DrugShiroConfiguration {
         return ehCacheManager;
     }
 
-
+    /**
+     * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
+     *
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
 }

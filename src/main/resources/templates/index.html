@@ -3,7 +3,8 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -16,13 +17,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="/dist/css/font-awesome.min.css"/>
     <!-- Ionicons -->
     <link rel="stylesheet" href="/dist/css/ionicons.min.css"/>
-     <!--Theme style-->
+    <!--Theme style-->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css"/>
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
     <link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css"/>
+    <!--sweetalert-->
+    <link rel="stylesheet" href="../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,12 +35,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="/plugins/jQuery/jquery-3.1.1.js"></script>
+    <!--sweetalert 提示框-->
+    <script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
     <style>
-        .nav-tabs>li>a {background: #ccc; color: #6c6c6c;}
-        .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {background: #3c8dbc; color: #fff;}
-        .nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus {color: #444; background: #ccc;}
+        .nav-tabs > li > a {
+            background: #ccc;
+            color: #6c6c6c;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            background: #3c8dbc;
+            color: #fff;
+        }
+
+        .nav > li > a:hover, .nav > li > a:active, .nav > li > a:focus {
+            color: #444;
+            background: #ccc;
+        }
+
         /*消除y轴滚动条*/
-        body {overflow-y: hidden;}
+        body {
+            overflow-y: hidden;
+        }
     </style>
 </head>
 
@@ -226,7 +246,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
                 </div>
                 <div class="pull-left info">
-                    <p>Alexander Pierce</p>
+                    <p shiro:authenticated="true">
+                        <span th:text="${user.name}"></span>
+                    </p>
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
@@ -335,14 +357,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>-->
     <div class="content-wrapper">
         <section class="content iframe" style="padding:0px;position: relative">
-            <ul id="tab-bar" class="nav nav-tabs tab-show" role="tablist" style="padding-left:10px;padding-top:5px"></ul>
+            <ul id="tab-bar" class="nav nav-tabs tab-show" role="tablist"
+                style="padding-left:10px;padding-top:5px"></ul>
 
             <div id="tab-content" class="tab-content"></div>
         </section>
         <script type="text/javascript">
             /*<![CDATA[*/
             function logout() {
-                confirm("您确定要退出系统吗？") && (window.location.href = '/logout');
+                //confirm("您确定要退出系统吗？") && (window.location.href = '/logout');
+                swal({
+                    title: "您确定要退出系统吗？",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消"
+                }, function (isConfirm) {
+                    isConfirm && (window.location.href = "/logout")
+                });
             }
 
             window.tabTitles = [];
@@ -476,8 +510,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 else if (window.frames[this.id].location.href != undefined) {
                                     url = window.frames[this.id].location.href;
                                 }
-                                if (url.lastIndexOf('.pdf')==url.length-4){
-                                    $("#span_" + thisId).html("&nbsp;&nbsp; 服务报告" );
+                                if (url.lastIndexOf('.pdf') == url.length - 4) {
+                                    $("#span_" + thisId).html("&nbsp;&nbsp; 服务报告");
                                 }
 
                                 uniqueInsertArray(this.id, url);//把当前url添加到数组当中
@@ -526,7 +560,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 addTabs({id: "Dashboard", title: "正在加载", close: false, url: "/login/home"});
             }
 
-            function resizeFrame(){
+            function resizeFrame() {
                 setTimeout(function () {
                     var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
                     var tabPanels = $(".tab-pane iframe");

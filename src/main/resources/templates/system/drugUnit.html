@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>类别设置</title>
+    <title>仓库设置</title>
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Font Awesome -->
@@ -31,9 +31,9 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li  class="active"><a href="/system/sort"><i class="fa fa-envelope-o"></i>类别设置</a></li>
+                        <li><a href="/system/sort"><i class="fa fa-envelope-o"></i>类别设置</a></li>
                         <li><a href="/system/warehouse"><i class="fa fa-envelope-o"></i>仓库设置</a></li>
-                        <li><a href="/system/drugUnit"><i class="fa fa-envelope-o"></i>药品单位</a></li>
+                        <li class="active"><a href="/system/drugUnit"><i class="fa fa-envelope-o"></i>药品单位</a></li>
                     </ul>
                 </div><!-- /.box-body -->
             </div><!-- /. box -->
@@ -51,9 +51,9 @@
                             </tr>
                             </thead>
                             <tbody id="data_boday">
-                            <tr th:each="sort, stat : ${sortList}">
+                            <tr th:each="unit, stat : ${unitList}">
                                 <td width="10%" th:text="${stat.count}"></td>
-                                <td th:text="${sort.name}"></td>
+                                <td th:text="${unit}"></td>
                                 <td width="20%">
                                     <span title="编辑" class="glyphicon glyphicon-pencil edit index"></span>
                                     <span title="删除" class="glyphicon glyphicon-remove delete index"></span>
@@ -123,7 +123,7 @@
 //                parent.dd_alert("保存成功");
 //            }
 //        });
-        $.post("/system/sort/save", {data: getData()}, function (data) {
+        $.post("/system/unit/save", {data: getData()}, function (data) {
             if (data.status) {
                 console.log("成功");
             } else {

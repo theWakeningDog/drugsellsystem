@@ -1,5 +1,6 @@
 package com.sellsystem.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * 顾客
  * Created by zhangwei on 2017/3/17.
  */
-public class Customer {
+public class Customer implements Serializable {
     private String id;
     private String name;
     private String phone;

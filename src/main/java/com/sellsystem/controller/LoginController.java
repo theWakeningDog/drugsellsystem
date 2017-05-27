@@ -2,6 +2,7 @@ package com.sellsystem.controller;
 
 import com.sellsystem.entity.User;
 import com.sellsystem.service.UserService;
+import com.sellsystem.shiro.ShiroUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = {"/","/index"})
-    public String index(){
+    public String index(Model model){
+        model.addAttribute("user", ShiroUtils.getUser());
         return "/index";
     }
 
