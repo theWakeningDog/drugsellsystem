@@ -1,6 +1,7 @@
 package com.sellsystem.dao;
 
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.DrugTask;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import org.apache.ibatis.annotations.Param;
 
@@ -57,4 +58,11 @@ public interface DrugDao {
      * @return
      */
     List<Map<?, ?>> getSumBySort();
+
+    /**
+     * 创建任务和药品关联
+     * @param dt
+     * @return
+     */
+    int createDrugTask(@Param("dt") DrugTask dt);
 }

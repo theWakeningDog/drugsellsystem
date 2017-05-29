@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>采购明细</title>
+    <title>销售明细</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -85,7 +85,7 @@
                     <th>名称</th>
                     <th>单位</th>
                     <th>数量</th>
-                    <th>进价</th>
+                    <!--<th>进价</th>-->
                     <th>零售价</th>
                     <th>类别</th>
                     <th>仓库</th>
@@ -97,7 +97,7 @@
                         <td th:text="${dt.drug.name}"></td>
                         <td th:text="${dt.drug.unit}"></td>
                         <td th:text="${dt.drugNum}"></td>
-                        <td th:text="${dt.drug.purchase}"></td>
+                        <!--<td th:text="${dt.drug.purchase}"></td>-->
                         <td th:text="${dt.drug.retail}"></td>
                         <td th:text="${dt.drug.sort.name}"></td>
                         <td th:text="${dt.drug.warehouse.name}"></td>

@@ -18,7 +18,7 @@ import java.util.Map;
  * 既然是使用 Filter 一般也就能猜到，是通过URL规则来进行过滤和权限校验，所以我们需要定义一系列关于URL的规则和访问权限。
  * Created by zhangwei on 2017/4/25.
  */
-@Configuration
+//@Configuration
 public class DrugShiroConfiguration {
 
     /**

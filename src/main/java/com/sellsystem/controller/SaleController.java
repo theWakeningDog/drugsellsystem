@@ -207,6 +207,13 @@ public class SaleController {
     }
     /*============================任务流程结束======================================*/
 
+    @GetMapping("/detail")
+    public String detail(Model model, String taskId) {
+        model.addAttribute("drugTaskList", taskService.getDrugByTask(taskId));
+        model.addAttribute("task", taskService.getTask(taskId).getData());
+        return "/task/saleDetail";
+    }
+
     /**
      * 前端日期处理
      * @param binder

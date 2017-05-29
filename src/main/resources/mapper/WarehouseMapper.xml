@@ -15,7 +15,6 @@
         <result property="createTime" column="warehouseCreateTime"/>
         <result property="remark" column="warehouseRemark"/>
         <result property="del" column="warehouseDel"/>
-        <result property="drugNum" column="drugNum"/>
     </resultMap>
     <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
     <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->

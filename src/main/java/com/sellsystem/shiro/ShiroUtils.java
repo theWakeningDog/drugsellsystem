@@ -20,11 +20,9 @@ public class ShiroUtils {
 //		return principal.getUser();
 //		Subject subject = getSubject();
 //		return (User)subject.getPrincipal();
-		/*User user = new User();
+		User user = new User();
 		user.setId("c8ab7c2d-0c87-11e7-8d59-0021cc62c2f3");
-		return user;*/
-		Subject subject = getSubject();
-		return (User) subject.getPrincipal();
+		return user;
 	}
 
 	public static Subject getSubject(){

@@ -81,24 +81,6 @@
         WHERE drug.id = #{drugId}
     </select>
 
-    <select id="getDrugByTask" resultMap="drugResult">
-        SELECT
-        <include refid="drugSQL"/>,
-        <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
-        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>,
-        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>,
-        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
-        <include refid="com.sellsystem.dao.TaskDao.taskSQL"/>
-        FROM
-        drug drug
-        LEFT JOIN sort sort ON drug.sort = sort.id
-        LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        LEFT JOIN  user createUser ON createUser.id = drug.createUser
-        LEFT JOIN customer customer on customer.id = drug.customer
-        LEFT JOIN task task ON task.id = drug.task
-        WHERE drug.task = #{taskId}
-    </select>
-
     <insert id="create">
         <selectKey keyProperty="drug.id" resultType="java.lang.String" order="BEFORE">
             select uuid() from dual;
@@ -144,5 +126,37 @@
     <select id="getSumBySort" resultType="java.util.Map">
         SELECT SUM(drug.number) `value`, sort.name name FROM `drug` drug left join sort sort on drug.sort = sort.id group by sort.name
     </select>
+
+    <resultMap id="drugTaskResult" type="DrugTask">
+        <result property="taskType" column="taskType"/>
+        <result property="drugNum" column="drugNum"/>
+        <association property="drug" column="drug" resultMap="drugResult"/>
+        <association property="task" resultMap="com.sellsystem.dao.TaskDao.taskResult"/>
+    </resultMap>
+
+    <!--任务和药品关联-->
+    <select id="getDrugByTask" resultMap="drugTaskResult">
+        SELECT
+        dt.taskType, dt.drugNum,
+        <include refid="drugSQL"/>,
+        <include refid="com.sellsystem.dao.SortDao.sortSQL"/>,
+        <include refid="com.sellsystem.dao.WarehouseDao.warehouseSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>,
+        <include refid="com.sellsystem.dao.TaskDao.taskSQL"/>
+        FROM
+        drug_task dt
+        LEFT JOIN drug drug ON drug.id = dt.drug
+        LEFT JOIN sort sort ON drug.sort = sort.id
+        LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
+        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN customer customer on customer.id = drug.customer
+        LEFT JOIN task task ON task.id = dt.task
+        WHERE dt.task = #{taskId}
+    </select>
+
+    <insert id="createDrugTask">
+        insert into drug_task values (#{dt.drug.id}, #{dt.task.id}, #{dt.taskType}, #{dt.drugNum})
+    </insert>
 
 </mapper>

@@ -202,8 +202,18 @@ public class TaskServiceImpl implements TaskService {
 
             if (drugList.size() > 0) {
                 for (Drug drug : drugList) {
+
+                    //生成药品
                     drug.setCreateTime(new Date());
                     drugDao.create(drug);
+
+                    //创建药品与任务关联
+                    DrugTask dt = new DrugTask();
+                    dt.setDrug(drug);
+                    dt.setTask(task);
+                    dt.setTaskType(task.getType());
+                    dt.setDrugNum(drug.getNumber());
+                    drugDao.createDrugTask(dt);
                 }
             }
         } catch (Exception e) {
@@ -242,6 +252,15 @@ public class TaskServiceImpl implements TaskService {
                     saleRecord.setSaleNumber(d.getNumber());
                     saleRecord.setSaleDate(new Date());
                     saleRecordDao.create(saleRecord);
+
+                    //创建药品与任务关联,和上面重复，去掉上面。
+                    DrugTask dt = new DrugTask();
+                    dt.setDrug(d);
+                    dt.setTask(task);
+                    dt.setTaskType(task.getType());
+                    dt.setDrugNum(d.getNumber());
+                    drugDao.createDrugTask(dt);
+
 
                     Drug drugFormDB = drugDao.getDrug(d.getId());
                     //添加利润

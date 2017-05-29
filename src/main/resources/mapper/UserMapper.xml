@@ -6,7 +6,7 @@
     <sql id="createUserSQL">
         createUser.id createUserId, createUser.no createUserNo, createUser.name createUserName, createUser.account createUserAccount, createUser.password createUserPassword,
         createUser.age createUserAge, createUser.email createUserEmail, createUser.longitude createUserLongitude,
-        createUser.latitude createUserLatitude, createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.delete createUserDelete
+        createUser.latitude createUserLatitude, createUser.createTime createUserCreateTime, createUser.remark createUserRemark, createUser.`delete` createUserDelete
     </sql>
     <resultMap id="createUserResult" type="User">
         <id property="id" column="createUserId"/>

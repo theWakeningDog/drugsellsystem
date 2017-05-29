@@ -221,7 +221,7 @@ public class PurchaseController {
 
     @GetMapping("/detail")
     public String detail(Model model, String taskId) {
-        model.addAttribute("drugList", taskService.getDrugByTask(taskId));
+        model.addAttribute("drugTaskList", taskService.getDrugByTask(taskId));
         model.addAttribute("task", taskService.getTask(taskId).getData());
         return "/task/purchaseDetail";
     }

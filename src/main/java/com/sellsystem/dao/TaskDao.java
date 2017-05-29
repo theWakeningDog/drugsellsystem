@@ -1,5 +1,6 @@
 package com.sellsystem.dao;
 
+import com.sellsystem.entity.DrugTask;
 import com.sellsystem.entity.Record;
 import com.sellsystem.entity.Task;
 import com.sellsystem.entity.searchmodel.extend.RecordSearchModel;
