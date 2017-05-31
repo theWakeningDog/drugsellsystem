@@ -60,6 +60,6 @@ public interface DrugService {
      * @param drugNum
      * @return
      */
-    MsgModel outDrug(String drugId, String type, int drugNum);
+    MsgModel outDrug(String drugId, String type, int drugNum, String remark);
 }
 

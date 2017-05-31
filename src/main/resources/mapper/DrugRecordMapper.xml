@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sellsystem.dao.DrugRecordDao">
+    <sql id="drugRecordSQL">
+        drugRecord.id drugRecordId, drugRecord.number drugRecordNumber, drugRecord.action drugRecordAction,
+        drugRecord.type drugRecordType, drugRecord.remark drugRecordRemark
+    </sql>
+
+    <resultMap id="drugRecordResult" type="DrugRecord">
+        <id property="id" column="drugRecordId"/>
+        <result property="number" column="drugRecordNumber"/>
+        <result property="action" column="drugRecordAction"/>
+        <result property="type" column="drugRecordType"/>
+        <result property="remark" column="drugRecordRemark"/>
+        <association property="drug" resultMap="com.sellsystem.dao.DrugDao.drugMapper"/>
+    </resultMap>
+    <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+    <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
+
+    <select id="getList" resultMap="drugRecordResult">
+        SELECT
+            <include refid="drugRecordSQL"/>,
+        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+        FROM drug_record drugRecord
+        LEFT JOIN drug drug ON drugRecord.drug = drug.id
+    </select>
+
+    <insert id="create">
+        <selectKey keyProperty="drugRecord.id" resultType="java.lang.String" order="BEFORE">
+            SELECT uuid() FROM dual
+        </selectKey>
+        insert into drug_record values
+        (#{drugRecord.id}, #{drugRecord.drug.id}, #{drugRecord.number}, #{drugRecord.action}, #{drugRecord.type}, #{drugRecord.remark}, #{drugRecord.createTime});
+    </insert>
+</mapper>

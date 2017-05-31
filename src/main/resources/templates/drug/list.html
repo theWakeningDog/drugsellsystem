@@ -253,6 +253,13 @@
                             <input class="form-control" id="customer" readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 control-label">理由：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <textarea class="form-control" rows="3" id="remark"></textarea>
+                        </div>
+                    </div>
                     <!--<div class="form-group">
                         <label class="col-md-2 col-sm-3 control-label">小计：</label>
                         <div class="col-md-8 col-sm-7">
@@ -489,7 +496,7 @@
             }
         });
         $("#out-save").click(function () {
-            if ($("#out-name").val() && $("#out-number").val()) {
+            if ($("#out-name").val() && $("#out-number").val() && $("#remark").val()) {
                 swal({
                     title: "确定退药吗？",        //必填
                     text: "",
@@ -522,7 +529,8 @@
                             data: {
                                 type: $("input[type='radio']:checked").val(),
                                 drugId: $("#out-name").val(),
-                                drugNum: $("#out-number").val()
+                                drugNum: $("#out-number").val(),
+                                remark: $("#remark").val()
                             },
                             success: function (data) {
                                 if (data.status == 1) {

@@ -16,6 +16,7 @@ import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class TaskServiceImpl implements TaskService {
     private SaleRecordDao saleRecordDao;
     @Autowired
     private SaleProfitDao saleProfitDao;
+    @Autowired
+    private DrugRecordDao drugRecordDao;
 
     public MsgModel<PageInfo<Task>> getList(TaskSearchModel taskSearchModel) {
 //        String orderBy = Sortable.getOrderByString(taskSearchModel.getOrderBy());
@@ -203,6 +206,14 @@ public class TaskServiceImpl implements TaskService {
             if (drugList.size() > 0) {
                 for (Drug drug : drugList) {
 
+                    //药品记录
+                    DrugRecord drugRecord = new DrugRecord();
+                    drugRecord.setDrug(drug);
+                    drugRecord.setNumber(drug.getNumber());
+                    drugRecord.setAction("采购");
+                    drugRecord.setCreateTime(Calendar.getInstance().getTime());
+                    drugRecordDao.create(drugRecord);
+
                     //生成药品
                     drug.setCreateTime(new Date());
                     drugDao.create(drug);
@@ -246,6 +257,15 @@ public class TaskServiceImpl implements TaskService {
 
             if (drugList.size() > 0) {
                 for (Drug d : drugList) {
+
+                    //药品记录
+                    DrugRecord drugRecord = new DrugRecord();
+                    drugRecord.setDrug(d);
+                    drugRecord.setNumber(d.getNumber());
+                    drugRecord.setAction("销售");
+                    drugRecord.setCreateTime(Calendar.getInstance().getTime());
+                    drugRecordDao.create(drugRecord);
+
                     //销售记录
                     SaleRecord saleRecord = new SaleRecord();
                     saleRecord.setDrug(d);

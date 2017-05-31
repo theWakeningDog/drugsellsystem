@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import org.springframework.util.StringUtils;
 
+import static java.util.Calendar.getInstance;
+
 public class DateUtil {
     public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_FORMAT_YMD = "yyyy-MM-dd";
@@ -23,7 +25,7 @@ public class DateUtil {
      */
     public static String getCurrentTime() {
         SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar c1 = Calendar.getInstance();
+        Calendar c1 = getInstance();
         return sFormat.format(c1.getTime());
     }
 
@@ -33,7 +35,7 @@ public class DateUtil {
      */
     public static String getCurrentDay() {
         SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c1 = Calendar.getInstance();
+        Calendar c1 = getInstance();
         return sFormat.format(c1.getTime());
     }
 
@@ -99,8 +101,8 @@ public class DateUtil {
     public static Integer getTimeDifference(Date start, Date end, String index) {
         if(start != null && end != null && !StringUtils.isEmpty(index)) {
             Integer result = Integer.valueOf(0);
-            Calendar c1 = Calendar.getInstance();
-            Calendar c2 = Calendar.getInstance();
+            Calendar c1 = getInstance();
+            Calendar c2 = getInstance();
             c1.setTime(start);
             c2.setTime(end);
             if(index.equals("year")) {
@@ -108,8 +110,8 @@ public class DateUtil {
             } else if(index.equals("month")) {
                 result = Integer.valueOf(c2.get(2) - c1.get(2));
             } else if(index.equals("day")) {
-                Calendar diff = Calendar.getInstance();
-                Calendar eCalendar = Calendar.getInstance();
+                Calendar diff = getInstance();
+                Calendar eCalendar = getInstance();
                 diff.setTime(start);
                 eCalendar.setTime(end);
                 int days = 0;
@@ -148,7 +150,7 @@ public class DateUtil {
      */
     public static Date timeToAdd(Date date, Integer num, String index) {
         if(date != null && num != null && index != null && index != "") {
-            Calendar cd = Calendar.getInstance();
+            Calendar cd = getInstance();
             cd.setTime(date);
             if(index.equals("second")) {
                 cd.add(13, num.intValue());

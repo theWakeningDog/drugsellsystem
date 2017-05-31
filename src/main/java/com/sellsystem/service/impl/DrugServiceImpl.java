@@ -4,18 +4,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.constant.ClassConstants;
 import com.sellsystem.dao.DrugDao;
+import com.sellsystem.dao.DrugRecordDao;
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.DrugRecord;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.service.DrugService;
+import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhangwei on 2017/3/4/004.
@@ -25,6 +25,8 @@ public class DrugServiceImpl implements DrugService {
 
     @Autowired
     private DrugDao drugDao;
+    @Autowired
+    private DrugRecordDao drugRecordDao;
 
     /**
      * 药品列表
@@ -106,14 +108,32 @@ public class DrugServiceImpl implements DrugService {
      * @return
      */
     @Override
-    public MsgModel outDrug(String drugId, String type, int drugNum) {
+    public MsgModel outDrug(String drugId, String type, int drugNum, String remark) {
         MsgModel msgModel = new MsgModel();
         try {
             Drug drug = drugDao.getDrug(drugId);
             if (ClassConstants.DRUG_OUT_PURCHASE.equals(type)) {
                 drug.setNumber(drug.getNumber() - drugNum);
+
+                DrugRecord drugRecord = new DrugRecord();
+                drugRecord.setDrug(drug);
+                drugRecord.setNumber(drugNum);
+                drugRecord.setAction("退还");
+                drugRecord.setType("采购");
+                drugRecord.setRemark(remark);
+                drugRecord.setCreateTime(Calendar.getInstance().getTime());
+                drugRecordDao.create(drugRecord);
             } else if (ClassConstants.DRUG_OUT_SALE.equals(type)) {
                 drug.setNumber(drug.getNumber() + drugNum);
+
+                DrugRecord drugRecord = new DrugRecord();
+                drugRecord.setDrug(drug);
+                drugRecord.setNumber(drugNum);
+                drugRecord.setAction("退还");
+                drugRecord.setType("销售");
+                drugRecord.setRemark(remark);
+                drugRecord.setCreateTime(Calendar.getInstance().getTime());
+                drugRecordDao.create(drugRecord);
             }
             drugDao.update(drug);
         } catch (Exception e) {

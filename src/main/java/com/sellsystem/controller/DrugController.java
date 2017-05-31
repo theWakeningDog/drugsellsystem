@@ -159,8 +159,8 @@ public class DrugController {
 
     @ResponseBody
     @PostMapping("/out")
-    public MsgModel out(String drugId, String type, int drugNum) {
-        return drugService.outDrug(drugId, type, drugNum);
+    public MsgModel out(String drugId, String type, int drugNum, String remark) {
+        return drugService.outDrug(drugId, type, drugNum, remark);
     }
 
 }
