@@ -18,8 +18,15 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css"
           th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
+    <!--sweetalert提示框-->
+    <link rel="stylesheet" href="../../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
+    <!--nice validate-->
+    <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
+          th:href="@{/plugins/nice-validate/jquery.validator.css}">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
 </head>
 <body style="background: #ecf0f5">
 <div class="row">
@@ -123,12 +130,17 @@
                         <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
                                 class="fa fa-check-square-o"></i></button>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>-->
+                            <button type="button" id="export" class="btn btn-default btn-sm"><i class="fa fa-share"></i>
+                                导出
+                            </button>
+                            <button type="button" id="export_all" class="btn btn-default btn-sm"><i
+                                    class="fa fa-share"></i>导出全部
+                            </button>
                         </div>
                         <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button type="button" id="refresh" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i>
+                        </button>
                         <!--<div class="pull-right">
                             1-50/200
                             <div class="btn-group">
@@ -138,6 +150,12 @@
                             &lt;!&ndash; /.btn-group &ndash;&gt;
                         </div>-->
                         <!-- /.pull-right -->
+                        <div class="btn-group pull-right">
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>-->
+                            <button type="button" id="out" class="btn btn-default btn-sm"><i class="fa fa-share"></i>
+                                退药
+                            </button>
+                        </div>
                     </div>
                     <div class="<!--table-responsive--> mailbox-messages">
                         <table id="drug-table" class="table table-striped table-bordered table-hover">
@@ -156,16 +174,17 @@
                             </thead>
                             <tbody>
                             <tr th:each="drug : ${drugList}">
-                                <td><input type="checkbox"></td>
+                                <td><input class="icheck-drug" type="checkbox" th:attr="drugId=${drug.id}"></td>
                                 <!--<td><a href="" th:href="@{/drug/view(drugId=${drug.id})}" th:text="${drug.no}">OTCffdp</a>-->
                                 <!--</td>-->
-                                <td><a href="view.html" th:href="@{/drug/view/(drugId=${drug.id})}" th:text="${drug.name}">复方丹参片</a></td>
+                                <td><a href="view.html" th:href="@{/drug/view/(drugId=${drug.id})}"
+                                       th:text="${drug.name}">复方丹参片</a></td>
                                 <!--<td th:text="${drug.commonName}">复方丹参片</td>-->
                                 <td th:text="${drug.unit}">瓶</td>
                                 <td th:text="${drug.number}">100</td>
                                 <td th:text="${drug.retail}">120</td>
                                 <!--/sort/view?sortId=-->
-                                <td  th:text="${drug.sort.name}">中药</td>
+                                <td th:text="${drug.sort.name}">中药</td>
                                 <!--<td th:text="${drug.origin}">广州白云山制药</td>-->
                                 <td th:text="${drug.warehouse.name}">常温库</td>
                                 <td th:text="${#dates.format(drug.period, 'yyyy-MM-dd')}">2028-10-23</td>
@@ -182,6 +201,73 @@
         </div>
     </section>
 </div>
+
+<div class="modal fade" id="drug-out-modal" role="dialog" aria-labelledby="myLabelModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">退药</h4>
+            </div>
+            <div class="modal-body">
+                <form id="drug-out-form" role="form" class="form-horizontal" onsubmit="return false">
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 control-label">类型：</label>
+                        <div class="col-md-8 col-sm-7">
+                            <input type="radio" class="out-radio" name="radio" value="采购" checked> 采购
+                            <input type="radio" class="out-radio" name="radio" value="销售"> 销售
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="out-name" class="col-md-3 col-sm-3 control-label">名称：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <select id="out-name" class="form-control" style="width: 100%" name="id"
+                                    data-rule="required" data-msg="必填">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="out-number" class="col-md-3 col-sm-3 control-label">数量：<span
+                                class="text-red">*</span></label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="out-number" class="form-control" type="number" name="number" min="0"
+                                   data-rule="required; drugNumber" data-rule-drugNumber="[/^(([1-9]\d*))$/, '请输入正确数量']"
+                                   data-msg-required="必填">
+                        </div>
+                        <div class="validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 control-label">价格：</label>
+                        <div class="col-md-8 col-sm-7">
+                            <input class="form-control" id="out-retail" name="retail" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 control-label">客户：</label>
+                        <div class="col-md-8 col-sm-7">
+                            <input class="form-control" id="customer" readonly>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="col-md-2 col-sm-3 control-label">小计：</label>
+                        <div class="col-md-8 col-sm-7">
+                            <input id="sell-total" class="form-control" readonly>
+                        </div>
+                    </div>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="out-save" type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
 <script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
 <!-- DataTables -->
@@ -195,7 +281,15 @@
 <script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
 <script src="../../static/plugins/daterangepicker/daterangepicker.js"
         th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
-<script type="text/javascript" th:inline="text">
+<script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
+<!--sweetalert 提示框-->
+<script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
+<!--nice validate-->
+<script src="../../static/plugins/nice-validate/jquery.validator.js"
+        th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
+<script src="../../static/plugins/nice-validate/local/zh-CN.js"
+        th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<script type="text/javascript" th:inline="javascript">
     //点击仓库
     function chooseWarehouse(ele) {
         //对于th：attr、th：value可以这么取值
@@ -341,6 +435,118 @@
 //        }, function(start, end, label) {//格式化日期显示框
 //            $('#reportrange span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));
 //        });
+
+        /*******************************       导出        **************************************/
+        $("#export").click(function () {
+            var ids = "";
+            $(".icheck-drug").each(function (index, value) {
+                if ($(this).is(':checked')) {
+                    console.log(index);
+                    console.log(value);
+                    console.log($(this).attr("taskid"));
+                    ids += $(this).attr("drugid") + ",";
+                }
+            });
+            if (ids == "") {
+                alert("请选择数据");
+            } else {
+                window.location.href = "/drug/export?ids=" + ids;
+            }
+        });
+
+        $("#export_all").on("click", function () {
+            window.location.href = "/drug/export";
+        });
+
+        /*********************** 刷新  *******************************/
+        $("#refresh").on("click", function () {
+            window.location.reload();
+        });
+
+        /*********************** 退药  *******************************/
+        $("#out").click(function () {
+            $("#drug-out-modal").modal("show");
+        });
+
+        var drugList = /*[[${drugList}]]*/"drugList";
+        var dList = [];
+        for (var i = 0; i < drugList.length; i++) {
+            dList.push({id: drugList[i].id, text: drugList[i].name});
+        }
+        $("#out-name").select2({
+            data: dList,
+            placeholder: "请选择"
+        });
+
+        $("#out-name").on("change", function () {
+            console.log($(this).val());
+            for (var i = 0; i < drugList.length; i++) {
+                if ($(this).val() == drugList[i].id) {
+                    ($("input[type='radio']:checked").val() == "采购") && $("#out-retail").val(drugList[i].purchase) ||
+                    ($("input[type='radio']:checked").val() == "销售") && $("#out-retail").val(drugList[i].retail);
+                    $("#customer").val(drugList[i].customer.name);
+                }
+            }
+        });
+        $("#out-save").click(function () {
+            if ($("#out-name").val() && $("#out-number").val()) {
+                swal({
+                    title: "确定退药吗？",        //必填
+                    text: "",
+                    type: "info",       //warning、error、success、info、input
+                    allotEscapeKey: true,       //默认true,可以使用escape（空格）键
+                    //customClass:           //自定义样式
+                    allowOutsideClick: false,       //默认false，点击其他地方不可关闭
+                    showCancelButton: true,      //退出按钮
+                    showConfirmButton: true,    //确认按钮
+                    confirmButtonText: "确定",
+                    confirmButtonColor: "#367fa9",         //确认按钮颜色：默认#AEDEF4，必须为hex值
+                    cancelButtonText: "退出",
+                    closeOnConfirm: true,           //确定时关闭
+                    closeOnCancel: true,            //退出时关闭
+                    imageUrl: "",           //图片
+                    imageSize: "",          //大小    80x80  宽*高
+                    timer: null,        //多少ms自动关闭
+                    html: false,         //防止xss攻击。true：title和text可以使用html
+                    animation: true,        //动画 可选值true、false、pop、slide-from-top、slide-from-bottom
+                    inputType: "",          //文本类型：text、password等
+                    inputPlaceholder: null,       //文本框提示
+                    inputValue: null,
+                    showLoaderOnConfirm: true      //点击confirm时的加载动画;需要设置closeOnConfirm：false和下面的function
+                }, function (isConfirm) {
+                    //console.log(isConfirm); true or false
+                    if (isConfirm) {
+                        $.ajax({
+                            url: '/drug/out',
+                            type: 'post',
+                            data: {
+                                type: $("input[type='radio']:checked").val(),
+                                drugId: $("#out-name").val(),
+                                drugNum: $("#out-number").val()
+                            },
+                            success: function (data) {
+                                if (data.status == 1) {
+                                    location.href = "/drug";
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                swal("请填写全部内容", "", "info");
+            }
+        });
+
+        $(".out-radio").change(function () {
+            var str=$('<span class="select2-selection__placeholder">请选择</span>');
+            $('#executor').val("");
+            $("#select2-out-name-container").attr("title","");
+            $("#select2-out-name-container").text("");
+            $("#select2-out-name-container").append(str);
+            $("#out-number").val("");
+            $("#out-retail").val("");
+            $("#customer").val("");
+        });
     });
 </script>
 </body>

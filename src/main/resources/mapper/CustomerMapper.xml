@@ -35,7 +35,19 @@
         <include refid="com.sellsystem.dao.UserDao.createUserSQL"/>
         from customer customer
         left join user createUser on customer.createUser = createUser.id
-        where customer.del = 0
+        <where>
+            customer.del = 0
+            <if test="customerSearchModel.keyword != null and customerSearchModel.keyword != ''">
+                <bind name="keywordPattern" value="'%' + customerSearchModel.getKeyword() + '%'"/>
+                and (customer.name like #{keywordPattern} or customer.phone like #{keywordPattern})
+            </if>
+            <if test="customerSearchModel.type != null and customerSearchModel.type != ''">
+                and customer.type = #{customerSearchModel.type}
+            </if>
+            <if test="customerSearchModel.createTime != null and customerSearchModel.createTime != ''">
+                and customer.createTime between #{customerSearchModel.customerTimeStart} and #{customerSearchModel.customerTimeEnd}
+            </if>
+        </where>
     </select>
 
     <select id="getCustomer" resultMap="customerResult">

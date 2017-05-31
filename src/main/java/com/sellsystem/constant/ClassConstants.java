@@ -5,6 +5,8 @@ package com.sellsystem.constant;
  */
 public final class ClassConstants {
 
+    public static final String OPT_FAIL = "操作失败";
+
     //任务
     public static final String ENGINE_FILE = "task.xml";
     public static final String UPDATE_TASK = "修改";
@@ -24,4 +26,8 @@ public final class ClassConstants {
 
     //类别
     public static final String SORT_OPT_FAIL = "操作失败";
+
+    //药品
+    public static final String DRUG_OUT_PURCHASE = "采购";
+    public static final String DRUG_OUT_SALE = "销售";
 }

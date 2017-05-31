@@ -47,8 +47,8 @@
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <div class="input-group">
-                                <input class="form-control criteria" name="name"
-                                       th:value="${customerSearchModel.name}" placeholder="请输入客户名称">
+                                <input class="form-control criteria" name="keyword"
+                                       th:value="${customerSearchModel.keyword}" placeholder="请输入客户信息">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary">搜索</button>
                                     <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
@@ -66,7 +66,7 @@
                                 </span>
                                 <select class="form-control" name="type"> <!-- th:switch="${taskSearchModel.type}"-->
                                     <option value="">请选择</option><!--th:case="购买" th:selected="selected"-->
-                                    <option value="销售商" th:selected="${customerSearchModel.type == '销售商'}">销售商</option>
+                                    <option value="供药商" th:selected="${customerSearchModel.type == '供药商'}">供药商</option>
                                     <option value="顾客" th:selected="${customerSearchModel.type == '顾客'}">顾客</option>
                                 </select>
                             </div>
@@ -87,7 +87,7 @@
                 <div class="box-body with-border">
                     <a href="edit.html" class="btn btn-primary" th:href="@{/customer/edit}"><i
                             class="fa fa-plus"></i> 新建</a>
-                    <Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>
+                    <!--<Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>-->
                 </div>
             </div>
             <div class="box box-success">
@@ -108,11 +108,11 @@
                                 class="fa fa-check-square-o"></i></button>
                         <div class="btn-group">
                             <button type="button" id="delete" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>-->
                         </div>
                         <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button type="button" id="refresh" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                         <!--<div class="pull-right">
                             1-50/200
                             <div class="btn-group">
@@ -287,6 +287,11 @@
 //                monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_')
 //            }
 //        });
+
+        /*********************** 刷新  *******************************/
+        $("#refresh").on("click", function () {
+            window.location.reload();
+        });
     });
 </script>
 </body>

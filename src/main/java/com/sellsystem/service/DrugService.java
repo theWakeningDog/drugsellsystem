@@ -52,5 +52,14 @@ public interface DrugService {
      * @return
      */
     List<Map<?, ?>> getSumBySort();
+
+    /**
+     * 退药
+     * @param drugId
+     * @param type
+     * @param drugNum
+     * @return
+     */
+    MsgModel outDrug(String drugId, String type, int drugNum);
 }
 

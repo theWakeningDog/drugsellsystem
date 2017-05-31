@@ -98,4 +98,30 @@ public class DrugServiceImpl implements DrugService {
         return drugDao.getSumBySort();
     }
 
+    /**
+     * 退药
+     * @param drugId
+     * @param type
+     * @param drugNum
+     * @return
+     */
+    @Override
+    public MsgModel outDrug(String drugId, String type, int drugNum) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Drug drug = drugDao.getDrug(drugId);
+            if (ClassConstants.DRUG_OUT_PURCHASE.equals(type)) {
+                drug.setNumber(drug.getNumber() - drugNum);
+            } else if (ClassConstants.DRUG_OUT_SALE.equals(type)) {
+                drug.setNumber(drug.getNumber() + drugNum);
+            }
+            drugDao.update(drug);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.OPT_FAIL);
+        }
+        return msgModel;
+    }
+
 }

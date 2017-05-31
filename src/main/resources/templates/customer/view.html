@@ -99,7 +99,8 @@
                                         </thead>
                                         <tbody>
                                         <tr th:if="${not #lists.isEmpty(taskList)}" th:each="task:${taskList}">
-                                            <td th:text="${task.name}">任务名称</td>
+                                            <td th:if="${task.type == '购买'}"><a href="../task/purchaseView.html" th:href="@{/purchase/view(taskId=${task.id})}" th:text="${task.name}"> 任务名称</a></td>
+                                            <td th:if="${task.type == '销售'}"><a href="../task/saleView.html" th:href="@{/sale/view(taskId=${task.id})}" th:text="${task.name}"> 任务名称</a></td>
                                             <td>
                                                 <span th:if="${task.state != null}"
                                                       th:switch="${task.state.toString()}">

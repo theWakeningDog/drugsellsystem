@@ -1,12 +1,233 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
     <title>首页</title>
 </head>
 <body>
-可以做似懂非懂地方errrrr第三方第三方
-<span th:text="${login}">历史地看err</span>
-<a href="http://www.baidu.com">百度</a>
+<style>
+    body {
+        font-family: 冬青黑体简体中文, Tahoma, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+        /*background: #F8FBFF;*/
+    }
+
+    .pc-home {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font: inherit;
+        vertical-align: baseline;
+    }
+
+    .home-container {
+        padding: 41px 15px 15px;
+    }
+
+    .info-list {
+        width: 100%;
+        margin-top: 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+    }
+
+    .info-content {
+        margin: 10px 0 0 50px;
+        float: left;
+        display: inline-block;
+        width: 170px;
+        padding: 10px 0;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+        background: #fff;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    .info-content>a {
+        text-decoration:none;
+    }
+
+    .info {
+        text-align: center;
+        height: 90px;
+        padding: 12px 0;
+        border: none;
+    }
+
+    .img-div {
+        display: block;
+        margin-right: 0;
+    }
+
+    .image {
+        position: relative;
+        text-align: center;
+        height: 45px;
+        width: 45px;
+        border-radius: 24%;
+        border: 0;
+    }
+
+    .guide {
+        cursor: pointer;
+    }
+
+    .info-content-nav-a p {
+        color: #00a0e9;
+    }
+
+    .gray {
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+
+        filter: grayscale(100%);
+
+    }
+
+    .custom-box > .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .custom-box .overlay {
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 3px;
+    }
+
+    .custom-box .overlay > .announce {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        margin-left: -15px;
+        margin-top: -15px;
+        color: #000;
+        font-size: 30px;
+    }
+</style>
+<style>
+    .loading {
+        width: 80px;
+        height: 40px;
+        margin: 0 auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .loading span {
+        display: inline-block;
+        width: 8px;
+        height: 100%;
+        border-radius: 4px;
+        background: lightgreen;
+        -webkit-animation: load 1s ease infinite;
+    }
+
+    @-webkit-keyframes load {
+        0%, 100% {
+            height: 40px;
+            background: lightgreen;
+        }
+        50% {
+            height: 70px;
+            margin: -15px 0;
+            background: lightblue;
+        }
+    }
+
+    .loading span:nth-child(2) {
+        -webkit-animation-delay: 0.2s;
+    }
+
+    .loading span:nth-child(3) {
+        -webkit-animation-delay: 0.4s;
+    }
+
+    .loading span:nth-child(4) {
+        -webkit-animation-delay: 0.6s;
+    }
+
+    .loading span:nth-child(5) {
+        -webkit-animation-delay: 0.8s;
+    }
+</style>
+
+<div>
+    <div cless="pc-home ">
+        <div class="home-container custom-box">
+            <input id="corpId" type="hidden" value="${corpId}">
+            <h2 style="font-size: 20px;"><i class="fa fa-bars">&nbsp;&nbsp;功能导航</i></h2>
+            <div class="info-list">
+                <div class="info-content">
+                    <a href="/drug">
+                        <div id="task_url" class="info">
+                            <div class="img-div">
+                                <img src="../static/images/warehouse.png" th:src="@{/images/warehouse.png}">
+                            </div>
+                            <p>库存管理</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="info-content">
+                    <a href="/purchase">
+                        <div id="balance_url" class="info">
+                            <div class="img-div">
+                                <img src="../static/images/purchase.png" th:src="@{/images/purchase.png}">
+                            </div>
+                            <p>采购管理</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="info-content">
+                    <a href="/sale">
+                        <div id="customer_url" class="info">
+                            <div class="img-di信息v">
+                                <img src="../static/images/sale.png" th:src="@{/images/sale.png}">
+                            </div>
+                            <p>销售管理</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="info-content">
+                    <a href="/customer">
+                        <div id="sparepart_url" class="info">
+                            <div class="img-div">
+                                <img src="../static/images/customer.png" th:src="@{/images/customer.png}">
+                            </div>
+                            <p>客户管理</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="info-content">
+                    <a href="/user">
+                        <div id="dishboard_url" class="info">
+                            <div class="img-div">
+                                <img src="../static/images/user.png" th:src="@{/images/user.png}">
+                            </div>
+                            <p>用户管理</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="info-content">
+                    <a href="/system/sort">
+                        <div id="cost_url" class="info">
+                            <div class="img-div">
+                                <img src="../static/images/part.png" th:src="@{/images/part.png}">
+                            </div>
+                            <p>系统设置</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+
 </html>

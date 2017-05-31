@@ -149,7 +149,7 @@
                 <div class="box-body with-border">
                     <a href="edit.html" class="btn btn-primary" th:href="@{/purchase/edit}"><i
                             class="fa fa-plus"></i> 新建</a>
-                    <Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>
+                    <!--<Button type="button" class="btn btn-default pull-right"><i class="fa fa-share"></i> 导出</Button>-->
                 </div>
             </div>
             <div class="box box-success">
@@ -170,11 +170,11 @@
                                 class="fa fa-check-square-o"></i></button>
                         <div class="btn-group">
                             <button type="button" id="delete" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                            <!--<button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>-->
                         </div>
                         <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <button type="button" id="refresh" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                         <!--<div class="pull-right">
                             1-50/200
                             <div class="btn-group">
@@ -401,6 +401,11 @@
                 return repo.text;
             }, // 函数用于呈现当前的选择
             templateResult: formatData    //数据格式化
+        });
+
+        /*********************** 刷新  *******************************/
+        $("#refresh").on("click", function () {
+            window.location.reload();
         });
     });
 

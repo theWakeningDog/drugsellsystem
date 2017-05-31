@@ -40,7 +40,7 @@
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN user createUser ON createUser.id = drug.createUser
         LEFT JOIN customer customer ON customer.id = drug.customer
         LEFT JOIN task task ON task.id = drug.task
         <where>
@@ -55,8 +55,7 @@
                 and drug.sort = #{drugSearchModel.sortId}
             </if>
             <if test="drugSearchModel.periodTime != null and drugSearchModel.periodTime != ''">
-                and drugSearchModel.periodTime between #{drugSearchModel.periodTimeStart} and
-                #{drugSearchModel.periodTimeEnd}
+                and drug.period between #{drugSearchModel.periodTimeStart} and #{drugSearchModel.periodTimeEnd}
             </if>
             and drug.number > 0
         </where>
@@ -75,7 +74,7 @@
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN user createUser ON createUser.id = drug.createUser
         LEFT JOIN customer customer on customer.id = drug.customer
         LEFT JOIN task task ON task.id = drug.task
         WHERE drug.id = #{drugId}
@@ -100,13 +99,13 @@
             <if test="drug.purchase != null">purchase = #{drug.purchase},</if>
             <if test="drug.retail != null">retail = #{drug.retail},</if>
             <if test="drug.period != null">period = #{drug.period},</if>
-            <if test="drug.sort != null and drug.sort.id != null">sortId = #{drug.sort.id},</if>
-            <if test="drug.warehouse != null and drug.warehouse.id != null">warehouseId = #{drug.warehouse.id},</if>
+            <if test="drug.sort != null and drug.sort.id != null">sort = #{drug.sort.id},</if>
+            <if test="drug.warehouse != null and drug.warehouse.id != null">warehouse = #{drug.warehouse.id},</if>
             <if test="drug.createTime != null">createTime = #{drug.createTime},</if>
             <if test="drug.remark != null">remark = #{drug.remark},</if>
-            <if test="drug.createUser != null and drug.createUser.id != null">createUser = #{drug.createUser},</if>
-            <if test="drug.customer != null and drug.customer.id != null">customer = #{drug.customer},</if>
-            <if test="drug.task != null and drug.task.id != null">task = #{drug.task}</if>
+            <if test="drug.createUser != null and drug.createUser.id != null">createUser = #{drug.createUser.id},</if>
+            <if test="drug.customer != null and drug.customer.id != null">customer = #{drug.customer.id},</if>
+            <if test="drug.task != null and drug.task.id != null">task = #{drug.task.id}</if>
         </set>
         where id = #{drug.id}
     </update>
@@ -120,7 +119,7 @@
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        where  30 >= drug.number
+        where 30 >= drug.number
     </select>
 
     <select id="getSumBySort" resultType="java.util.Map">
@@ -149,7 +148,7 @@
         LEFT JOIN drug drug ON drug.id = dt.drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        LEFT JOIN  user createUser ON createUser.id = drug.createUser
+        LEFT JOIN user createUser ON createUser.id = drug.createUser
         LEFT JOIN customer customer on customer.id = drug.customer
         LEFT JOIN task task ON task.id = dt.task
         WHERE dt.task = #{taskId}

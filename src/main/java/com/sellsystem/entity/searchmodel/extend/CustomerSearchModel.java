@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
  * Created by zhangwei on 2017/4/20.
  */
 public class CustomerSearchModel extends PageSearchModel {
+    private String keyword;
     private String name;
     private String type;
     private String createTime;
@@ -17,6 +18,14 @@ public class CustomerSearchModel extends PageSearchModel {
     public CustomerSearchModel init() {
         this.setPageSize(0);
         return this;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public String getName() {
