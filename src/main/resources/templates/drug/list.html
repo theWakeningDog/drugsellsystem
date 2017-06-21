@@ -24,11 +24,27 @@
     <!--nice validate-->
     <link rel="stylesheet" href="../../static/plugins/nice-validate/jquery.validator.css"
           th:href="@{/plugins/nice-validate/jquery.validator.css}">
+    <!--sweetalert-->
+    <link rel="stylesheet" href="../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
     <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
 </head>
 <body style="background: #ecf0f5">
+<style type="text/css">
+    .select2-container--default .select2-selection--single {
+        border-radius: 0
+    }
+
+    .select2-container .select2-selection--single {
+        height: 34px
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px
+    }
+</style>
 <div class="row">
     <section class="content">
         <!--<div class="col-md-3">
@@ -73,19 +89,26 @@
         <!-- /.col -->
         <div class="col-md-12">
             <form action="/drug">
+                <input type="hidden" id="drugOver" name="drugOver" th:value="${drugSearchModel.drugOver}">
                 <input type="hidden" id="searchClosed" name="searchClosed" th:value="${drugSearchModel.searchClosed}">
                 <div th:class="${drugSearchModel.searchClosed} ? 'box collapsed-box' : 'box'">
                     <div class="box-header with-border">
-                        <div class="col-md-5"></div>
+                        <div class="col-md-5">
+                            <div class="btn btn-group">
+                                <button th:class="${drugSearchModel.drugOver == 0} ? 'btn btn-primary' : 'btn'" onclick="selectData(0)">全部</button>
+                                <button th:class="${drugSearchModel.drugOver == 1} ? 'btn btn-primary' : 'btn'" onclick="selectData(1)">已过期</button>
+                                <button th:class="${drugSearchModel.drugOver == 2} ? 'btn btn-primary' : 'btn'" onclick="selectData(2)">未过期</button>
+                            </div>
+                        </div>
                         <div class="col-md-7">
                             <div class="input-group">
                                 <input class="form-control criteria" name="name"
                                        th:value="${drugSearchModel.name}" placeholder="请输入药品名称">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary">搜索</button>
-                                    <button id="btn-advance" type="button" class="btn btn-link <!--btn-box-tool-->"
+                                    <!--<button id="btn-advance" type="button" class="btn btn-link &lt;!&ndash;btn-box-tool&ndash;&gt;"
                                             data-widget="collapse">高级搜索&nbsp;&nbsp;<i class="fa fa-minus"
-                                                                                      th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+                                                                                      th:class="${drugSearchModel.searchClosed} ? 'fa fa-plus' : 'fa fa-minus'"></i></button>-->
                                 </span>
                             </div>
                         </div>
@@ -101,7 +124,7 @@
                             </div>
                         </div>-->
                         <!-- Date and time range -->
-                        <div class="col-md-6 col-sm-6 form-group">
+                        <!--<div class="col-md-6 col-sm-6 form-group">
                             <div class="input-group">
                                 <span class="input-group-btn">
                                     <span class="btn span-deafult" style="cursor: default; width: 90px">有效期：</span>
@@ -109,7 +132,7 @@
                                 <input type="text" class="form-control" id="daterange-btn" name="periodTime"
                                        th:value="${drugSearchModel.periodTime}" readonly>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </form>
@@ -296,6 +319,8 @@
         th:src="@{/plugins/nice-validate/jquery.validator.js}"></script>
 <script src="../../static/plugins/nice-validate/local/zh-CN.js"
         th:src="@{/plugins/nice-validate/local/zh-CN.js}"></script>
+<!--sweetalert 提示框-->
+<script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     //点击仓库
     function chooseWarehouse(ele) {
@@ -362,7 +387,7 @@
             autoWidth: false, //控制Datatables是否自适应宽度
             deferRender: true, //控制Datatables的延迟渲染，可以提高初始化的速度
             order: [], //设置第几列可以排序，是空的，可以去掉默认的排序（默认：第一列升序）
-            "aoColumnDefs": [{"bSortable": false, "aTargets": [0, 3]}],
+            "aoColumnDefs": [{"bSortable": false, "aTargets": [0]}],
             "sPaginationType": "full_numbers",
             "oLanguage": {
                 "sLengthMenu": "每页显示 _MENU_ 条记录",
@@ -388,45 +413,6 @@
             } else {
                 $("#searchClosed").val(true);
             }
-        });
-
-        $('#daterange-btn').daterangepicker({
-                format: 'YYYY/MM/DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
-                //startDate: moment().subtract(29, 'days'),
-                //endDate: moment(),
-                "opens": "right",    //位置，left、center、right
-                autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
-                ranges: {//列表
-                    //'今天': [moment(), moment()],
-                    //'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    //'最近7天': [moment().subtract(6, 'days'), moment()],
-                    //'最近30天': [moment().subtract(29, 'days'), moment()],
-                    //'本月': [moment().startOf('month'), moment().endOf('month')],
-                    //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                    //'最近三个月': [moment().subtract(3, 'month').startOf('month'), moment()]
-                    '已过期': [moment().subtract(10, 'year'), moment()],
-                    '即将过期': [moment(), moment().add(29, 'days')]
-                },
-                locale: {
-                    applyLabel: '确定',
-                    cancelLabel: '取消',
-                    daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
-                    monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
-                    customRangeLabel: '自定义'
-                }
-            },
-            function (start, end) {
-                //$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));//下面重新绑定了函数用于显示，因此这句没用了
-            }
-        );
-        //用on绑定函数，点击确定时，显示数据
-        $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
-        });
-        //用on绑定函数，点击取消时，清空数据
-        $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
         });
         //日期控件
 //        $('#period').daterangepicker({
@@ -455,7 +441,7 @@
                 }
             });
             if (ids == "") {
-                alert("请选择数据");
+                swal("请选择数据", "", "info");
             } else {
                 window.location.href = "/drug/export?ids=" + ids;
             }
@@ -556,6 +542,11 @@
             $("#customer").val("");
         });
     });
+
+    function selectData(data) {
+        $("#drugOver").val(data);
+        $("form").submit();
+    }
 </script>
 </body>
 </html>

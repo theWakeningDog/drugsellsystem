@@ -1,6 +1,8 @@
 package com.sellsystem.controller;
 
+import com.sellsystem.entity.searchmodel.extend.TaskSearchModel;
 import com.sellsystem.entity.searchmodel.extend.UserSearchModel;
+import com.sellsystem.service.TaskService;
 import com.sellsystem.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TaskService t;
 
     /**
      * 用户列表
@@ -51,7 +55,7 @@ public class UserController {
     }
 
     /**
-     * 销售详情
+     * 详情
      *
      * @param model
      * @param userId
@@ -59,6 +63,9 @@ public class UserController {
      */
     @GetMapping("/view")
     public String saleView(Model model, String userId) {
+        TaskSearchModel taskSearchModel = new TaskSearchModel();
+        taskSearchModel.setExecutor(userId);
+        model.addAttribute("taskList", t.getList(taskSearchModel).getData().getList());
         model.addAttribute("user", userService.getUser(userId).getData());
         return "user/view";
     }

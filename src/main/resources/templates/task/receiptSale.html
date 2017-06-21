@@ -69,9 +69,9 @@
             </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">
-                任务<br/>
-                任务状态：<strong>已接受</strong><br>
-                任务类型：<strong th:text="${task.type}">购买or销售</strong><br>
+                销售单<br/>
+                状态：<strong>已指派</strong><br>
+                类型：<strong th:text="${task.type}">购买or销售</strong><br>
                 紧急程度：<span th:text="${task.level}">中or高or低</span>
             </div>
             <!-- /.col -->
@@ -285,7 +285,9 @@
 
         $("#sell-name").change(function () {
             var drugs = /*[[${drugList}]]*/"{}";
+            //console.log($("#sell-name option:selected").val());
             for (var i = 0; i < drugs.length; i++) {
+                console.log(drugs);
                 if ($("#sell-name option:selected").val() == drugs[i].id) {
                     var selectOption = $("#sell-name option:selected");
                     selectOption.attr("data-retail", drugs[i].retail);
@@ -294,7 +296,8 @@
                 }
             }
             $("#sell-retail").val($("#sell-name option:selected").attr("data-retail"));
-            $("#sell-period").val($("#sell-name option:selected").attr("data-period").substring(0, 10));
+            //console.log($("#sell-name option:selected").attr("data-period"))
+            $("#sell-period").val($("#sell-name option:selected").attr("data-period").substring(0,10));
         });
 
         $("#sell-number").change(function () {
@@ -453,6 +456,11 @@
 
     //关闭modal时输入清空数据
     function clearForm(form) {
+        var str=$('<span class="select2-selection__placeholder">请选择</span>');
+        $('#sell-name').val("");
+        $("#select2-sell-name-container").attr("title","");
+        $("#select2-sell-name-container").text("");
+        $("#select2-sell-name-container").append(str);
         // input清空
         $(':input', form).each(function () {
             var type = this.type;
@@ -474,7 +482,7 @@
         var $state = $(
             '<table><tr>' +
             '<td><span style="font-weight: 700">' + state.text +
-            '</span><br/>库存：' + state.number + '&nbsp;&nbsp;单位：' + state.unit +
+            '</span><br/>库存：' + state.number + '&nbsp;&nbsp;单位：' + state.unit + '&nbsp;&nbsp;有效期：' + state.period +
             '</td></tr></table>'
         );
         return $state;

@@ -26,7 +26,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="/saleRecord/profit"><i class="fa fa-envelope-o"></i> 利润分析</a>
+                        <li class="active"><a href="/drug/profit"><i class="fa fa-envelope-o"></i> 利润分析</a>
                         </li>
                         <li><a href="/drug/analyse"><i class="fa fa-envelope-o"></i> 药品预警</a></li>
                     </ul>
@@ -46,15 +46,16 @@
                                     <span class="btn span-default" style="cursor: default; width: 90px">请选择时间：</span>
                                 </span>
                                 <input class="form-control" id="daterange-btn" name="createTime" readonly
-                                th:value="${saleProfitSearchModel.createTime}">
+                                       th:value="${saleProfitSearchModel.createTime}">
                             </div>
                         </div>
                     </form>
                 </div>
-                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-                <div id="main" style="width: 100%;height:500px;"></div>
             </div>
+            <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+            <div id="main" style="width: 100%;height:400px;"></div>
         </div>
+    </div>
     </div>
 </section>
 <script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
@@ -70,7 +71,7 @@
     var dateArr = [];//日期数组
     var profitArr = [];
     saleProfitList.forEach(function (item, index, obj) {
-        dateArr.push(item.createTime.substring(0,10));
+        dateArr.push(item.createTime.substring(0, 10));
         profitArr.push(item.profit);
     });
     // 基于准备好的dom，初始化echarts实例
@@ -148,8 +149,8 @@
         ],
         series: [
             {
-                name:'销售利润',
-                type:'line',
+                name: '销售利润',
+                type: 'line',
                 smooth: true,
                 //data: [3.9, 5.9, 11.1, 18.7, 48.3, 69.2, 231.6, 46.6, 55.4, 18.4, 10.3, 0.7]
                 data: profitArr
@@ -162,13 +163,13 @@
     myChart.setOption(option);
 
     $('#daterange-btn').daterangepicker({
-            format: 'YYYY-MM-DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
+            format: 'YYYY/MM/DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
             //startDate: moment().subtract(29, 'days'),
             //endDate: moment(),
             "opens": "left",    //位置，left、center、right
             autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
             ranges: {//列表
-                '今天': [moment(), moment()],
+                //'今天': [moment(), moment()],
                 //'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                 '最近7天': [moment().subtract(6, 'days'), moment()],
                 '最近30天': [moment().subtract(29, 'days'), moment()],
@@ -190,18 +191,20 @@
         }
     );
     //用on绑定函数，点击确定时，显示数据
-    $('#daterange-btn').on('ap ply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-        $("form").submit();
+    $('#daterange-btn').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+
+        //需要定义在外面  否则会有问题
+        sub()
     });
     //用on绑定函数，点击取消时，清空数据
     $('#daterange-btn').on('cancel.daterangepicker', function (ev, picker) {
         $(this).val('');
     });
 
-    $('#daterange-btn').on("change", function () {
-        console.log($(this).val());
-    })
+    function sub() {
+        $("form").submit();
+    }
 </script>
 </body>
 </html>

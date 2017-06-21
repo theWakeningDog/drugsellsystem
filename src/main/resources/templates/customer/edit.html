@@ -27,6 +27,7 @@
     <section class="content">
         <div class="col-md-12">
             <form role="form" class="form-horizontal nice-validator" action="list.html" th:action="@{/customer/save}" method="post">
+                <input type="hidden" th:if="${customer != null}" name="id" th:value="${customer.id}"/>
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <div class="btn-group">

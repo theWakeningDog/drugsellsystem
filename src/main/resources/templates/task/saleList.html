@@ -216,7 +216,7 @@
                                 </td>
                                 <!--<td th:text="${task.type}">任务类型</td>-->
                                 <!--<td th:text="${task.level}">紧急程度</td>-->
-                                <td><a href="../user/view.html" th:text="${task.executor != null ? task.executor.name : ''}">处理人</a></td>
+                                <td><a href="../user/view.html" th:href="@{/user/view(userId=${task.executor != null ? task.executor.id : ''})}" th:text="${task.executor != null ? task.executor.name : ''}">处理人</a></td>
                                 <td th:text="${#dates.format(task.createTime, 'yyyy-MM-dd')}">2012-20-31</td>
                             </tr>
                             </tbody>
@@ -334,7 +334,7 @@
                 format: 'YYYY/MM/DD',//初始时格式化数据，由于下面重新设置了，所以这个没用
                 //startDate: moment().subtract(29, 'days'),
                 //endDate: moment(),
-                "opens": "left",    //位置，left、center、right
+                "opens": "right",    //位置，left、center、right
                 autoUpdateInput: false,//关闭自动更新，即开始时没有默认值，想要显示，需要用on绑定
                 ranges: {//列表
                     '今天': [moment(), moment()],

@@ -18,6 +18,9 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="../../static/plugins/datatables/dataTables.bootstrap.css"
           th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
+    <!--sweetalert-->
+    <link rel="stylesheet" href="../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
     <link rel="stylesheet" href="../../static/plugins/select2/select2.css" th:href="@{/plugins/select2/select2.css}">
@@ -168,6 +171,8 @@
 <script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
 <script src="../../static/plugins/daterangepicker/daterangepicker.js"
         th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+<!--sweetalert 提示框-->
+<script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
 <script src="../../static/plugins/select2/select2.js" th:src="@{/plugins/select2/select2.js}"></script>
 <script type="text/javascript" th:inline="text">
     $(function () {
@@ -202,7 +207,7 @@
                 }
             });
             if (ids == "") {
-                alert("请选择删除需要数据");
+                swal("请选择删除需要数据", "", "error");
             } else {
                 window.location.href="/customer/delete?ids=" + ids;
             }

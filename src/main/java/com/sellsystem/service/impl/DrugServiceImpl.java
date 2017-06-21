@@ -10,6 +10,7 @@ import com.sellsystem.entity.DrugRecord;
 import com.sellsystem.entity.searchmodel.Sortable;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.service.DrugService;
+import com.sellsystem.shiro.ShiroUtils;
 import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +117,7 @@ public class DrugServiceImpl implements DrugService {
                 drug.setNumber(drug.getNumber() - drugNum);
 
                 DrugRecord drugRecord = new DrugRecord();
+                drugRecord.setExecutor(ShiroUtils.getUser());
                 drugRecord.setDrug(drug);
                 drugRecord.setNumber(drugNum);
                 drugRecord.setAction("退还");
@@ -127,6 +129,7 @@ public class DrugServiceImpl implements DrugService {
                 drug.setNumber(drug.getNumber() + drugNum);
 
                 DrugRecord drugRecord = new DrugRecord();
+                drugRecord.setExecutor(ShiroUtils.getUser());
                 drugRecord.setDrug(drug);
                 drugRecord.setNumber(drugNum);
                 drugRecord.setAction("退还");
@@ -135,6 +138,36 @@ public class DrugServiceImpl implements DrugService {
                 drugRecord.setCreateTime(Calendar.getInstance().getTime());
                 drugRecordDao.create(drugRecord);
             }
+            drugDao.update(drug);
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgModel.setStatus(ClassConstants.FAIL);
+            msgModel.setMessage(ClassConstants.OPT_FAIL);
+        }
+        return msgModel;
+    }
+
+    /**
+     * 药品记录列表
+     * @return
+     */
+    @Override
+    public List<DrugRecord> getDrugRecord(String drugId, int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        return drugRecordDao.getList(drugId);
+    }
+
+    /**
+     * 删除
+     * @param drugId
+     * @return
+     */
+    @Override
+    public MsgModel delete(String drugId) {
+        MsgModel msgModel = new MsgModel();
+        try {
+            Drug drug = drugDao.getDrug(drugId);
+            drug.setDel(ClassConstants.DEL);
             drugDao.update(drug);
         } catch (Exception e) {
             e.printStackTrace();

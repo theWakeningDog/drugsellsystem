@@ -6,7 +6,7 @@
     <sql id="drugSQL">
         drug.id drugId, drug.name drugName, drug.origin drugOrigin,
         drug.unit drugUnit, drug.number drugNumber, drug.purchase drugPurchase, drug.retail drugRetail,
-        drug.period drugPeriod, drug.createTime drugCreateTime, drug.remark drugRemark
+        drug.period drugPeriod, drug.createTime drugCreateTime, drug.remark drugRemark, drug.del drugDel
     </sql>
 
     <resultMap id="drugResult" type="Drug">
@@ -20,6 +20,7 @@
         <result property="period" column="drugPeriod"/>
         <result property="createTime" column="drugCreateTime"/>
         <result property="remark" column="drugRemark"/>
+        <result property="del" column="drugDel"/>
         <association property="sort" column="drugSort" resultMap="com.sellsystem.dao.SortDao.sortResult"/>
         <association property="warehouse" column="drugWarehouse"
                      resultMap="com.sellsystem.dao.WarehouseDao.warehouseResult"/>
@@ -57,9 +58,15 @@
             <if test="drugSearchModel.periodTime != null and drugSearchModel.periodTime != ''">
                 and drug.period between #{drugSearchModel.periodTimeStart} and #{drugSearchModel.periodTimeEnd}
             </if>
-            and drug.number > 0
+            <if test="drugSearchModel.drugOver != null and drugSearchModel.drugOver == 1">
+                and CURDATE() > drug.period
+            </if>
+            <if test="drugSearchModel.drugOver != null and drugSearchModel.drugOver == 2">
+                and drug.period > CURDATE()
+            </if>
+            and drug.number > 0 and drug.del = 0 and drug.period > CURDATE()
         </where>
-        order by drug.createTime desc
+        order by drug.period
     </select>
 
     <select id="getDrug" parameterType="java.lang.String" resultMap="drugResult">
@@ -86,7 +93,7 @@
         </selectKey>
         insert into drug values (#{drug.id}, #{drug.name}, #{drug.origin}, #{drug.unit}, #{drug.number},
         #{drug.purchase}, #{drug.retail}, #{drug.period}, #{drug.sort.id}, #{drug.warehouse.id}, #{drug.createTime},
-        #{drug.remark}, #{drug.createUser.id}, #{drug.customer.id},#{drug.task.id});
+        #{drug.remark}, #{drug.createUser.id}, #{drug.customer.id},#{drug.task.id}, #{drug.del});
     </insert>
 
     <update id="update">
@@ -105,7 +112,8 @@
             <if test="drug.remark != null">remark = #{drug.remark},</if>
             <if test="drug.createUser != null and drug.createUser.id != null">createUser = #{drug.createUser.id},</if>
             <if test="drug.customer != null and drug.customer.id != null">customer = #{drug.customer.id},</if>
-            <if test="drug.task != null and drug.task.id != null">task = #{drug.task.id}</if>
+            <if test="drug.task != null and drug.task.id != null">task = #{drug.task.id},</if>
+            <if test="drug.del != null">del = #{drug.del}</if>
         </set>
         where id = #{drug.id}
     </update>
@@ -119,7 +127,7 @@
         drug drug
         LEFT JOIN sort sort ON drug.sort = sort.id
         LEFT JOIN warehouse warehouse ON drug.warehouse = warehouse.id
-        where 30 >= drug.number
+        where 30 >= drug.number and drug.number > 0 and drug.del = 0 and drug.period > CURDATE()
     </select>
 
     <select id="getSumBySort" resultType="java.util.Map">

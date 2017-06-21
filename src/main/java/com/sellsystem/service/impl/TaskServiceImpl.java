@@ -169,11 +169,12 @@ public class TaskServiceImpl implements TaskService {
         MsgModel msgModel = new MsgModel();
         try {
             Task workTask = taskDao.getTask(task.getId());
-            task.setState(engine.getStateByEngine(
-                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.off.getValue()));
+//            task.setState(engine.getStateByEngine(
+//                    ClassConstants.ENGINE_FILE, workTask.getState(), TaskEventEnum.off.getValue()));
+            task.setState("offed");
             taskDao.update(task);
 
-            Record record = this.createRecord(task, TaskEventEnum.finish.getValue());
+            Record record = this.createRecord(task, TaskEventEnum.off.getValue());
             recordDao.create(record);
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,17 +207,18 @@ public class TaskServiceImpl implements TaskService {
             if (drugList.size() > 0) {
                 for (Drug drug : drugList) {
 
+                    //生成药品
+                    drug.setCreateTime(new Date());
+                    drugDao.create(drug);
+
                     //药品记录
                     DrugRecord drugRecord = new DrugRecord();
+                    drugRecord.setExecutor(ShiroUtils.getUser());
                     drugRecord.setDrug(drug);
                     drugRecord.setNumber(drug.getNumber());
                     drugRecord.setAction("采购");
                     drugRecord.setCreateTime(Calendar.getInstance().getTime());
                     drugRecordDao.create(drugRecord);
-
-                    //生成药品
-                    drug.setCreateTime(new Date());
-                    drugDao.create(drug);
 
                     //创建药品与任务关联
                     DrugTask dt = new DrugTask();
@@ -260,6 +262,7 @@ public class TaskServiceImpl implements TaskService {
 
                     //药品记录
                     DrugRecord drugRecord = new DrugRecord();
+                    drugRecord.setExecutor(ShiroUtils.getUser());
                     drugRecord.setDrug(d);
                     drugRecord.setNumber(d.getNumber());
                     drugRecord.setAction("销售");

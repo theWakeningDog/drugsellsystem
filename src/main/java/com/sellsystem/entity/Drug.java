@@ -31,6 +31,7 @@ public class Drug {
     private Warehouse warehouse;
     //通用名
     private String commonName;//舍弃
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
     private String remark;
     //负责人
@@ -39,6 +40,8 @@ public class Drug {
     private Customer customer;
     //所关联的任务
     private Task task;
+    //0：未删除
+    private Integer del = 0;
 
     public String getId() {
         return id;
@@ -176,6 +179,14 @@ public class Drug {
         this.task = task;
     }
 
+    public Integer getDel() {
+        return del;
+    }
+
+    public void setDel(Integer del) {
+        this.del = del;
+    }
+
     @Override
     public String toString() {
         return "Drug{" +
@@ -196,6 +207,7 @@ public class Drug {
                 ", createUser=" + createUser +
                 ", customer=" + customer +
                 ", task=" + task +
+                ", del=" + del +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.sellsystem.service;
 
 import com.github.pagehelper.PageInfo;
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.DrugRecord;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.util.MsgModel;
 
@@ -61,5 +62,13 @@ public interface DrugService {
      * @return
      */
     MsgModel outDrug(String drugId, String type, int drugNum, String remark);
+
+    /**
+     * 药品记录列表
+     * @return
+     */
+    List<DrugRecord> getDrugRecord(String drugId, int pageNumber, int pageSize);
+
+    MsgModel delete(String drugId);
 }
 

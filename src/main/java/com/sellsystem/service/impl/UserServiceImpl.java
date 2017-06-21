@@ -76,10 +76,10 @@ public class UserServiceImpl implements UserService {
                 if (sdf.format(u.getCreateTime()).equals(sdf.format(DateUtil.getCurrentDayDate()))) {
                     user.setNo(String.valueOf(Integer.parseInt(u.getNo()) + 1));
                 } else {
-                    user.setNo(sdf.format(DateUtil.getCurrentDay()) + "001");
+                    user.setNo(sdf.format(new Date()) + "001");
                 }
             } else {
-                user.setNo(sdf.format(DateUtil.getCurrentDay()) + "001");
+                user.setNo(sdf.format(new Date()) + "001");
             }
             userDao.create(user);
             msgModel.setData(user.getId());

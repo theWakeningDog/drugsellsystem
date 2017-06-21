@@ -17,6 +17,8 @@ public class DrugSearchModel extends PageSearchModel {
     private String commonName;
     //有效期
     private String periodTime;
+    //是否过期 0:全部 1：未过期2：已过期
+    private Integer drugOver = 0;
 
     public DrugSearchModel init() {
         this.setPageSize(0);
@@ -53,6 +55,14 @@ public class DrugSearchModel extends PageSearchModel {
 
     public void setPeriodTime(String periodTime) {
         this.periodTime = periodTime;
+    }
+
+    public Integer getDrugOver() {
+        return drugOver;
+    }
+
+    public void setDrugOver(Integer drugOver) {
+        this.drugOver = drugOver;
     }
 
     /**

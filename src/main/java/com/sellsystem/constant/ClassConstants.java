@@ -6,6 +6,7 @@ package com.sellsystem.constant;
 public final class ClassConstants {
 
     public static final String OPT_FAIL = "操作失败";
+    public static final Integer DEL = 1;
 
     //任务
     public static final String ENGINE_FILE = "task.xml";

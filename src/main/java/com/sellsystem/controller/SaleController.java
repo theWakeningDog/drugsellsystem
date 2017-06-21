@@ -159,7 +159,10 @@ public class SaleController {
         model.addAttribute("task", taskService.getTask(task.getId()).getData());
         model.addAttribute("warehouseList", warehouseService.getList((new WarehouseSearchModel()).init()).getData().getList());
         model.addAttribute("sortList", sortService.listSort().getData());
-        model.addAttribute("drugList", drugService.getList((new DrugSearchModel()).init()).getData().getList());
+        DrugSearchModel drugSearchModel = new DrugSearchModel();
+        drugSearchModel.setDrugOver(2);
+        drugSearchModel.setPageSize(0);
+        model.addAttribute("drugList", drugService.getList(drugSearchModel).getData().getList());
         if (page) return "/task/receiptPurchase";
         else return "/task/receiptSale";
     }
@@ -167,7 +170,10 @@ public class SaleController {
     @ResponseBody
     @GetMapping("/drugList")
     public List<Drug> drugList() {
-        return drugService.getList((new DrugSearchModel()).init()).getData().getList();
+        DrugSearchModel drugSearchModel = new DrugSearchModel();
+        //drugSearchModel.setDrugOver(2);
+        List<Drug> drugList = drugService.getList(drugSearchModel.init()).getData().getList();
+        return drugService.getList(drugSearchModel.init()).getData().getList();
     }
 
     /**

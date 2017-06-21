@@ -12,12 +12,17 @@
     <link rel="stylesheet" href="../../static/dist/css/ionicons.min.css" th:href="@{/dist/css/ionicons.min.css}">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../static/dist/css/AdminLTE.min.css" th:href="@{/dist/css/AdminLTE.min.css}">
+    <!--sweetalert提示框-->
+    <link rel="stylesheet" href="../../static/plugins/sweetalert/sweetalert.css"
+          th:href="@{/plugins/sweetalert/sweetalert.css}">
 </head>
 <body style="background: #ecf0f5">
 <style type="text/css">
     /*当屏幕不小于768px时，span的padding-top为7px*/
     @media screen and (min-width: 768px) {
-        .form-group>span {padding-top: 7px;}
+        .form-group > span {
+            padding-top: 7px;
+        }
     }
 </style>
 <div class="row">
@@ -26,10 +31,11 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <div class="btn-group">
-                        <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i>  返回</a>
-                        <!--<button class="btn btn-primary">编辑</button>
-                        <button class="btn btn-danger">删除</button>-->
+                        <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+                        <!--<button class="btn btn-primary">编辑</button>-->
                     </div>
+                    <a href="list.html" th:href="@{/drug/delete(drugId=${drug.id})}" class="btn btn-danger" th:if="${day == '该药品已过期，请尽快处理！'}"><i
+                            class="fa fa-trash-o"></i> 删除</a>
                 </div>
             </div>
         </div>
@@ -86,8 +92,164 @@
                 </form>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h5 class="box-title">药品的一生</h5>
+                </div>
+                <div class="nav-tabs-custom">
+                    <div><!-- class="tab-content"-->
+                        <div class="tab-pane">
+                            <div class="tab-pane-wrap">
+                                <div class="col-md-12">
+                                    <!-- The time line -->
+                                    <ul id="timeline" class="timeline">
+                                        <!-- timeline time label -->
+                                        <li class="time-label">
+                                            <span id="last-time" class="bg-red">最近更新</span>
+                                        </li>
+                                    </ul>
+                                    <div id="div-load-more" class="box-footer clearfix text-center"
+                                         style="border-top: 0; padding: 0 10px 10px 10px;">
+                                        <a href="javascript:void(0);" class="uppercase" id="load-more">加载更多</a>
+                                    </div>
+                                    <div id="loading" class="col-md-12">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay">
+                                                <i class="fa fa-refresh fa-spin"></i>
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                    <div id="noData" class="col-md-12" style="display: none;">
+                                        <div class="box box-solid">
+                                            <div class="box-body">
+
+                                            </div><!-- /.box-body -->
+                                            <!-- Loading (remove the following to stop the loading)-->
+                                            <div class="overlay text-center">
+                                                已经是最后一页了
+                                            </div>
+                                            <!-- end loading -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
+<script src="../../static/plugins/jQuery/jquery-3.1.1.js" th:src="@{/plugins/jQuery/jquery-3.1.1.js}"></script>
+<script src="../../static/bootstrap/js/bootstrap.js" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<!--sweetalert 提示框-->
+<script src="../../static/plugins/sweetalert/sweetalert.js" th:src="@{/plugins/sweetalert/sweetalert.js}"></script>
+<!-- date-range-picker -->
+<script src="../../static/plugins/moment/moment.js" th:src="@{/plugins/moment/moment.js}"></script>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    var drugId = /*[[${drug.id}]]*/"药品id";
+    var day = /*[[${day}]]*/"day";
+    day && swal(day, "", "error");
+    $(function () {
+        loadTimeLine();
+        $("#load-more").click(function () {
+            loadTimeLine();
+        });
+    });
+    var pageNumber = 1;
+    function showLoading() {
+        $('#loading').show()
+    }
+    function hideLoading() {
+        $('#loading').hide()
+    }
+    function loadTimeLine() {
+        $("#div-load-more").hide();
+        showLoading();
+        //异步加载时间轴信息
+        var url = "/drug/record/list";
+        $.get(url, {
+            drugId: drugId,
+            pageNumber: pageNumber,
+            pageSize: 10
+        }, function (result) {
+            renderTable(result);
+            pageNumber += 1;
+            hideLoading();
+            $("#div-load-more").show();
+        });
+    }
+    //最后一页
+    function showNone() {
+        $('#noData').show();
+        setTimeout("$('#noData').hide()", 2000);
+    }
+    //时间轴数据
+    function renderTable(data) {
+        if (data == undefined || data.length == 0) {
+            showNone();
+            return;
+        }
+        var tempHtml = "";
+        for (var i = 0; i < data.length; i++) {
+            if (data.length > 0) {
+                tempHtml += '<li>';
+                tempHtml += '<i class="fa fa-envelope bg-blue"></i>';
+                tempHtml += '<div class="timeline-item">';
+                tempHtml += '<span class="time"><i class="fa fa-clock-o"></i>' + data[i].createTime + '</span>';
+                tempHtml += '<h5 class="timeline-header">';
+                tempHtml += formatMessageText(data[i]);
+                tempHtml += '</h5>';
+                tempHtml += ' <div class="timeline-body">';
+                tempHtml += '</div>';
+                tempHtml += '</div>';
+                tempHtml += '</li>';
+            }
+        }
+        $("#timeline").append(tempHtml);
+    }
+
+    //数据格式化
+    function formatMessageText(data) {
+        console.log(data);
+        var urlHtmlTemp = "";
+//        if (data.action == "采购") {
+//            urlHtmlTemp += '采购';
+//            urlHtmlTemp += '<a href="/user/view?userId=' + data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+//            urlHtmlTemp += '把采购单&nbsp;&nbsp;' + data.task.name + '&nbsp;&nbsp;指派给&nbsp;&nbsp;';
+//            urlHtmlTemp += '<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>';
+//        } else if (data.action == "销售") {
+//            urlHtmlTemp += '小数o';
+//            urlHtmlTemp += '<a href="/user/view?userId=' +  data.createUser.id + '">' + data.createUser.name + '</a>&nbsp;&nbsp;';
+//            urlHtmlTemp += data.action + '了采购单&nbsp;&nbsp;' + data.task.name;
+//        } else
+        if (data.action == '退还') {
+            if (data.type == '采购') {
+                urlHtmlTemp += '<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>&nbsp;&nbsp;';
+                urlHtmlTemp += '把' + data.number + data.drug.unit + '&nbsp;&nbsp;' + data.drug.name;
+                urlHtmlTemp += '&nbsp;&nbsp;退还给供药商&nbsp;&nbsp;<a href="/customer/view?customerId=' + data.drug.customer.id + '">';
+                urlHtmlTemp += data.drug.customer.name + '</a>&nbsp;&nbsp;原因是：' + data.remark;
+            } else if (data.type == '销售') {
+                urlHtmlTemp += '顾客&nbsp;&nbsp;<a href="/customer/view?customerId=' + data.drug.customer.id + '">' + data.drug.customer.name + '</a>&nbsp;&nbsp;';
+                urlHtmlTemp += '把' + data.number + data.drug.unit + '&nbsp;&nbsp;' + data.drug.name;
+                urlHtmlTemp += '&nbsp;&nbsp;退还给&nbsp;&nbsp;<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>&nbsp;&nbsp;';
+                urlHtmlTemp += '原因是：' + data.remark;
+            }
+        } else {
+            urlHtmlTemp += '<a href="/user/view?userId=' + data.executor.id + '">' + data.executor.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += '向&nbsp;&nbsp;<a href="/user/view?userId=' + data.drug.customer.id + '">' + data.drug.customer.name + '</a>&nbsp;&nbsp;';
+            urlHtmlTemp += data.action + '了&nbsp;&nbsp;' + data.drug.name + '&nbsp;&nbsp;' + data.number + data.drug.unit;
+        }
+        return urlHtmlTemp;
+    }
+</script>
 </body>
 </html>

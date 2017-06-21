@@ -28,7 +28,7 @@ public class Customer implements Serializable {
     private BigDecimal latitude;
     private User createUser;
     //是否删除
-    private Integer del;  //1：删除
+    private Integer del = 0;  //1：删除
     private Date createTime;
     private String remark;
 

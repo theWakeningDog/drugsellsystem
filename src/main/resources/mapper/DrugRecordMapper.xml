@@ -5,7 +5,7 @@
 <mapper namespace="com.sellsystem.dao.DrugRecordDao">
     <sql id="drugRecordSQL">
         drugRecord.id drugRecordId, drugRecord.number drugRecordNumber, drugRecord.action drugRecordAction,
-        drugRecord.type drugRecordType, drugRecord.remark drugRecordRemark
+        drugRecord.type drugRecordType, drugRecord.remark drugRecordRemark, drugRecord.createTime drugRecordCreateTime
     </sql>
 
     <resultMap id="drugRecordResult" type="DrugRecord">
@@ -14,17 +14,24 @@
         <result property="action" column="drugRecordAction"/>
         <result property="type" column="drugRecordType"/>
         <result property="remark" column="drugRecordRemark"/>
-        <association property="drug" resultMap="com.sellsystem.dao.DrugDao.drugMapper"/>
+        <result property="createTime" column="drugRecordCreateTime"/>
+        <association property="drug" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>
+        <association property="executor" resultMap="com.sellsystem.dao.UserDao.userResult"/>
     </resultMap>
     <!--<include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
     <collection property="drugList" resultMap="com.sellsystem.dao.DrugDao.drugResult"/>-->
 
     <select id="getList" resultMap="drugRecordResult">
         SELECT
-            <include refid="drugRecordSQL"/>,
-        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>
+        <include refid="drugRecordSQL"/>,
+        <include refid="com.sellsystem.dao.DrugDao.drugSQL"/>,
+        <include refid="com.sellsystem.dao.UserDao.userSQL"/>,
+        <include refid="com.sellsystem.dao.CustomerDao.customerSQL"/>
         FROM drug_record drugRecord
         LEFT JOIN drug drug ON drugRecord.drug = drug.id
+        LEFT JOIN user user ON drugRecord.executor = user.id
+        LEFT JOIN customer customer ON drug.customer = customer.id
+        where drugRecord.drug = #{drugId} order by drugRecord.createTime desc
     </select>
 
     <insert id="create">
@@ -32,6 +39,6 @@
             SELECT uuid() FROM dual
         </selectKey>
         insert into drug_record values
-        (#{drugRecord.id}, #{drugRecord.drug.id}, #{drugRecord.number}, #{drugRecord.action}, #{drugRecord.type}, #{drugRecord.remark}, #{drugRecord.createTime});
+        (#{drugRecord.id}, #{drugRecord.executor.id}, #{drugRecord.drug.id}, #{drugRecord.number}, #{drugRecord.action}, #{drugRecord.type}, #{drugRecord.remark}, #{drugRecord.createTime});
     </insert>
 </mapper>

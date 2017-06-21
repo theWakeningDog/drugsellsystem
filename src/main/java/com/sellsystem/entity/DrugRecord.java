@@ -1,5 +1,7 @@
 package com.sellsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -8,11 +10,13 @@ import java.util.Date;
  */
 public class DrugRecord {
     private String id;
+    private User executor;
     private Drug drug;
     private Integer number;
     private String action;
     private String type;
     private String remark;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
     public String getId() {
@@ -21,6 +25,14 @@ public class DrugRecord {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public User getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(User executor) {
+        this.executor = executor;
     }
 
     public Drug getDrug() {

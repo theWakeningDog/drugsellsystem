@@ -21,6 +21,7 @@ public class RecordController {
     @ResponseBody
     @GetMapping("/list")
     public List<Record> recordList(RecordSearchModel recordSearchModel) {
+        List<Record> records = recordService.getList(recordSearchModel);
         return recordService.getList(recordSearchModel);
     }
 }

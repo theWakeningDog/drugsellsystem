@@ -1,6 +1,7 @@
 package com.sellsystem.controller;
 
 import com.sellsystem.entity.Drug;
+import com.sellsystem.entity.DrugRecord;
 import com.sellsystem.entity.Warehouse;
 import com.sellsystem.entity.searchmodel.extend.DrugSearchModel;
 import com.sellsystem.entity.searchmodel.extend.SaleProfitSearchModel;
@@ -9,6 +10,7 @@ import com.sellsystem.service.DrugService;
 import com.sellsystem.service.SaleProfitService;
 import com.sellsystem.service.SaleRecordService;
 import com.sellsystem.service.WarehouseService;
+import com.sellsystem.util.DateUtil;
 import com.sellsystem.util.ExportUtil;
 import com.sellsystem.util.MsgModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,15 @@ public class DrugController {
      */
     @GetMapping("/view")
     public String view(Model model, String drugId) {
+        Drug drug = drugService.getDrug(drugId).getData();
         model.addAttribute("drug", drugService.getDrug(drugId).getData());
+        //有效期和现在的差值，用来提示是否过期
+        long day = (drug.getPeriod().getTime() -  DateUtil.getCurrentDayDate().getTime())/(1000*60*60*24);
+        if (day < 0) {
+            model.addAttribute("day", "该药品已过期，请尽快处理！");
+        } else if (day <= 30) {
+            model.addAttribute("day", "该药品即将过期，请尽快处理！");
+        }
         return "drug/view";
     }
 
@@ -139,7 +149,7 @@ public class DrugController {
         }
 
         response.setContentType("octets/stream");
-        response.addHeader("Content-Disposition", "attachment;filename=log.xls");
+        response.addHeader("Content-Disposition", "attachment;filename=药品列表.xls");
         ExportUtil<Drug> ex = new ExportUtil<>();
         String[] headers = {"药品名称", "药品单位", "药品数量", "进价（元）", "零售价（元）", "药品类别", "所属仓库", "采购者", "供药商", "有效期", "药品产地"};
 
@@ -157,10 +167,31 @@ public class DrugController {
         }
     }
 
+    /**
+     * 退药
+     * @param drugId
+     * @param type
+     * @param drugNum
+     * @param remark
+     * @return
+     */
     @ResponseBody
     @PostMapping("/out")
     public MsgModel out(String drugId, String type, int drugNum, String remark) {
         return drugService.outDrug(drugId, type, drugNum, remark);
+    }
+
+    @ResponseBody
+    @GetMapping("/record/list")
+    public List<DrugRecord> drugRecords(String drugId, int pageNumber, int pageSize) {
+        List<DrugRecord> recordList = drugService.getDrugRecord(drugId, pageNumber, pageSize);
+        return drugService.getDrugRecord(drugId, pageNumber, pageSize);
+    }
+
+    @GetMapping("/delete")
+    public String delete(String drugId) {
+        drugService.delete(drugId);
+        return "redirect:/drug";
     }
 
 }

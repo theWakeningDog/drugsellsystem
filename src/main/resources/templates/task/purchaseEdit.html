@@ -101,7 +101,7 @@
                             <label for="description" class="col-md-2 col-sm-3 control-label">描述：</label>
                             <div class="col-md-8 col-sm-7">
                                 <textarea class="form-control" id="description" name="description"
-                                          th:value="${task != null ? task.description : ''}"></textarea>
+                                          th:text="${task != null ? task.description : ''}"></textarea>
                             </div>
                         </div>
                     </div>

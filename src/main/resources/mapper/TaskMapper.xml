@@ -21,6 +21,7 @@
         <result property="content" column="taskContent"/>
         <result property="createTime" column="taskCreateTime"/>
         <result property="completeTime" column="taskCompleteTime"/>
+        <result property="description" column="taskDescription"/>
         <result property="endTime" column="taskEndTime"/>
         <result property="isDelete" column="taskIsDelete"/>
         <association property="supplier" column="taskSupplier" resultMap="com.sellsystem.dao.SupplierDao.supplierResult"/>

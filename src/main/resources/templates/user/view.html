@@ -29,8 +29,8 @@
                 <div class="box-header with-border">
                     <a href="javascript:backOperate()" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
                     <span th:if="${user.delete == 0}">
-                        <a href="edit.html" th:href="@{/user/edit(userId=${user.id})}"
-                           class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>
+                         <!--<a href="edit.html" th:href="@{/user/edit(userId=${user.id})}"
+                          class="btn btn-primary"><i class="fa fa-edit"></i> 编辑</a>-->
                         <a href="list.html" th:href="@{/user/delete(ids=${user.id})}"
                            class="btn btn-danger"><i class="fa fa-trash-o"></i> 删除</a>
                     </span>
@@ -57,11 +57,11 @@
                                 <span class="col-md-9 col-xs-8" th:text="${user.account}">联系方式</span>
                             </div>
 
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">年龄：</label>
                                 <span class="col-md-9 col-xs-8"
                                       th:text="${user.age}">年龄</span>
-                            </div>
+                            </div>-->
                             <div class="form-group">
                                 <label class="col-md-3 col-xs-4 control-label">邮箱：</label>
                                 <span class="col-md-9 col-xs-8"
@@ -77,7 +77,7 @@
                 </form>
             </div>
         </div>
-        <!--<div class="col-md-6">
+        <div class="col-md-6">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="nav-tabs-custom ">
@@ -99,7 +99,8 @@
                                         </thead>
                                         <tbody>
                                         <tr th:if="${not #lists.isEmpty(taskList)}" th:each="task:${taskList}">
-                                            <td th:text="${task.name}">任务名称</td>
+                                            <td th:if="${task.type == '购买'}"><a href="../task/purchaseView.html" th:href="@{/purchase/view(taskId=${task.id})}" th:text="${task.name}"> 任务名称</a></td>
+                                            <td th:if="${task.type == '销售'}"><a href="../task/saleView.html" th:href="@{/sale/view(taskId=${task.id})}" th:text="${task.name}"> 任务名称</a></td>
                                             <td>
                                                 <span th:if="${task.state != null}"
                                                       th:switch="${task.state.toString()}">
@@ -123,7 +124,7 @@
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
     </section>
 </div>
 <script src="../../static/js/drug.js" th:src="@{/js/drug.js}"></script>
